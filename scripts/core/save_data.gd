@@ -28,7 +28,7 @@ extends Resource
 
 @export var raiders_defeated: int = 0
 
-## 剧情选择 C1–C6："A" / "B"，没做过为空。
+## 剧情选择 C1–C5："A" / "B"，没做过为空。
 @export var choices: Dictionary = {}
 ## 战斗结果 B1–B9："held"（守住）/ "costly"（惨胜）。
 @export var battle_results: Dictionary = {}
