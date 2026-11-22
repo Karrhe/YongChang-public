@@ -50,6 +50,20 @@ func _can_continue() -> bool:
 
 
 func _on_new_game() -> void:
+	# 已有存档时先确认，不直接覆盖（ISSUE-001 DEV-02）。
+	if not _can_continue():
+		_start_new_game()
+		return
+	var dialog := ConfirmationDialog.new()
+	dialog.dialog_text = Game.text("UI_NEW_GAME_CONFIRM")
+	dialog.ok_button_text = Game.text("UI_NEW_GAME_OK")
+	dialog.cancel_button_text = Game.text("UI_BACK")
+	dialog.confirmed.connect(_start_new_game)
+	add_child(dialog)
+	dialog.popup_centered()
+
+
+func _start_new_game() -> void:
 	Game.new_game()
 	FlowLogic.start_new_game(Game.save)
 	Game.go_to(FLOW_SCENE)

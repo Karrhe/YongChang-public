@@ -21,3 +21,5 @@ DEV_COSTLY,惨胜
 DEV_HERO_DIED,惨胜（主角阵亡）
 DEV_GOAL_MET,目标达成
 DEV_GOAL_NOT_MET,目标未达成
+UI_NEW_GAME_CONFIRM,已有存档。重新开始会覆盖原来的进度。
+UI_NEW_GAME_OK,重新开始

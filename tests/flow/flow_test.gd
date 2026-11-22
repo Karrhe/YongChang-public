@@ -21,6 +21,8 @@ func _ready() -> void:
 	_test_battle_apply()
 	_test_auto_retry()
 	_test_events()
+	_test_both_dead()
+	await _test_resume_at_event()
 	await _test_runner_end_to_end()
 
 	Game.delete_save()
@@ -152,6 +154,42 @@ func _test_events() -> void:
 	_check("起名界面之前用默认名字", save.names[0] == "阿囡")
 
 
+func _test_both_dead() -> void:
+	var save := _new_save()
+	var b2 := FlowLogic.find_node("battle_2")
+	var input := FlowLogic.battle_input(save, b2)
+	FlowLogic.apply_battle(save, input, FakeBattle.make_result(input, "held", true))
+	input = FlowLogic.battle_input(save, FlowLogic.find_node("battle_3"))
+	FlowLogic.apply_battle(save, input, FakeBattle.make_result(input, "held", true))
+	_check("同伴也阵亡：灯写阿棠", save.lanterns_hero.size() == 2 and save.lanterns_hero[1].name == "阿棠")
+	_check("同伴阵亡不改主角的死亡场次", save.death_battle[0] == "battle_2")
+	_check("一代两人都不在：之后没有主角单位", FlowLogic.current_hero(save, 1) == null)
+	_check("一代两人都不在：battle_4 没有长辈", FlowLogic.battle_input(save, FlowLogic.find_node("battle_4")).elder == null)
+	_check("一代两人都不在：二代主角照常出战",
+		FlowLogic.battle_input(save, FlowLogic.find_node("battle_4")).hero == {"gen": 2, "role": "hero"})
+
+
+## 在规则事件节点退出再读档：事件只生效一次（存档在事件生效之前写，生效后的状态在下一个节点才写）。
+func _test_resume_at_event() -> void:
+	var save := _new_save()
+	save.wall_slots.A1 = {"type": "stone", "hp": [6, 6]}
+	save.progress = "typhoon"
+	Game.save_game()
+	var copy := FlowLogic.find_node("typhoon")
+	_check("测试前提：台风是规则事件", copy.type == "event")
+	# 模拟“在台风节点退出”：读回的就是事件之前的存档。
+	_check("读档", Game.load_game() and Game.save.wall_slots.A1.hp == [6, 6])
+	var flow: Node = load("res://scenes/flow/flow.tscn").instantiate()
+	add_child(flow)
+	for i in 6:
+		await get_tree().process_frame
+	_check("从台风节点继续后停在 G2-5", Game.save.progress == "G2-5")
+	Game.load_game()
+	_check("读档后台风只扣了一次", Game.save.wall_slots.A1.hp == [3, 3])
+	flow.queue_free()
+	await get_tree().process_frame
+
+
 ## 用真的流程画面，从 P1 一直点到结局（假战斗、假劳作、剧情占位）。
 func _test_runner_end_to_end() -> void:
 	Game.delete_save()
@@ -162,6 +200,9 @@ func _test_runner_end_to_end() -> void:
 	add_child(flow)
 	var battles := 0
 	var retried := false
+	var forced_seen := false
+	var forced_had_accept := true
+	var b9_bonus := -1
 	var steps := 0
 	while Game.save.progress != "done" and steps < 300:
 		steps += 1
@@ -175,11 +216,21 @@ func _test_runner_end_to_end() -> void:
 			if node_type == "battle":
 				battles += 1
 				_check_once("流程每个节点开始时存了档", Game.has_save())
+				var id: String = child.input.battle_id
+				if id == "battle_9":
+					b9_bonus = child.input.bonus_defenders
+				if id == "battle_7" and not forced_seen:
+					forced_seen = true
+					child.finished.emit(FakeBattle.make_result(child.input, "costly", true))
+					await get_tree().process_frame
+					forced_had_accept = _find_button(flow, Game.text("FLOW_ACCEPT")) != null
+					_find_button(flow, Game.text("FLOW_RETRY")).pressed.emit()
+					continue
 				child.finished.emit(FakeBattle.make_result(child.input, "held", false))
 			elif node_type == "work":
 				child.finished.emit(FakeWork.make_result(child.input, true))
 			elif node_type == "choice":
-				child.finished.emit({"pick": "B"})
+				child.finished.emit({"pick": "A" if flow.node.id == "C5" else "B"})
 			else:
 				child.finished.emit({})
 		else:
@@ -191,7 +242,10 @@ func _test_runner_end_to_end() -> void:
 				btn.pressed.emit()
 	Rules.data.flow.scenes.after_ending = real_after
 	_check("流程走到结局", Game.save.progress == "done")
-	_check("流程里接受了 9 场战斗（含一次重打）", Game.save.battle_results.size() == 9 and battles == 10)
+	_check("流程里接受了 9 场战斗（含两次重打）", Game.save.battle_results.size() == 9 and battles == 11)
+	_check("流程里 battle_7 主角阵亡时没有“接受”按钮", forced_seen and not forced_had_accept)
+	_check("流程里第三代主角重打后仍活着", Game.save.hero_alive[2])
+	_check("流程里选 C5-A 后 battle_9 临时守军 +2", b9_bonus == 2)
 	_check("流程记下 5 个选择", Game.save.choices.size() == 5)
 	_check("流程里起了默认名字", Game.save.names[1] == "阿潮")
 	_check("流程里长辈退休了", Game.save.elder_retired)

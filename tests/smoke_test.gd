@@ -37,6 +37,14 @@ func _ready() -> void:
 	_check("名字和刻字占位符替换正确", Game.text("TEST_NAMES") == "王成/测试名/第三代/石头要彼此咬住")
 	TranslationServer.remove_translation(tmp)
 	_check("新游戏使用规则里的初始人口", Game.save.people == 8)
+	var tmp2 := Translation.new()
+	tmp2.locale = "zh"
+	tmp2.add_message("TEST_NAME2", "{名2}")
+	TranslationServer.add_translation(tmp2)
+	Game.save.names[0] = ""
+	_check("没起名时用默认名字", Game.text("TEST_NAME2") == "阿囡")
+	TranslationServer.remove_translation(tmp2)
+	Game.save.names[0] = "测试名"
 
 	var u1 := Game.save.new_unit("spearman")
 	var u2 := Game.save.new_unit("craftsman")

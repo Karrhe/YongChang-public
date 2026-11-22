@@ -21,6 +21,8 @@ func _ready() -> void:
 
 func load_text_tables() -> void:
 	for file_name in DirAccess.get_files_at(TEXT_DIR):
+		# 导出版里资源可能带 .remap 后缀，去掉后再按原路径加载。
+		file_name = file_name.trim_suffix(".remap")
 		if file_name.get_extension() != "translation":
 			continue
 		var path := TEXT_DIR + file_name
@@ -81,7 +83,11 @@ func fill_names(value: String) -> String:
 	if value.contains("{名1}"):
 		value = value.replace("{名1}", tr("NAME_GEN1"))
 	for i in save.names.size():
-		value = value.replace("{名%d}" % (i + 2), save.names[i])
+		var name := save.names[i]
+		if name == "":
+			# 还没起名（起名界面之前）：用默认名字。
+			name = tr("NAME_DEFAULT_%d" % (i + 2))
+		value = value.replace("{名%d}" % (i + 2), name)
 	if value.contains("{刻字}"):
 		value = value.replace("{刻字}", hammer_text())
 	return value
