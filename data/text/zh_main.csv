@@ -1,0 +1,15 @@
+keys,zh
+NAME_GEN1,王成
+UI_TITLE,永昌堡·守潮
+UI_SUBTITLE,受历史启发
+UI_NEW_GAME,开始
+UI_CONTINUE,继续
+UI_CREDITS,制作人员
+UI_QUIT,退出
+UI_BACK,返回
+CREDITS_BODY,"《永昌堡·守潮》
+OSGJ 2026 开源游戏开发大赛参赛作品
+
+代码协议：AGPL-3.0
+原创素材：CC BY 4.0
+素材来源见 CREDITS.md"

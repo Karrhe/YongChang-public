@@ -1,3 +1,9 @@
 # Godot 4+ specific ignores
 .godot/
 /android/
+
+# Exports
+/export/
+*.exe
+*.pck
+AI_LOG.md

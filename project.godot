@@ -10,10 +10,30 @@ config_version=5
 
 [application]
 
-config/name="YongChang"
-config/features=PackedStringArray("4.4", "Mobile")
+config/name="永昌堡·守潮"
+config/description="三代人守护永昌堡的潮汐战术游戏。受历史启发。"
+run/main_scene="res://scenes/menu/menu.tscn"
+config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://icon.svg"
+
+[autoload]
+
+Rules="*res://scripts/core/rules.gd"
+Game="*res://scripts/core/game.gd"
+
+[display]
+
+window/size/viewport_width=1280
+window/size/viewport_height=720
+window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
+
+[internationalization]
+
+locale/translations=PackedStringArray("res://data/text/zh_main.zh.translation")
+locale/fallback="zh"
 
 [rendering]
 
-renderer/rendering_method="mobile"
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
