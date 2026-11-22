@@ -30,6 +30,7 @@
 
 ```
 godot --headless --path . res://tests/smoke_test.tscn
+godot --headless --path . res://tests/flow/flow_test.tscn
 ```
 
 用临时存档路径，不会删掉真实存档。

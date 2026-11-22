@@ -2,6 +2,7 @@ extends Control
 ## 主菜单：开始 / 继续 / 制作人员 / 退出。
 
 const CREDITS_SCENE := "res://scenes/credits/credits.tscn"
+const FLOW_SCENE := "res://scenes/flow/flow.tscn"
 
 
 func _ready() -> void:
@@ -25,7 +26,7 @@ func _ready() -> void:
 
 	_add_button(box, "UI_NEW_GAME", _on_new_game)
 	var cont := _add_button(box, "UI_CONTINUE", _on_continue)
-	cont.disabled = not Game.has_save()
+	cont.disabled = not _can_continue()
 	_add_button(box, "UI_CREDITS", func() -> void: Game.go_to(CREDITS_SCENE))
 	_add_button(box, "UI_QUIT", Game.quit)
 
@@ -39,13 +40,21 @@ func _add_button(parent: Node, text_id: String, callback: Callable) -> Button:
 	return button
 
 
+func _can_continue() -> bool:
+	if not Game.has_save():
+		return false
+	var saved := Game.save
+	var ok := Game.load_game() and FlowLogic.node_index(Game.save.progress) >= 0
+	Game.save = saved
+	return ok
+
+
 func _on_new_game() -> void:
 	Game.new_game()
-	Game.save_game()
-	# 起名和剧情画面还没做（第 7 天），先回到菜单。
-	push_warning("New game started; story scene not implemented yet.")
+	FlowLogic.start_new_game(Game.save)
+	Game.go_to(FLOW_SCENE)
 
 
 func _on_continue() -> void:
 	if Game.load_game():
-		push_warning("Save loaded at %s; scenes not implemented yet." % Game.save.progress)
+		Game.go_to(FLOW_SCENE)

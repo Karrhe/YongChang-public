@@ -36,7 +36,7 @@ extends Resource
 @export var wall_slots: Dictionary = {}
 ## 每代的目标卡是否达成（G2-6 看第二代的）。
 @export var goal_met: Array[bool] = [false, false, false]
-## 每代的宗族粮仓是否用过（WORK-001 §8，每代一次）。
+## 每代的宗族义仓是否用过（WORK-001 §8，每代一次）。
 @export var granary_used: Array[bool] = [false, false, false]
 
 ## 灯分三组，每盏灯是 {"name": "陈阿六", "gen": 1, "battle": "battle_2"}：
