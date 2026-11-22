@@ -9,12 +9,12 @@ func _ready() -> void:
 	center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(center)
 	var box := VBoxContainer.new()
-	box.add_theme_constant_override("separation", 16)
+	box.add_theme_constant_override("separation", 8)
 	center.add_child(box)
 
 	var title := Label.new()
 	title.text = Game.text("UI_TITLE")
-	title.add_theme_font_size_override("font_size", 56)
+	title.add_theme_font_size_override("font_size", 28)
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	box.add_child(title)
 
@@ -33,7 +33,7 @@ func _ready() -> void:
 func _add_button(parent: Node, text_id: String, callback: Callable) -> Button:
 	var button := Button.new()
 	button.text = Game.text(text_id)
-	button.custom_minimum_size = Vector2(240, 48)
+	button.custom_minimum_size = Vector2(120, 24)
 	button.pressed.connect(callback)
 	parent.add_child(button)
 	return button

@@ -13,3 +13,11 @@ OSGJ 2026 开源游戏开发大赛参赛作品
 代码协议：AGPL-3.0
 原创素材：CC BY 4.0
 素材来源见 CREDITS.md"
+HAMMER_DEFAULT,石头要彼此咬住
+DEV_FAKE_BATTLE,假战斗
+DEV_FAKE_WORK,假劳作
+DEV_HELD,守住
+DEV_COSTLY,惨胜
+DEV_HERO_DIED,惨胜（主角阵亡）
+DEV_GOAL_MET,目标达成
+DEV_GOAL_NOT_MET,目标未达成

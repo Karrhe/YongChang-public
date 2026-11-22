@@ -9,7 +9,7 @@ func _ready() -> void:
 	center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(center)
 	var box := VBoxContainer.new()
-	box.add_theme_constant_override("separation", 24)
+	box.add_theme_constant_override("separation", 12)
 	center.add_child(box)
 
 	var body := Label.new()
@@ -19,7 +19,7 @@ func _ready() -> void:
 
 	var back := Button.new()
 	back.text = Game.text("UI_BACK")
-	back.custom_minimum_size = Vector2(240, 48)
+	back.custom_minimum_size = Vector2(120, 24)
 	back.pressed.connect(func() -> void: Game.go_to(MENU_SCENE))
 	box.add_child(back)
 
