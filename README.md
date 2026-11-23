@@ -23,6 +23,7 @@
 | `scripts/core/` | 全局脚本：规则读取 `Rules`、游戏状态和存档 `Game`、模块接口检查 `Contract` |
 | `scripts/flow/` | 主流程；剧情选择 C1–C5（`Choices`）；假战斗、假劳作（真模块交付前顶替） |
 | `scripts/naming/` | 起名界面和石锤刻字 |
+| `scripts/ending/` | 结局：E1–E6、放灯、三代墓志、祠堂记录 |
 | `scripts/story/` | 剧情表 `StoryTable`、对话框 `DialogueBox`、剧情画面（对话只有文字，没有配音） |
 | `scripts/ui/` | 各画面的脚本 |
 | `data/rules/*.json` | 所有可调的规则和数值；每个文件一个顶层键，键名等于文件名（`core.json` → `core`） |
@@ -36,6 +37,7 @@ godot --headless --path . res://tests/smoke_test.tscn
 godot --headless --path . res://tests/flow/flow_test.tscn
 godot --headless --path . res://tests/story/story_test.tscn
 godot --headless --path . res://tests/flow/flow3_test.tscn
+godot --headless --path . res://tests/ending/ending_test.tscn
 ```
 
 用临时存档路径，不会删掉真实存档。
@@ -44,4 +46,10 @@ godot --headless --path . res://tests/flow/flow3_test.tscn
 
 ```
 godot --path . res://tests/story/story_preview.tscn -- scene=G2-1 gen=2
+```
+
+预览结局（假存档；`lost` 是乡亲、守军各失去几人，`dead` 是哪几代主角阵亡）：
+
+```
+godot --path . res://tests/ending/ending_preview.tscn -- lost=4 dead=1,2
 ```
