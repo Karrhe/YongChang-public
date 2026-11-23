@@ -183,7 +183,12 @@ func _test_resume_at_event() -> void:
 	add_child(flow)
 	for i in 6:
 		await get_tree().process_frame
-	_check("从台风节点继续后停在 G2-5", Game.save.progress == "G2-5")
+	_check("从台风节点继续：先显示台风的说明", Game.save.progress == "typhoon"
+		and flow.current != null and flow.current.has_signal("finished"))
+	flow.current.finished.emit({})
+	for i in 6:
+		await get_tree().process_frame
+	_check("看完说明后停在 G2-5", Game.save.progress == "G2-5")
 	Game.load_game()
 	_check("读档后台风只扣了一次", Game.save.wall_slots.A1.hp == [3, 3])
 	flow.queue_free()

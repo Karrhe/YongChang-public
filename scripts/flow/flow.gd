@@ -39,13 +39,21 @@ func _run(id: String) -> void:
 		"work":
 			_open(_scene("work", "work_fake"), FlowLogic.work_input(save, node), _on_work_done)
 		"choice":
-			_open(_scene("choice", ""), {"choice_id": id}, _on_choice_done)
+			_open(_scene("choice", "choice_stub"), FlowLogic.choice_input(save, node), _on_choice_done)
 		"naming":
-			FlowLogic.apply_default_name(save, int(node.gen))
-			_advance()
+			if ResourceLoader.exists(_path("naming")):
+				_open(_path("naming"), FlowLogic.naming_input(save, node), _on_naming_done)
+			else:
+				FlowLogic.apply_default_name(save, int(node.gen))
+				_advance()
 		"event":
-			FlowLogic.apply_event(save, id)
-			_advance()
+			# 事件马上生效，再给玩家看说明；这时退出，读档回到事件之前，不会重复生效。
+			var notice := FlowLogic.event_notice(id, FlowLogic.apply_event(save, id))
+			if notice.is_empty():
+				_advance()
+			else:
+				notice.merge({"scene_id": id, "gen": int(node.gen)})
+				_open(_scene("story", "story_stub"), notice, _on_simple_done)
 		"ending":
 			if ResourceLoader.exists(_path("ending")):
 				_open(_path("ending"), {"save": save.duplicate(true)}, _on_simple_done)
@@ -112,7 +120,12 @@ func _on_work_done(result: Dictionary) -> void:
 
 
 func _on_choice_done(result: Dictionary) -> void:
-	FlowLogic.apply_choice(Game.save, node.id, result.pick)
+	FlowLogic.apply_choice(Game.save, node.id, result)
+	_advance()
+
+
+func _on_naming_done(result: Dictionary) -> void:
+	FlowLogic.apply_naming(Game.save, int(node.gen), result)
 	_advance()
 
 

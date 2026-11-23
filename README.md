@@ -21,7 +21,8 @@
 |---|---|
 | `scenes/` | 每个画面一个场景：菜单、起名、剧情、战斗、劳作、结局、制作人员 |
 | `scripts/core/` | 全局脚本：规则读取 `Rules`、游戏状态和存档 `Game`、模块接口检查 `Contract` |
-| `scripts/flow/` | 主流程；假战斗、假劳作（真模块交付前顶替） |
+| `scripts/flow/` | 主流程；剧情选择 C1–C5（`Choices`）；假战斗、假劳作（真模块交付前顶替） |
+| `scripts/naming/` | 起名界面和石锤刻字 |
 | `scripts/story/` | 剧情表 `StoryTable`、对话框 `DialogueBox`、剧情画面（对话只有文字，没有配音） |
 | `scripts/ui/` | 各画面的脚本 |
 | `data/rules/*.json` | 所有可调的规则和数值；每个文件一个顶层键，键名等于文件名（`core.json` → `core`） |
@@ -34,6 +35,7 @@
 godot --headless --path . res://tests/smoke_test.tscn
 godot --headless --path . res://tests/flow/flow_test.tscn
 godot --headless --path . res://tests/story/story_test.tscn
+godot --headless --path . res://tests/flow/flow3_test.tscn
 ```
 
 用临时存档路径，不会删掉真实存档。
