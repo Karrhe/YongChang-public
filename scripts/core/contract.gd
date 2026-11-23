@@ -1,6 +1,6 @@
 class_name Contract
 extends RefCounted
-## 模块接口 v2（TEAM-001 §4）的字段检查。每个检查函数返回问题列表，空 = 合格。
+## 模块接口 v3（TEAM-001 §4）的字段检查。每个检查函数返回问题列表，空 = 合格。
 ## 战斗、劳作的测试都可以用它检查自己的 result。
 
 const BATTLE_IDS := ["battle_1", "battle_2", "battle_3", "battle_4", "battle_5",

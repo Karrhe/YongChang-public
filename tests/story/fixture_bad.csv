@@ -1,0 +1,6 @@
+scene_id,line_id,condition,speaker,portrait,text
+T_BAD,01,GEN4_ALIVE,旁白,,未知条件
+T_BAD,01,,旁白,,行号重复
+T_BAD,02,,旁白
+T_BAD,03,,旁白,,
+T_BAD,04,DEATH_B10,旁白,,没有第十场

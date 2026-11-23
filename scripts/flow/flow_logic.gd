@@ -58,10 +58,16 @@ static func story_version(save: SaveData, node: Dictionary) -> String:
 	return "A" if save.hero_alive[int(node.gen) - 1] else "B"
 
 
-## 剧情节点的文字键，如 "G1-2_B"。
+## 剧情节点在剧情表里的场景 ID，如 "G1-2_B"。
+## goal_split 的节点再按这一代的城墙目标分 _met / _unmet（G2-6，剧本附录 D）。
 static func story_key(save: SaveData, node: Dictionary) -> String:
+	var key: String = node.id
 	var version := story_version(save, node)
-	return node.id if version == "" else "%s_%s" % [node.id, version]
+	if version != "":
+		key += "_" + version
+	if node.get("goal_split", false):
+		key += "_met" if save.goal_met[int(node.gen) - 1] else "_unmet"
+	return key
 
 
 # ---------- 战斗 ----------

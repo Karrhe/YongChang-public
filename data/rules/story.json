@@ -1,0 +1,56 @@
+{
+	"_note": "剧情和对话框（FLOW-2，负责人维护）。对话没有配音，只做文字。剧情表格式见 TEAM-001 §4。颜色都取自 Dawnbringer 16（ART-001 §1）。",
+	"story": {
+		"table": "res://data/text/story.csv",
+		"narrator": "旁白",
+		"typing": {
+			"_note": "逐字显示：每秒几个字，0 = 整句一下子出来。标点后停一下，没有配音也有说话的节奏。",
+			"chars_per_second": 30,
+			"pauses": [
+				{"chars": "。！？…", "seconds": 0.3},
+				{"chars": "，、；：", "seconds": 0.12}
+			]
+		},
+		"portraits": {
+			"_note": "说话人 → 头像 ID，图在 dir/<ID>.png（32×32，ART-001 §3.4）。没有图时画同样大小的色块占位。没列出的说话人只显示名字，不显示头像。",
+			"dir": "res://assets/art/portraits/",
+			"size": 32,
+			"scale": 2,
+			"by_speaker": {
+				"王成": "wang_cheng",
+				"素娘": "su_niang",
+				"阿囡": "a_nan",
+				"{名2}": "gen2",
+				"周砚": "zhou_yan",
+				"{名3}": "gen3",
+				"阿棠": "a_tang",
+				"阿禾": "a_he",
+				"峤叔": "qiao_shu",
+				"王叔杲": "wang_shugao"
+			}
+		},
+		"backgrounds": {
+			"_note": "流程节点 ID → 背景 ID，图在 dir/<ID>.png（640×360）。G1-2 同时管 G1-2_A、G1-2_B。四张背景（ART-001 §3.4）：home 家、site 工地和城墙、hall 宗祠内、river 河边。没配或还没有图时，按代用整体色 gen_colors（0 = 结局）。",
+			"dir": "res://assets/art/bg/",
+			"by_scene": {},
+			"gen_colors": {"0": "#140c1c", "1": "#854c30", "2": "#4e4a4e", "3": "#30346d"}
+		},
+		"box": {
+			"_note": "对话框，按 640×360 排。backlog = 回看。",
+			"height": 92,
+			"margin": 8,
+			"padding": 8,
+			"font_size": 12,
+			"line_spacing": 4,
+			"colors": {
+				"panel": "#140c1c",
+				"border": "#8595a1",
+				"name": "#dad45e",
+				"text": "#deeed6",
+				"action": "#8595a1",
+				"portrait_placeholder": "#597dce",
+				"backlog": "#140c1ce6"
+			}
+		}
+	}
+}
