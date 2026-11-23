@@ -13,8 +13,8 @@ WORK_JOB_build,修建
 WORK_JOB_train,训练
 WORK_NOTE_farm,每人粮食 +3
 WORK_NOTE_gather,每人材料 +2
-WORK_NOTE_build,每 {people} 人 + {materials} 材料修一段{type}（能修 {capacity}，已排 {queued}）
-WORK_NOTE_train,每人练成 1 名守军（点下面的兵种换）
+WORK_NOTE_build,{people} 人 + {materials} 材料一段{type}（能修 {capacity}，已排 {queued}）
+WORK_NOTE_train,每人练成 1 名守军（点下面换兵种）
 WORK_TYPE_none,空地
 WORK_TYPE_fence,栅栏
 WORK_TYPE_stone,石墙

@@ -86,7 +86,7 @@ func _build() -> void:
 	jobs_box = VBoxContainer.new()
 	jobs_box.add_theme_constant_override("separation", 3)
 	right.add_child(jobs_box)
-	preview_label = _label(right, "#6dc2ca", 300)
+	preview_label = _label(right, "#6dc2ca", 290)
 	var spacer := Control.new()
 	spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	right.add_child(spacer)
@@ -139,8 +139,9 @@ func _refresh_jobs() -> void:
 		count.custom_minimum_size = Vector2(18, 0)
 		count.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		_button(line, "+", func() -> void: _change(job, 1), 22)
-		var note := _label(line, "#8595a1")
-		note.text = Game.text("WORK_NOTE_" + job).format({"people": spec.people, "materials": spec.materials,
+		var note := _label(line, "#8595a1", 170)
+		note.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		note.text = Game.text("WORK_NOTE_" + job).format({"people": int(spec.people), "materials": int(spec.materials),
 			"type": Game.text("WORK_TYPE_" + String(spec.type)), "capacity": state.build_capacity(), "queued": state.build_queue.size()})
 	if not state.train_types.is_empty():
 		var picks := HFlowContainer.new()
@@ -162,8 +163,8 @@ func _on_slot(slot: String) -> void:
 		return
 	if slot in state.build_queue or state.can_build(slot):
 		if not state.toggle_build(slot):
-			hint_label.text = Game.text("WORK_CANNOT_BUILD").format({"people": state.build_spec().people,
-				"materials": state.build_spec().materials})
+			hint_label.text = Game.text("WORK_CANNOT_BUILD").format({"people": int(state.build_spec().people),
+				"materials": int(state.build_spec().materials)})
 		else:
 			hint_label.text = Game.text("WORK_HINT")
 	elif state.repair_cost(slot) > 0:
