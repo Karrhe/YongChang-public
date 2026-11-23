@@ -1,0 +1,18 @@
+﻿scene_id,line_id,condition,speaker,portrait,text
+# 测试用剧情表（FLOW-2）
+T_COND,01,,旁白,,开头。
+T_COND,02,GEN1_ALIVE,王成,,一代存活
+T_COND,03,GEN1_DEAD,阿棠,,一代阵亡
+T_COND,04,GEN2_ELDER_A,{名2},,甲
+T_COND,05,GEN2_ELDER_B,周砚,,乙
+T_COND,06,GEN2_NONE,旁白,,都不在
+T_COND,07,DEATH_B4,旁白,,死于第四场
+T_COND,08,GEN1_ALIVE & GEN2_ELDER_A,旁白,,组合
+T_COND,optA,,,,按钮
+T_COND,optA_say,,{名2},,选了以后说的话
+
+T_PLAY,01,,{名2},,（放下石锤）{名3}，过来。
+T_PLAY,02,,周砚,gen2_custom,"半角逗号, 和""引号"""
+T_PLAY,03,,峤叔,-,不要头像
+T_PLAY,04,,工头,,没有头像的人
+T_PLAY,05,,,,空说话人也是旁白[不是标签]

@@ -1,5 +1,5 @@
 {
-	"_note": "主流程（FLOW，负责人维护）。nodes 是从序章到结局的节点表，按顺序走。type：story 剧情、battle 战斗、work 劳作、choice 剧情选择、naming 起名、event 规则事件、ending 结局。story 的 ab=true 表示有 A/B 版本（主角存活 / 阵亡）。来源：STORY-001 §4、WORK-001 §6–§8、BAT-001 §5.3、§8、§13、TEAM-001 §4。临时做法见 ISSUE-001 WORK-01、WORK-02、WORK-04、WORK-05、STO-06、STO-15。",
+	"_note": "主流程（FLOW，负责人维护）。nodes 是从序章到结局的节点表，按顺序走。type：story 剧情、battle 战斗、work 劳作、choice 剧情选择、naming 起名、event 规则事件、ending 结局。story 的 ab=true 表示有 A/B 版本（主角存活 / 阵亡），goal_split=true 再按这一代的城墙目标分 _met / _unmet；剧情台词在 data/text/story.csv（格式见 TEAM-001 §4），story_keys 写的是剧情表的场景 ID。来源：STORY-001 §4、WORK-001 §6–§8、BAT-001 §5.3、§8、§13、TEAM-001 §4。临时做法见 ISSUE-001 WORK-01、WORK-02、WORK-04、WORK-05、STO-15。",
 	"flow": {
 		"scenes": {
 			"battle": "res://scenes/battle/battle.tscn",
@@ -44,7 +44,7 @@
 			{"id": "G2-5", "type": "story", "gen": 2, "ab": true},
 			{"id": "battle_6", "type": "battle", "gen": 2},
 			{"id": "repair_after_battle_6", "type": "event", "gen": 2},
-			{"id": "G2-6", "type": "story", "gen": 2, "ab": true},
+			{"id": "G2-6", "type": "story", "gen": 2, "ab": true, "goal_split": true},
 			{"id": "T2", "type": "story", "gen": 2},
 			{"id": "gen2_to_gen3", "type": "event", "gen": 3},
 			{"id": "naming_3", "type": "naming", "gen": 3},

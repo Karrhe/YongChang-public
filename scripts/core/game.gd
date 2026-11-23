@@ -75,26 +75,34 @@ func delete_save() -> void:
 func text(id: String) -> String:
 	var value := tr(id)
 	if value == id:
-		return "[待写: %s]" % id
+		return missing(id)
 	return fill_names(value)
 
 
-func fill_names(value: String) -> String:
+## 还没写的文字或剧情场景显示的占位。
+func missing(id: String) -> String:
+	return "[待写: %s]" % id
+
+
+## 替换名字和刻字。from 不给时用当前存档。
+func fill_names(value: String, from: SaveData = null) -> String:
+	var s := from if from != null else save
 	if value.contains("{名1}"):
 		value = value.replace("{名1}", tr("NAME_GEN1"))
-	for i in save.names.size():
-		var name := save.names[i]
+	for i in s.names.size():
+		var name := s.names[i]
 		if name == "":
 			# 还没起名（起名界面之前）：用默认名字。
 			name = tr("NAME_DEFAULT_%d" % (i + 2))
 		value = value.replace("{名%d}" % (i + 2), name)
 	if value.contains("{刻字}"):
-		value = value.replace("{刻字}", hammer_text())
+		value = value.replace("{刻字}", hammer_text(s))
 	return value
 
 
-func hammer_text() -> String:
-	return save.hammer_text if save.hammer_text != "" else tr("HAMMER_DEFAULT")
+func hammer_text(from: SaveData = null) -> String:
+	var s := from if from != null else save
+	return s.hammer_text if s.hammer_text != "" else tr("HAMMER_DEFAULT")
 
 
 func go_to(scene_path: String) -> void:

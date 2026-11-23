@@ -31,6 +31,7 @@ func _run(id: String) -> void:
 				"scene_id": id,
 				"version": FlowLogic.story_version(save, node),
 				"key": FlowLogic.story_key(save, node),
+				"gen": int(node.gen),
 			}, _on_simple_done)
 		"battle":
 			battle_in = FlowLogic.battle_input(save, node)

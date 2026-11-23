@@ -1,5 +1,5 @@
 extends Control
-## 剧情占位：FLOW-2 的对话播放器做好之前，整段显示文本表里这一场的文字（没有就显示 [待写: ID]）。
+## 剧情占位：FLOW-2 的剧情画面（scenes/story/story.tscn）不存在时才用。现在只给结局占位用（END 做好之前）。
 ## 接口：setup({"scene_id", "version", "key"}) → finished({})。
 
 signal finished(result: Dictionary)
