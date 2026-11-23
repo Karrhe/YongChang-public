@@ -1,0 +1,57 @@
+{
+	"_note": "结局（END，负责人维护）。steps 是结局的顺序（剧本 E1–E6），lantern_groups 是放灯的分组和每组的文字（BAT-001 §13，CLAUDE.md：结局从列表读取）。对话场景在剧情表 story.csv，其余文字在 data/text/ending.csv。颜色取自 Dawnbringer 16（ART-001）。",
+	"ending": {
+		"steps": [
+			{"type": "dialogue", "scene_alive": "E1_A", "scene_dead": "E1_B", "gen": 3, "bg": "night"},
+			{"type": "dialogue", "scene": "E2", "bg": "night"},
+			{"type": "lanterns", "bg": "river"},
+			{"type": "dialogue", "scene": "E3_5", "bg": "day"},
+			{"type": "epitaphs", "bg": "night"},
+			{"type": "records", "bg": "night"},
+			{"type": "dialogue", "scene": "E6", "bg": "night", "door_lantern": true},
+			{"type": "final", "bg": "night"}
+		],
+		"lantern_groups": [
+			{"group": "villager", "text": "END_E3_VILLAGER", "color": "#d27d2c"},
+			{"group": "defender", "text": "END_E3_DEFENDER", "color": "#d04648"},
+			{"group": "hero", "text": "END_E3_HERO", "color": "#dad45e"}
+		],
+		"no_lantern_text": "END_E3_NONE",
+		"lantern": {
+			"_note": "8×8 的灯，放大 scale 倍；图在 art（{group} 换成分组名），没有图时画色块。灯从河面下方升起漂到上方，rise_seconds 秒；seed 固定，位置每次都一样。",
+			"size": 8,
+			"scale": 2,
+			"rise_seconds": 8.0,
+			"seed": 1558,
+			"art": "res://assets/art/ending/lantern_{group}.png",
+			"door_color": "#dad45e"
+		},
+		"epitaphs": {
+			"title": "END_E4_TITLE",
+			"_note": "每代主角一句：活着用 alive，阵亡用 dead；dead 里的 {death} 换成死亡阶段替换句 <death>_<死在哪一场>，没有就用 <death>。",
+			"list": [
+				{"gen": 1, "alive": "END_E4_G1_ALIVE", "dead": "END_E4_G1_DEAD", "death": "END_E4_G1_DEATH"},
+				{"gen": 2, "alive": "END_E4_G2_ALIVE", "dead": "END_E4_G2_DEAD", "death": "END_E4_G2_DEATH"},
+				{"gen": 3, "alive": "END_E4_G3_ALIVE", "dead": "END_E4_G3_DEAD", "death": "END_E4_G3_DEATH"}
+			]
+		},
+		"records": {"title": "END_E5_TITLE", "choices": ["C1", "C2", "C3", "C4", "C5"], "key": "END_E5_{choice}_{pick}"},
+		"dragon": {
+			"_note": "E6 的拼字龙灯：一张插图（ART-001 §3.5）。没有图时画五色色块，上面写“天下太平”。",
+			"art": "res://assets/art/ending/dragon.png",
+			"size": [320, 96],
+			"colors": ["#d04648", "#dad45e", "#6daa2c", "#597dce", "#deeed6"],
+			"text": "END_DRAGON"
+		},
+		"final_text": "END_FINAL",
+		"colors": {
+			"night": "#140c1c",
+			"river": "#30346d",
+			"day": "#4e4a4e",
+			"plaque": "#442434",
+			"plaque_border": "#854c30",
+			"text": "#deeed6",
+			"title": "#dad45e"
+		}
+	}
+}
