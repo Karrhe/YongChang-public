@@ -215,41 +215,122 @@ static func apply_work(save: SaveData, result: Dictionary) -> void:
 	save.goal_met[gen - 1] = result.goal_met
 
 
-# ---------- 选择、起名（界面和效果在 FLOW-3） ----------
+# ---------- 选择、起名（FLOW-3） ----------
 
-static func apply_choice(save: SaveData, choice_id: String, pick: String) -> void:
-	save.choices[choice_id] = pick
+## 选择节点交给界面的输入：选择前的剧情、两个选项能不能选、选完要不要选墙位。
+static func choice_input(save: SaveData, node: Dictionary) -> Dictionary:
+	var id: String = node.id
+	var gen := int(node.gen)
+	var states := Choices.option_states(save, id, gen)
+	var options := {}
+	for pick: String in Choices.PICKS:
+		var option: Dictionary = states[pick].duplicate()
+		option["slot_pick"] = Choices.slot_pick(save, id, pick)
+		option["after"] = Choices.effect(id, pick).get("after", []).duplicate()
+		options[pick] = option
+	return {
+		"choice_id": id,
+		"key": story_key(save, node),
+		"gen": gen,
+		"options": options,
+		"wall_slots": save.wall_slots.duplicate(true),
+		"granary_scene": Rules.get_value("flow.granary_scenes", {}).get(str(gen), ""),
+	}
 
 
-## 起名界面还没做（FLOW-3）：先用文本表里的默认名字。
+## 记下选择并算效果（Choices.apply）。pick 是 "A" / "B"，或界面交回的整份结果。
+static func apply_choice(save: SaveData, choice_id: String, pick: Variant) -> Dictionary:
+	var result: Dictionary = pick if pick is Dictionary else {"pick": pick}
+	return Choices.apply(save, choice_id, result, int(find_node(choice_id).get("gen", 1)))
+
+
+## 起名界面的输入（ISSUE-001 WORK-09 临时做法：1–4 个汉字，不能和固定角色、上一代主角重名）。
+static func naming_input(save: SaveData, node: Dictionary) -> Dictionary:
+	var gen := int(node.gen)
+	var cfg: Dictionary = Rules.get_value("flow.naming", {})
+	var taken := PackedStringArray()
+	for key: String in cfg.get("reserved_keys", []):
+		taken.append(_tr(key))
+	for reserved: String in cfg.get("reserved_names", []):
+		taken.append(reserved)
+	for i in save.names.size():
+		if i != gen - 2 and save.names[i] != "":
+			taken.append(save.names[i])
+	return {
+		"gen": gen,
+		"prompt_key": cfg.get("prompt_keys", {}).get(str(gen), ""),
+		"default_name": default_name(gen),
+		"max_chars": int(cfg.get("max_chars", 4)),
+		"taken": taken,
+		"ask_hammer": gen == int(cfg.get("hammer_gen", 2)),
+		"default_hammer": _tr("HAMMER_DEFAULT"),
+		"hammer_max_chars": int(cfg.get("hammer_max_chars", 12)),
+	}
+
+
+## 起名界面交回 {"name", "hammer"}：名字空着就用默认名字；刻字空着存空，显示时用默认刻字。
+static func apply_naming(save: SaveData, gen: int, result: Dictionary) -> void:
+	var name := String(result.get("name", "")).strip_edges()
+	save.names[gen - 2] = name if name != "" else default_name(gen)
+	if result.has("hammer"):
+		save.hammer_text = String(result.hammer).strip_edges()
+
+
+static func default_name(gen: int) -> String:
+	return _tr(Rules.get_value("flow.default_name_keys", {}).get(str(gen), ""))
+
+
+## 起名界面不存在时：用文本表里的默认名字。
 static func apply_default_name(save: SaveData, gen: int) -> void:
 	if save.names[gen - 2] == "":
-		var key: String = Rules.get_value("flow.default_name_keys", {}).get(str(gen), "")
-		save.names[gen - 2] = _tr(key)
+		save.names[gen - 2] = default_name(gen)
 
 
 # ---------- 规则事件 ----------
 
-static func apply_event(save: SaveData, event_id: String) -> void:
+## 返回给说明文字用的数字（flow.json 的 notice.summary 按它们填空）。
+static func apply_event(save: SaveData, event_id: String) -> Dictionary:
 	var cfg: Dictionary = Rules.get_value("flow.events", {}).get(event_id, {})
+	var values := {}
 	match event_id:
 		"gen1_to_gen2":
 			# 材料折半（向下取整），再加王叔杲捐银（WORK-001 §6）。
+			values.before = save.materials
 			save.materials = int(floor(save.materials * float(cfg.get("materials_keep_fraction", 1.0))))
-			save.materials += int(cfg.get("materials_bonus", 0))
+			values.half = save.materials
+			values.bonus = int(cfg.get("materials_bonus", 0))
+			save.materials += values.bonus
+			values.after = save.materials
 		"retire_elder":
 			save.elder_retired = true
 		"typhoon":
-			damage_walls(save, int(cfg.get("wall_hp_loss", 0)))
+			values.loss = int(cfg.get("wall_hp_loss", 0))
+			damage_walls(save, values.loss)
 		"repair_after_battle_6":
 			repair_walls(save)
 		"gen2_to_gen3":
-			damage_walls(save, int(cfg.get("wall_hp_loss", 0)))
-			save.people += int(cfg.get("people_bonus", 0))
+			values.loss = int(cfg.get("wall_hp_loss", 0))
+			values.people = int(cfg.get("people_bonus", 0))
+			damage_walls(save, values.loss)
+			save.people += values.people
 			if cfg.get("clear_roster", false):
 				save.roster.clear()
 		_:
 			push_error("Unknown flow event: %s" % event_id)
+	return values
+
+
+## 事件生效后给玩家看的台词：先播 notice.story 的剧情场景，再加一句带数字的说明。没有 notice 时返回空表。
+static func event_notice(event_id: String, values: Dictionary) -> Dictionary:
+	var notice: Dictionary = Rules.get_value("flow.events", {}).get(event_id, {}).get("notice", {})
+	if notice.is_empty():
+		return {}
+	var append: Array[Dictionary] = []
+	var summary: String = notice.get("summary", "")
+	if summary != "":
+		append.append({"scene_id": event_id, "line_id": "", "speaker": "", "portrait": "",
+			"text": _tr(summary).format(values), "narration": true})
+	return {"keys": notice.get("story", []).duplicate(), "append": append}
 
 
 ## 每段墙和门（栅栏、石墙）每格 HP −amount，最低 0（ISSUE-001 WORK-04 临时做法：门也受影响）。

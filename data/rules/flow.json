@@ -8,7 +8,9 @@
 			"work_fake": "res://scenes/flow/fake_work.tscn",
 			"story": "res://scenes/story/story.tscn",
 			"story_stub": "res://scenes/flow/story_stub.tscn",
-			"choice": "res://scenes/flow/choice_stub.tscn",
+			"choice": "res://scenes/flow/choice.tscn",
+			"choice_stub": "res://scenes/flow/choice_stub.tscn",
+			"naming": "res://scenes/naming/naming.tscn",
 			"ending": "res://scenes/ending/ending.tscn",
 			"after_ending": "res://scenes/credits/credits.tscn"
 		},
@@ -22,7 +24,7 @@
 			{"id": "battle_2", "type": "battle", "gen": 1},
 			{"id": "G1-4", "type": "story", "gen": 1, "ab": true},
 			{"id": "after_battle_2", "type": "work", "gen": 1},
-			{"id": "C1", "type": "choice", "gen": 1},
+			{"id": "C1", "type": "choice", "ab": true, "gen": 1},
 			{"id": "G1-5", "type": "story", "gen": 1, "ab": true},
 			{"id": "battle_3", "type": "battle", "gen": 1},
 			{"id": "G1-6", "type": "story", "gen": 1, "ab": true},
@@ -33,13 +35,13 @@
 			{"id": "battle_4", "type": "battle", "gen": 2},
 			{"id": "G2-2", "type": "story", "gen": 2, "ab": true},
 			{"id": "after_battle_4", "type": "work", "gen": 2},
-			{"id": "C2", "type": "choice", "gen": 2},
+			{"id": "C2", "type": "choice", "ab": true, "gen": 2},
 			{"id": "G2-3", "type": "story", "gen": 2, "ab": true},
 			{"id": "retire_elder", "type": "event", "gen": 2},
 			{"id": "battle_5", "type": "battle", "gen": 2},
 			{"id": "G2-4", "type": "story", "gen": 2, "ab": true},
 			{"id": "after_battle_5", "type": "work", "gen": 2},
-			{"id": "C3", "type": "choice", "gen": 2},
+			{"id": "C3", "type": "choice", "ab": true, "gen": 2},
 			{"id": "typhoon", "type": "event", "gen": 2},
 			{"id": "G2-5", "type": "story", "gen": 2, "ab": true},
 			{"id": "battle_6", "type": "battle", "gen": 2},
@@ -70,9 +72,12 @@
 		},
 		"bonus_defenders": {"choice": "C5", "pick": "A", "battle": "battle_9", "count": 2},
 		"events": {
-			"gen1_to_gen2": {"materials_keep_fraction": 0.5, "materials_bonus": 6},
-			"typhoon": {"wall_hp_loss": 3},
-			"gen2_to_gen3": {"wall_hp_loss": 3, "people_bonus": 2, "clear_roster": true}
+			"_note": "notice：事件生效后给玩家看的说明。story 是剧情表的场景 ID（先播），summary 是 flow.csv 里带数字的一句（后播）。没有 notice 的事件不显示。",
+			"gen1_to_gen2": {"materials_keep_fraction": 0.5, "materials_bonus": 6,
+				"notice": {"story": ["EVT_donation"], "summary": "EVT_SUMMARY_GEN1_TO_GEN2"}},
+			"typhoon": {"wall_hp_loss": 3, "notice": {"summary": "EVT_SUMMARY_TYPHOON"}},
+			"gen2_to_gen3": {"wall_hp_loss": 3, "people_bonus": 2, "clear_roster": true,
+				"notice": {"summary": "EVT_SUMMARY_GEN2_TO_GEN3"}}
 		},
 		"lantern_names": {
 			"_note": "乡亲和守军的灯从文本表按顺序取名字：LANTERN_<组>_G<代>_<序号两位>，如 LANTERN_VILLAGER_G1_01。表里没有时用 LANTERN_UNNAMED（ISSUE-001 STO-15 临时做法：无名）。",
@@ -84,6 +89,25 @@
 			"hero": ["NAME_GEN1", "", ""],
 			"companion": ["NAME_COMPANION_1", "NAME_COMPANION_2", "NAME_COMPANION_3"]
 		},
-		"default_name_keys": {"2": "NAME_DEFAULT_2", "3": "NAME_DEFAULT_3"}
+		"default_name_keys": {"2": "NAME_DEFAULT_2", "3": "NAME_DEFAULT_3"},
+		"choices": {
+			"_note": "剧情选择的效果（WORK-001 §7）。materials / rice / people 是加减；add_units 加训练过的守军（C1 加枪兵，ISSUE-001 BAT-03 临时做法）；remove_units 从名单里调走几个（先调最后加入的 remove_prefer 兵种）；build_stone 让玩家选几段墙位筑成满 HP 石墙；demolish_stone 让玩家选几段石墙拆掉（变回空地）；after 是选完以后播的剧情场景。C5-A 的 battle_9 临时守军见 bonus_defenders。付不起时（ISSUE-001 WORK-03 临时做法）：粮不够就开宗族义仓（每代一次，粮食补到 0），义仓开过了就不能选；其余条件不满足就不能选；A、B 都不能选时 B 照样能选，粮食最低扣到 0。",
+			"remove_prefer": ["spearman", "crossbow"],
+			"C1": {"A": {"materials": 3, "add_units": ["spearman"]}, "B": {}},
+			"C2": {"A": {"remove_units": 1, "build_stone": 1}, "B": {}},
+			"C3": {"A": {"rice": 5, "people": -1, "after": ["C3_A_result"]}, "B": {}},
+			"C4": {"A": {"materials": 6, "rice": 3, "demolish_stone": 3}, "B": {"rice": -2}},
+			"C5": {"A": {"rice": -4}, "B": {}}
+		},
+		"granary_scenes": {"1": "EVT_granary_G1", "2": "EVT_granary_G2", "3": "EVT_granary_G3"},
+		"naming": {
+			"_note": "起名（ISSUE-001 WORK-09 临时做法）：1–4 个汉字；空着用默认名；不能和固定角色或上一代主角重名。石锤刻字只在第二代起名后输入（STO-14），空着用 HAMMER_DEFAULT，最多 hammer_max_chars 个字，不能有方括号和花括号。",
+			"max_chars": 4,
+			"hammer_max_chars": 12,
+			"hammer_gen": 2,
+			"reserved_keys": ["NAME_GEN1", "NAME_COMPANION_1", "NAME_COMPANION_2", "NAME_COMPANION_3"],
+			"reserved_names": ["素娘", "峤叔", "王叔杲", "王叔果", "陆魁"],
+			"prompt_keys": {"2": "NAMING_PROMPT_2", "3": "NAMING_PROMPT_3"}
+		}
 	}
 }

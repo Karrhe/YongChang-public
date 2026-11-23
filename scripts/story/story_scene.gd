@@ -1,6 +1,7 @@
 extends Control
 ## 剧情画面（FLOW-2）：背景 + 对话框，播完一场交回 FLOW。
 ## 接口：setup({"scene_id": 流程节点 ID, "key": 剧情表的场景 ID, "gen": 1–3}) → finished({})。
+## 也可以给 "keys"（几个场景 ID 接着播）和 "append"（整理好的台词，播在最后；规则事件的说明用）。
 ## 背景按 story.json 的 backgrounds 配；没配或还没有图时按代用整体色。
 
 signal finished(result: Dictionary)
@@ -24,7 +25,13 @@ func _ready() -> void:
 	box = DIALOGUE_BOX.instantiate()
 	add_child(box)
 	box.done.connect(func() -> void: finished.emit({}), CONNECT_ONE_SHOT)
-	box.play([input.get("key", input.get("scene_id", ""))])
+	var keys: Array = input.get("keys", [input.get("key", input.get("scene_id", ""))])
+	var lines: Array[Dictionary] = []
+	for id in keys:
+		lines.append_array(StoryTable.main().lines(String(id)))
+	for line: Dictionary in input.get("append", []):
+		lines.append(line)
+	box.play_lines(lines)
 
 
 func _make_background() -> Control:

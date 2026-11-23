@@ -1,5 +1,5 @@
 extends Control
-## 剧情选择占位：FLOW-3 之前只记下选了 A 还是 B，不算效果。
+## 剧情选择占位：真的选择画面（scenes/flow/choice.tscn）不存在时才用，只交回选了 A 还是 B。
 ## 接口：setup({"choice_id"}) → finished({"pick": "A" | "B"})。
 
 signal finished(result: Dictionary)
