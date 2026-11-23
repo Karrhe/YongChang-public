@@ -1,0 +1,24 @@
+{
+	"_note": "公共规则（负责人维护）。data/rules/ 下每个 JSON 文件只有一个顶层键，键名等于文件名：core.json → core，battle.json → battle。Rules 启动时把它们合并成一张表，用 Rules.get_value(\"core.new_game.rice\") 读取。来源：WORK-001 v1.2 §2、§8；CLAUDE.md 墙位；BAT-001 §9。",
+	"core": {
+		"new_game": {
+			"people": 8,
+			"rice": 6,
+			"materials": 2
+		},
+		"min_people": 4,
+		"walls": {
+			"_note": "墙位每格的满 HP。门位只有 1 格，墙位 2 格。",
+			"slots": ["A1", "A2", "A3", "B1", "B2", "B3", "C1", "C2", "C3"],
+			"gates": ["gate_A", "gate_B", "gate_C"],
+			"slot_cells": 2,
+			"gate_cells": 1,
+			"max_hp": {
+				"fence": 2,
+				"fence_gate": 4,
+				"stone": 6,
+				"stone_gate": 8
+			}
+		}
+	}
+}

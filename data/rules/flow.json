@@ -1,0 +1,89 @@
+{
+	"_note": "主流程（FLOW，负责人维护）。nodes 是从序章到结局的节点表，按顺序走。type：story 剧情、battle 战斗、work 劳作、choice 剧情选择、naming 起名、event 规则事件、ending 结局。story 的 ab=true 表示有 A/B 版本（主角存活 / 阵亡）。来源：STORY-001 §4、WORK-001 §6–§8、BAT-001 §5.3、§8、§13、TEAM-001 §4。临时做法见 ISSUE-001 WORK-01、WORK-02、WORK-04、WORK-05、STO-06、STO-15。",
+	"flow": {
+		"scenes": {
+			"battle": "res://scenes/battle/battle.tscn",
+			"battle_fake": "res://scenes/flow/fake_battle.tscn",
+			"work": "res://scenes/work/work.tscn",
+			"work_fake": "res://scenes/flow/fake_work.tscn",
+			"story": "res://scenes/story/story.tscn",
+			"story_stub": "res://scenes/flow/story_stub.tscn",
+			"choice": "res://scenes/flow/choice_stub.tscn",
+			"ending": "res://scenes/ending/ending.tscn",
+			"after_ending": "res://scenes/credits/credits.tscn"
+		},
+		"nodes": [
+			{"id": "P1", "type": "story", "gen": 1},
+			{"id": "G1-1", "type": "story", "gen": 1},
+			{"id": "battle_1", "type": "battle", "gen": 1},
+			{"id": "G1-2", "type": "story", "gen": 1, "ab": true},
+			{"id": "after_battle_1", "type": "work", "gen": 1},
+			{"id": "G1-3", "type": "story", "gen": 1, "ab": true},
+			{"id": "battle_2", "type": "battle", "gen": 1},
+			{"id": "G1-4", "type": "story", "gen": 1, "ab": true},
+			{"id": "after_battle_2", "type": "work", "gen": 1},
+			{"id": "C1", "type": "choice", "gen": 1},
+			{"id": "G1-5", "type": "story", "gen": 1, "ab": true},
+			{"id": "battle_3", "type": "battle", "gen": 1},
+			{"id": "G1-6", "type": "story", "gen": 1, "ab": true},
+			{"id": "T1", "type": "story", "gen": 1, "ab": true},
+			{"id": "gen1_to_gen2", "type": "event", "gen": 2},
+			{"id": "naming_2", "type": "naming", "gen": 2},
+			{"id": "G2-1", "type": "story", "gen": 2},
+			{"id": "battle_4", "type": "battle", "gen": 2},
+			{"id": "G2-2", "type": "story", "gen": 2, "ab": true},
+			{"id": "after_battle_4", "type": "work", "gen": 2},
+			{"id": "C2", "type": "choice", "gen": 2},
+			{"id": "G2-3", "type": "story", "gen": 2, "ab": true},
+			{"id": "retire_elder", "type": "event", "gen": 2},
+			{"id": "battle_5", "type": "battle", "gen": 2},
+			{"id": "G2-4", "type": "story", "gen": 2, "ab": true},
+			{"id": "after_battle_5", "type": "work", "gen": 2},
+			{"id": "C3", "type": "choice", "gen": 2},
+			{"id": "typhoon", "type": "event", "gen": 2},
+			{"id": "G2-5", "type": "story", "gen": 2, "ab": true},
+			{"id": "battle_6", "type": "battle", "gen": 2},
+			{"id": "repair_after_battle_6", "type": "event", "gen": 2},
+			{"id": "G2-6", "type": "story", "gen": 2, "ab": true},
+			{"id": "T2", "type": "story", "gen": 2},
+			{"id": "gen2_to_gen3", "type": "event", "gen": 3},
+			{"id": "naming_3", "type": "naming", "gen": 3},
+			{"id": "G3-1", "type": "story", "gen": 3},
+			{"id": "battle_7", "type": "battle", "gen": 3},
+			{"id": "G3-2", "type": "story", "gen": 3},
+			{"id": "after_battle_7", "type": "work", "gen": 3},
+			{"id": "C4", "type": "choice", "gen": 3},
+			{"id": "G3-3", "type": "story", "gen": 3},
+			{"id": "battle_8", "type": "battle", "gen": 3},
+			{"id": "G3-4", "type": "story", "gen": 3},
+			{"id": "after_battle_8", "type": "work", "gen": 3},
+			{"id": "C5", "type": "choice", "gen": 3},
+			{"id": "G3-5", "type": "story", "gen": 3},
+			{"id": "battle_9", "type": "battle", "gen": 3},
+			{"id": "ending", "type": "ending", "gen": 3}
+		],
+		"elder_battles": {"battle_4": 1, "battle_9": 2},
+		"auto_retry_on_hero_death": ["battle_7", "battle_8"],
+		"story_keys": {
+			"battle_1": {"hero_death": ["B1_hero_death"]},
+			"battle_8": {"start": ["B8_start"], "end": ["B8_end"]}
+		},
+		"bonus_defenders": {"choice": "C5", "pick": "A", "battle": "battle_9", "count": 2},
+		"events": {
+			"gen1_to_gen2": {"materials_keep_fraction": 0.5, "materials_bonus": 6},
+			"typhoon": {"wall_hp_loss": 3},
+			"gen2_to_gen3": {"wall_hp_loss": 3, "people_bonus": 2, "clear_roster": true}
+		},
+		"lantern_names": {
+			"_note": "乡亲和守军的灯从文本表按顺序取名字：LANTERN_<组>_G<代>_<序号两位>，如 LANTERN_VILLAGER_G1_01。表里没有时用 LANTERN_UNNAMED（ISSUE-001 STO-15 临时做法：无名）。",
+			"villager_prefix": "LANTERN_VILLAGER_G",
+			"defender_prefix": "LANTERN_DEFENDER_G",
+			"unnamed": "LANTERN_UNNAMED"
+		},
+		"hero_name_keys": {
+			"hero": ["NAME_GEN1", "", ""],
+			"companion": ["NAME_COMPANION_1", "NAME_COMPANION_2", "NAME_COMPANION_3"]
+		},
+		"default_name_keys": {"2": "NAME_DEFAULT_2", "3": "NAME_DEFAULT_3"}
+	}
+}
