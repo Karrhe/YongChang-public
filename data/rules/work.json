@@ -1,0 +1,35 @@
+{
+	"_note": "劳作（WORK，负责人维护）。规则见 WORK-001：每个劳作阶段 2 个季节；每季把人分到种田、采料、修建、训练；季末每人吃 1 份粮；修墙不占人手只花材料（每格每 3 点 HP 1 材料，不足 3 点向上取整，ISSUE-001 WORK-06 临时做法）；废墟按修建的价格重建；粮不够时每代一次开宗族义仓补到 0，之后再不够就记为饥饿（下一场守军移动 −1）。",
+	"work": {
+		"seasons": 2,
+		"eat_per_person": 1,
+		"jobs": {
+			"farm": {"rice": 3},
+			"gather": {"materials": 2}
+		},
+		"build": {
+			"_note": "第一代扎栅栏（1 人 + 2 材料一段），第二代起筑石墙（2 人 + 2 材料一段），同一个墙位可以从栅栏升级成石墙（WORK-001 §3、§5）。门位和墙位同价。",
+			"1": {"type": "fence", "people": 1, "materials": 2},
+			"2": {"type": "stone", "people": 2, "materials": 2},
+			"3": {"type": "stone", "people": 2, "materials": 2}
+		},
+		"repair_hp_per_material": 3,
+		"train_types": {
+			"1": ["spearman", "crossbow", "craftsman"],
+			"2": ["spearman", "crossbow", "craftsman", "courier"],
+			"3": ["spearman", "crossbow", "craftsman", "courier"]
+		},
+		"phases": {
+			"_note": "这一代的第几个劳作阶段（算“还剩几季”用）。",
+			"after_battle_1": 1, "after_battle_2": 2, "after_battle_4": 1, "after_battle_5": 2, "after_battle_7": 1, "after_battle_8": 2
+		},
+		"phases_per_gen": 2,
+		"goals": {
+			"_note": "目标卡（WORK-001 §4）。walls / gates 数修好的墙位、门位（type 要求那一种或更好，每格 HP > 0；full 为 true 时要修满）；defenders 数名单上的人（含教学单位）。",
+			"1": {"text": "WORK_GOAL_1", "type": "fence", "walls": 6, "gates": 1, "defenders": 4, "full": false},
+			"2": {"text": "WORK_GOAL_2", "type": "stone", "walls": 7, "gates": 1, "defenders": 0, "full": false},
+			"3": {"text": "WORK_GOAL_3", "type": "stone", "walls": 8, "gates": 0, "defenders": 5, "full": true}
+		},
+		"granary_scenes": {"1": "EVT_granary_G1", "2": "EVT_granary_G2", "3": "EVT_granary_G3"}
+	}
+}

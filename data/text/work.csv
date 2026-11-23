@@ -1,0 +1,51 @@
+keys,zh
+WORK_GOAL_1,目标卡 · 组织义兵：训练 4 名义兵，扎好 6 段栅栏和栅栏门。
+WORK_GOAL_2,目标卡 · 约一年内筑完城墙：7 段石墙和城门。
+WORK_GOAL_3,目标卡 · 陆魁来犯之前：8 段城墙修满并保住，训练 5 名守军。
+WORK_PROGRESS,（墙 {walls}/{walls_need} · 门 {gates}/{gates_need} · 守军 {defenders}/{defenders_need}）
+WORK_GOAL_MET,已达成
+WORK_SEASON,第 {season}/{seasons} 季（这一代算上这一季还剩 {left} 季）
+WORK_RESOURCES,人口 {people} · 粮食 {rice} · 材料 {materials} · 空闲 {idle} 人
+WORK_HUNGRY,饥饿 {n}：下一场守军移动 −1
+WORK_JOB_farm,种田
+WORK_JOB_gather,采料
+WORK_JOB_build,修建
+WORK_JOB_train,训练
+WORK_NOTE_farm,每人粮食 +3
+WORK_NOTE_gather,每人材料 +2
+WORK_NOTE_build,每 {people} 人 + {materials} 材料修一段{type}（能修 {capacity}，已排 {queued}）
+WORK_NOTE_train,每人练成 1 名守军（点下面的兵种换）
+WORK_TYPE_none,空地
+WORK_TYPE_fence,栅栏
+WORK_TYPE_stone,石墙
+WORK_TYPE_gate_none,开口
+WORK_TYPE_gate_fence,栅栏门
+WORK_TYPE_gate_stone,城门
+WORK_SLOT,{slot} {type} {hp}
+WORK_SLOT_A1,北段
+WORK_SLOT_A2,中段
+WORK_SLOT_A3,南段
+WORK_SLOT_gate_A,门
+WORK_SLOT_B1,北段
+WORK_SLOT_B2,中段
+WORK_SLOT_B3,南段
+WORK_SLOT_gate_B,门
+WORK_SLOT_C1,北段
+WORK_SLOT_C2,中段
+WORK_SLOT_C3,南段
+WORK_SLOT_gate_C,门
+WORK_MAP_A,东海滩
+WORK_MAP_B,村道 / 南门
+WORK_MAP_C,滩涂
+WORK_PREVIEW,这一季结束后：粮食 {rice}，材料 {materials}，修好 {built} 段，训练 {trained} 人。
+WORK_PREVIEW_GRANARY,粮食不够，要开宗族义仓（每代一次）。
+WORK_PREVIEW_HUNGRY,粮食不够，会有 {n} 份饥饿。
+WORK_END_SEASON,结束这一季
+WORK_HINT,点城防图上的墙位：空地或废墟排进修建（要有修建的人），受损的墙直接修（只花材料）。
+WORK_CANNOT_BUILD,修不了：每段要 {people} 个修建的人和 {materials} 份材料。
+WORK_REPAIRED,修好了，花了 {cost} 份材料。
+WORK_CANNOT_REPAIR,材料不够：修这一段要 {cost} 份。
+WORK_REPORT,第 {season} 季结束：粮食变化 {rice}，材料变化 {materials}，修好 {built} 段，训练 {trained} 人。
+WORK_REPORT_HUNGRY,粮食不够吃，有 {hungry} 份饥饿：下一场守军移动 −1。
+WORK_GOAL_MET_REPORT,目标卡已达成。
+WORK_GOAL_NOT_MET_REPORT,目标卡还没达成，后面的仗会更难打。
