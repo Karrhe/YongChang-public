@@ -1,0 +1,104 @@
+keys,zh
+BAT_UNIT_hero,主角
+BAT_UNIT_spearman,枪兵
+BAT_UNIT_crossbow,弩手
+BAT_UNIT_craftsman,工匠
+BAT_UNIT_courier,信使
+BAT_UNIT_militia,民兵
+BAT_UNIT_reinforcement,援军
+BAT_UNIT_bonus,后生
+BAT_UNIT_elder2,长辈
+BAT_UNIT_qiao,峤叔
+BAT_UNIT_villager,乡亲
+BAT_UNIT_raider,海寇
+BAT_UNIT_axeman,斧手
+BAT_UNIT_archer_boat,弓箭船
+BAT_UNIT_chief,陆魁
+BAT_GLYPH_spearman,枪
+BAT_GLYPH_crossbow,弩
+BAT_GLYPH_craftsman,匠
+BAT_GLYPH_courier,信
+BAT_GLYPH_militia,民
+BAT_GLYPH_reinforcement,援
+BAT_GLYPH_bonus,后
+BAT_GLYPH_qiao,峤
+BAT_GLYPH_villager,乡
+BAT_GLYPH_raider,寇
+BAT_GLYPH_axeman,斧
+BAT_GLYPH_archer_boat,船
+BAT_GLYPH_chief,魁
+BAT_ROLE_elder,（长辈）
+BAT_ROLE_hero,（主角）
+BAT_ACT_attack,攻击
+BAT_ACT_repair,修墙
+BAT_ACT_barrier,搭障碍
+BAT_ACT_gate,开关门
+BAT_ACT_guide,引导
+BAT_ACT_beacon,点烽火
+BAT_ACT_inspire,鼓舞
+BAT_ACT_retreat,撤退
+BAT_ACT_wait,待命
+BAT_ACT_undo,撤销移动
+BAT_END_TURN,结束回合
+BAT_TIDE_low,低潮
+BAT_TIDE_rising,涨潮
+BAT_TIDE_high,高潮
+BAT_TIDE_falling,退潮
+BAT_STORM,风暴潮
+BAT_NIGHT,夜战
+BAT_TURN,第 {turn}/{turns} 回合
+BAT_VILLAGERS,已救 {saved} · 在外 {out} · 失去 {lost} · 目标 {goal}
+BAT_STATS,HP {hp}/{max} · 攻 {atk} · 移 {move} · 射程 {range}
+BAT_RANGE_NONE,—
+BAT_HUNGRY,饥饿：守军移动 −1
+BAT_DANGER,危险：海寇这一回合要打到 {damage} 点
+BAT_DONE,这一回合已经行动过了
+BAT_PICK_TARGET,选一个目标格子（右键取消）
+BAT_SELECT_HINT,点一个守军，再点要去的格子
+BAT_TERRAIN_field,田地
+BAT_TERRAIN_road,道路
+BAT_TERRAIN_house,民房
+BAT_TERRAIN_mud,滩涂（花 2 步，涨潮和高潮时淹没）
+BAT_TERRAIN_beach,海滩（船在这里靠岸）
+BAT_TERRAIN_sea,海
+BAT_TERRAIN_tower,敌台（受到的伤害 −1，弩手射程 +1）
+BAT_TERRAIN_safe,安全区（乡亲走进来就算获救）
+BAT_BEACON,烽火台（还没点）
+BAT_BEACON_LIT,烽火已点
+BAT_STRUCTURE,{type} HP {hp}/{max}
+BAT_GATE_OPEN,开着
+BAT_GATE_CLOSED,关着
+BAT_STRUCT_fence,栅栏
+BAT_STRUCT_stone,石墙
+BAT_STRUCT_gate_fence,栅栏门
+BAT_STRUCT_gate_stone,城门
+BAT_STRUCT_ruin,废墟
+BAT_BARRIER,障碍 HP {hp}
+BAT_INTENT_grab,要抓走{target}
+BAT_INTENT_attack,要攻击{target}，{damage} 点
+BAT_INTENT_shoot,要射{target}，{damage} 点
+BAT_INTENT_smash,要砸墙，{damage} 点
+BAT_INTENT_carry,抓着乡亲往海滩走，退潮时上船
+BAT_INTENT_none,这一回合够不到人
+BAT_INTENT_hidden,看不清他要做什么
+BAT_EVENT_landing,船靠岸了：{count} 个海寇上了海滩。
+BAT_EVENT_saved,{count} 位乡亲进了安全区。
+BAT_EVENT_lantern,失去了 {count} 个人。灯 +{count}。
+BAT_EVENT_reinforcements,烽火有了回应：援军从路上赶来了。
+BAT_EVENT_beacon,烽火点起来了，3 回合后援军会到。
+BAT_EVENT_retire,长辈重伤，撤了下去。
+BAT_EVENT_npc_down,峤叔倒下了。
+BAT_DEPLOY_TITLE,选出战的人（主角必出，还能选 {n} 个）
+BAT_DEPLOY_OK,出战
+BAT_HINT_SELECT,点一个守军选中他，再点高亮的格子移动。移动之后可以做一个动作。
+BAT_HINT_MOVE,走错了可以“撤销移动”，只要还没做动作。
+BAT_HINT_TIDE,左上角是潮汐条：低潮、涨潮、高潮、退潮。高潮那一回合，船会在海滩靠岸。
+BAT_HINT_VILLAGERS,乡亲自己往西边的宗祠走。守军站在旁边，他们走得更快。救够目标人数就算守住。
+BAT_HINT_INTENT,红色箭头是海寇这一回合要做的事。挡住他，或者先打倒他。
+BAT_HINT_END,所有人都安排好了，点“结束回合”。乡亲先走，然后海寇行动，最后潮水变化。
+BAT_HINT_WALLS,栅栏和门挡住海寇。工匠能修墙、搭障碍；门开着乡亲能进，海寇也能进。斧手专砸墙。
+BAT_HINT_BEACON,峤叔点起了烽火。3 回合后，邻村的后生会从路上赶来。涨潮时，滩涂上的人会被潮水推开。
+BAT_HINT_GUIDE,信使能引导旁边的乡亲多走 2 格，在烽火台上点烽火不占动作。
+BAT_HINT_BOAT,弓箭船停在海上，涨潮和高潮时射人。只有弩手打得到它。
+BAT_HINT_STORM,风暴潮：这一场没有低潮，滩涂几乎一直淹着。
+BAT_HINT_NIGHT,夜里看不清：离我方和敌台超过 2 格的海寇，只显示“？”。
