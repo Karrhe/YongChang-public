@@ -185,8 +185,14 @@ func _test_story_scene() -> void:
 	scene.finished.connect(func(r: Dictionary) -> void: result[0] = r)
 	add_child(scene)
 	_check("剧情画面播放 P1", scene.box.lines.size() == 3 and scene.box.lines[2].speaker == "峤叔")
-	_check("没有背景图时按代用整体色",
-		scene.background is ColorRect and scene.background.color == Color.html("#854c30"))
+	_check("P1 用宗祠背景图，按第一代调色",
+		scene.background is TextureRect and scene.background.modulate == Color.html("#fff0d8"))
+	var bare: Node = load("res://scenes/story/story.tscn").instantiate()
+	bare.setup({"scene_id": "NO_SUCH_SCENE", "key": "P1", "gen": 1})
+	add_child(bare)
+	_check("没配背景图的场景按代用整体色",
+		bare.background is ColorRect and bare.background.color == Color.html("#854c30"))
+	bare.queue_free()
 	for i in 6:
 		scene.box.advance()
 	_check("点完交回 finished({})", result[0] == {})

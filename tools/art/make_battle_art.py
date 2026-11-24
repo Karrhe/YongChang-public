@@ -498,12 +498,14 @@ def main(outdir):
     units = {k: unit(k) for k in UNITS}
     units["archer_boat"] = archer_boat()
     ui = ui_icons()
-    ui.update({"dialog_9patch": ninepatch("dialog"), "button_9patch": ninepatch("button"), "lantern_door": door_lantern()})
-    for name, col in [("lantern_villager", "A"), ("lantern_soldier", "R"), ("lantern_hero", "y")]:
-        ui[name] = lantern(col)
+    ui.update({"dialog_9patch": ninepatch("dialog"), "button_9patch": ninepatch("button")})
+    # Ending lanterns: names follow ending.json lantern.art (lantern_{group}.png) and go to ending/.
+    ending = {"lantern_door": door_lantern()}
+    for name, col in [("lantern_villager", "A"), ("lantern_defender", "R"), ("lantern_hero", "y")]:
+        ending[name] = lantern(col)
     ui["slash_0"], ui["slash_1"] = slash(0), slash(1)
     sheets = {}
-    for folder, items in (("tiles", tiles), ("units", units), ("ui", ui)):
+    for folder, items in (("tiles", tiles), ("units", units), ("ui", ui), ("ending", ending)):
         d = out / folder
         d.mkdir(parents=True, exist_ok=True)
         ims = []

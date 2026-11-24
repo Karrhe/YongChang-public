@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cgsxqhsoep1w5"
-path="res://.godot/imported/lantern_door.png-2833191c3cc435eb3229df09b71aa2bb.ctex"
+uid="uid://cawwbdn56avuu"
+path="res://.godot/imported/lantern_door.png-6bfceee568084fe45e0f0d53f52047a9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/art/ui/lantern_door.png"
-dest_files=["res://.godot/imported/lantern_door.png-2833191c3cc435eb3229df09b71aa2bb.ctex"]
+source_file="res://assets/art/ending/lantern_door.png"
+dest_files=["res://.godot/imported/lantern_door.png-6bfceee568084fe45e0f0d53f52047a9.ctex"]
 
 [params]
 

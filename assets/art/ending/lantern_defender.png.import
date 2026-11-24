@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ctb06prtkwonh"
-path="res://.godot/imported/lantern_hero.png-c38dd56fd0ffcbd58eb864b3280991d3.ctex"
+uid="uid://dbpoonaq015nv"
+path="res://.godot/imported/lantern_defender.png-bdd8ff1e7d60f73189d2bf3bd27076dc.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/art/ui/lantern_hero.png"
-dest_files=["res://.godot/imported/lantern_hero.png-c38dd56fd0ffcbd58eb864b3280991d3.ctex"]
+source_file="res://assets/art/ending/lantern_defender.png"
+dest_files=["res://.godot/imported/lantern_defender.png-bdd8ff1e7d60f73189d2bf3bd27076dc.ctex"]
 
 [params]
 

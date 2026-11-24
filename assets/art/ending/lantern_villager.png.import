@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cdj48hisrrull"
-path="res://.godot/imported/dragon_lantern.png-368b37677a7181dcfd369a03b4f8f631.ctex"
+uid="uid://ckkjq7rgdxu4f"
+path="res://.godot/imported/lantern_villager.png-af01cd583e5dc4a83a94feb4bd446d27.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/art/ending/dragon_lantern.png"
-dest_files=["res://.godot/imported/dragon_lantern.png-368b37677a7181dcfd369a03b4f8f631.ctex"]
+source_file="res://assets/art/ending/lantern_villager.png"
+dest_files=["res://.godot/imported/lantern_villager.png-af01cd583e5dc4a83a94feb4bd446d27.ctex"]
 
 [params]
 
