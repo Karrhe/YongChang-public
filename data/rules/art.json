@@ -1,0 +1,67 @@
+{
+	"art": {
+		"tiles": [
+			"field",
+			"road",
+			"house",
+			"mud",
+			"mud_flooded",
+			"beach",
+			"sea",
+			"sea_2",
+			"fence",
+			"fence_cracked",
+			"fence_ruin",
+			"stone",
+			"stone_cracked",
+			"stone_ruin",
+			"fence_gate_closed",
+			"fence_gate_open",
+			"stone_gate_closed",
+			"stone_gate_open",
+			"tower",
+			"watchtower",
+			"beacon",
+			"beacon_lit",
+			"beacon_lit_2",
+			"ancestral_hall",
+			"safe",
+			"barrier"
+		],
+		"units": [
+			"hero",
+			"hero_2",
+			"hero_3",
+			"companion",
+			"companion_2",
+			"companion_3",
+			"spearman",
+			"crossbow",
+			"craftsman",
+			"courier",
+			"elder2",
+			"militia",
+			"villager",
+			"villager_2",
+			"raider",
+			"axeman",
+			"chief",
+			"archer_boat",
+			"qiao"
+		],
+		"tile_frames": {
+			"sea": [
+				"sea",
+				"sea_2"
+			],
+			"beacon_lit": [
+				"beacon_lit",
+				"beacon_lit_2"
+			]
+		},
+		"unit_aliases": {
+			"reinforcement": "spearman",
+			"bonus": "militia"
+		}
+	}
+}
