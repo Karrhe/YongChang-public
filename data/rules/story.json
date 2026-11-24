@@ -29,9 +29,10 @@
 				"王叔杲": "wang_shugao"
 			}
 		},
+		"props": {"_note": "剧情场景左上角显示的道具小图（32×32，放大 scale 倍，ART-001 §3.4）。对应是 Claude 按剧本内容定的，待负责人审。", "dir": "res://assets/art/props/", "scale": 2, "by_scene": {"G1-1": "rice", "G1-2": "spear", "G1-3": "clothes_red_cloth", "G1-5": "stove_bowl", "G1-6": "stove_bowl", "T1": "stone_hammer", "G2-1": "swaddle", "G2-2": "stone_hammer", "G2-4": "grain_ledger", "G2-6": "swaddle", "T2": "stone_hammer", "G3-1": "fishing_net", "G3-2": "fishing_net", "G3-4": "grain_ledger", "G3-5": "rice"}},
 		"backgrounds": {
 			"_note": "流程节点 ID → 背景 ID，图在 dir/<ID>.png（640×360）。G1-2 同时管 G1-2_A、G1-2_B。四张背景（ART-001 §3.4）：home 家、site 工地和城墙、hall 宗祠内、river 河边。没配或还没有图时，按代用整体色 gen_colors（0 = 结局）。",
-			"dir": "res://assets/art/bg/",
+			"dir": "res://assets/art/bg/", "naming": "site", "naming_tint": "#505058",
 			"by_scene": {"P1": "hall", "G1-1": "home", "G1-2": "home", "G1-3": "home", "G1-4": "home", "G1-5": "home", "G1-6": "hall", "T1": "site", "G2-1": "site", "G2-2": "site", "G2-3": "home", "G2-4": "hall", "G2-5": "site", "G2-6": "site", "T2": "site", "G3-1": "site", "G3-2": "site", "G3-3": "site", "G3-4": "hall", "G3-5": "home"},
 			"_tint_note": "gen_tints：按代整体调色（第一代偏暖、第二代偏灰、第三代偏冷，ART-001 §1）；night_scenes：夜里的场景再乘这个颜色。",
 			"gen_tints": {"1": "#fff0d8", "2": "#e0e0e0", "3": "#c8d4f0"},
@@ -40,6 +41,7 @@
 		},
 		"box": {
 			"_note": "对话框，按 640×360 排。backlog = 回看。",
+			"frame": "res://assets/art/ui/dialog_9patch.png",
 			"height": 92,
 			"margin": 8,
 			"padding": 8,

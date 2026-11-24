@@ -53,8 +53,11 @@ func _draw() -> void:
 		for x in s.width:
 			_draw_cell(s, Vector2i(x, y), font, fs)
 	# 高亮：能走的格子、能选的目标、选中的单位。
+	var move_mark := _tex("ui_dir", "move_mark")
 	for p: Vector2i in view.move_cells:
 		draw_rect(_rect(p), _c("highlight_move"))
+		if move_mark != null:
+			draw_texture_rect(move_mark, _rect(p), false)
 	for p: Vector2i in view.target_cells:
 		draw_rect(_rect(p).grow(-1), _c("highlight_target"), false, 2.0)
 	# 单位。
@@ -62,8 +65,17 @@ func _draw() -> void:
 		if s.on_map(u):
 			_draw_unit(s, u, font, fs)
 	if not view.selected.is_empty() and s.on_map(view.selected):
-		draw_rect(_rect(view.selected.pos).grow(-1), _c("highlight_select"), false, 2.0)
+		var cursor := _tex("ui_dir", "cursor")
+		if cursor != null:
+			draw_texture_rect(cursor, _rect(view.selected.pos), false)
+		else:
+			draw_rect(_rect(view.selected.pos).grow(-1), _c("highlight_select"), false, 2.0)
 	_draw_intents(s, font, fs)
+	# 斩击效果：被打到的格子上画 8×8 的斩击（放大 2 倍），两帧随闪烁切换。
+	var slash := _tex("ui_dir", "slash_%d" % (1 if view.blink else 0))
+	if slash != null:
+		for p: Vector2i in s.hits:
+			draw_texture_rect(slash, Rect2(_rect(p).position + Vector2(cell / 4, cell / 4), Vector2(cell / 2, cell / 2)), false)
 
 
 func _rect(p: Vector2i) -> Rect2:
@@ -158,7 +170,11 @@ func _draw_intents(s: BattleState, font: Font, fs: int) -> void:
 			continue
 		var top := _rect(e.pos).position
 		if plan.hidden:
-			draw_string(font, top + Vector2(cell - 9, fs), "?", HORIZONTAL_ALIGNMENT_LEFT, -1, fs, color)
+			var unknown := _tex("ui_dir", "intent_unknown")
+			if unknown != null:
+				draw_texture_rect(unknown, Rect2(top + Vector2(cell / 2, 0), Vector2(cell / 2, cell / 2)), false)
+			else:
+				draw_string(font, top + Vector2(cell - 9, fs), "?", HORIZONTAL_ALIGNMENT_LEFT, -1, fs, color)
 			continue
 		var points := PackedVector2Array([_center(e.pos)])
 		for p: Vector2i in plan.path:
@@ -167,9 +183,13 @@ func _draw_intents(s: BattleState, font: Font, fs: int) -> void:
 			draw_polyline(points, color, 2.0)
 			draw_circle(points[-1], 3.0, color)
 		if plan.act in ["grab", "attack", "shoot", "smash"] and plan.target != BattleState.NOWHERE:
-			var t := _rect(plan.target).grow(-9)
-			draw_line(t.position, t.end, color, 2.0)
-			draw_line(Vector2(t.end.x, t.position.y), Vector2(t.position.x, t.end.y), color, 2.0)
+			var mark := _tex("ui_dir", "target_mark")
+			if mark != null:
+				draw_texture_rect(mark, _rect(plan.target).grow(-6), false)
+			else:
+				var t := _rect(plan.target).grow(-9)
+				draw_line(t.position, t.end, color, 2.0)
+				draw_line(Vector2(t.end.x, t.position.y), Vector2(t.position.x, t.end.y), color, 2.0)
 
 
 func _center(p: Vector2i) -> Vector2:

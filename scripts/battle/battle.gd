@@ -22,6 +22,7 @@ var box: DialogueBox
 var turn_label: Label
 var villager_label: Label
 var tide_bar: HBoxContainer
+var _hit_clock := 0.0
 var unit_title: Label
 var unit_stats: Label
 var unit_note: Label
@@ -51,6 +52,13 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	_clock += delta
+	# 斩击效果只停一会儿（ART-001 §3.2：8×8，2 帧）。
+	if state != null and not state.hits.is_empty():
+		_hit_clock += delta
+		if _hit_clock > 0.45:
+			state.hits.clear()
+			_hit_clock = 0.0
+		board.queue_redraw()
 	var now := fmod(_clock, 0.8) < 0.5
 	if now != blink:
 		blink = now
@@ -251,14 +259,32 @@ func _refresh_tide() -> void:
 			style.set_border_width_all(2)
 		style.set_content_margin_all(2)
 		panel.add_theme_stylebox_override("panel", style)
+		var row := HBoxContainer.new()
+		row.add_theme_constant_override("separation", 2)
+		var icon_path := "%stide_%s.png" % [String(Rules.get_value("battle.view.sprites.ui_dir", "")),
+			String(Rules.get_value("battle.view.sprites.tide_icons", {}).get(t, t))]
+		if ResourceLoader.exists(icon_path):
+			var icon := TextureRect.new()
+			icon.texture = load(icon_path)
+			icon.custom_minimum_size = Vector2(16, 16)
+			icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+			row.add_child(icon)
 		var label := Label.new()
 		label.text = Game.text("BAT_TIDE_" + t)
 		label.add_theme_font_size_override("font_size", _fs())
-		label.custom_minimum_size = Vector2(36, 0)
+		label.custom_minimum_size = Vector2(28, 0)
 		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		panel.add_child(label)
+		row.add_child(label)
+		panel.add_child(row)
 		tide_bar.add_child(panel)
 	if storm:
+		var storm_path := String(Rules.get_value("battle.view.sprites.ui_dir", "")) + "tide_storm.png"
+		if ResourceLoader.exists(storm_path):
+			var storm_icon := TextureRect.new()
+			storm_icon.texture = load(storm_path)
+			storm_icon.custom_minimum_size = Vector2(16, 16)
+			storm_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+			tide_bar.add_child(storm_icon)
 		var tag := Label.new()
 		tag.text = Game.text("BAT_STORM")
 		tag.add_theme_font_size_override("font_size", _fs())

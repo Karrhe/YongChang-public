@@ -22,6 +22,7 @@ func _ready() -> void:
 	background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	background.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(background)
+	_add_prop()
 	box = DIALOGUE_BOX.instantiate()
 	add_child(box)
 	box.done.connect(func() -> void: finished.emit({}), CONNECT_ONE_SHOT)
@@ -53,3 +54,20 @@ func _make_background() -> Control:
 	var block := ColorRect.new()
 	block.color = Color.html(String(cfg.get("gen_colors", {}).get(str(input.get("gen", 0)), "#000000")))
 	return block
+
+
+## 道具小图（story.json 的 props）：画在左上角（右上角是“回看”按钮）。
+func _add_prop() -> void:
+	var cfg: Dictionary = Rules.get_value("story.props", {})
+	var prop_id: String = cfg.get("by_scene", {}).get(input.get("scene_id", ""), "")
+	var path := "%s%s.png" % [cfg.get("dir", ""), prop_id]
+	if prop_id == "" or not ResourceLoader.exists(path):
+		return
+	var prop := TextureRect.new()
+	prop.texture = load(path)
+	prop.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	var side := 32.0 * float(cfg.get("scale", 2))
+	prop.size = Vector2(side, side)
+	prop.position = Vector2(12, 12)
+	prop.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(prop)

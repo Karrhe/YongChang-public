@@ -1,6 +1,7 @@
 {
 	"_note": "劳作（WORK，负责人维护）。规则见 WORK-001：每个劳作阶段 2 个季节；每季把人分到种田、采料、修建、训练；季末每人吃 1 份粮；修墙不占人手只花材料（每格每 3 点 HP 1 材料，不足 3 点向上取整，ISSUE-001 WORK-06 临时做法）；废墟按修建的价格重建；粮不够时每代一次开宗族义仓补到 0，之后再不够就记为饥饿（下一场守军移动 −1）。",
 	"work": {
+		"view": {"_note": "劳作画面的美术：工地背景压暗当底；资源一行前面放人口、粮食、材料三个图标（顺序和 WORK_RESOURCES 一致）。", "background": "res://assets/art/bg/site.png", "background_tint": "#505058", "resource_icons": ["res_people", "res_grain", "res_material"]},
 		"seasons": 2,
 		"eat_per_person": 1,
 		"jobs": {

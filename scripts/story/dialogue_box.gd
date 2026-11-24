@@ -238,7 +238,19 @@ func _font_size() -> int:
 	return int(_box("font_size", 12))
 
 
-func _style(fill: Color) -> StyleBoxFlat:
+func _style(fill: Color) -> StyleBox:
+	# 有对话框九宫格图（ART-001 §3.3）就用图，底色仍按 fill（回看半透明）。
+	var frame := String(_box("frame", ""))
+	if frame != "" and ResourceLoader.exists(frame):
+		var tex := StyleBoxTexture.new()
+		tex.texture = load(frame)
+		tex.texture_margin_left = 4
+		tex.texture_margin_top = 4
+		tex.texture_margin_right = 4
+		tex.texture_margin_bottom = 4
+		tex.modulate_color = Color(1, 1, 1, fill.a)
+		tex.set_content_margin_all(float(_box("padding", 8)))
+		return tex
 	var style := StyleBoxFlat.new()
 	style.bg_color = fill
 	style.border_color = _color("border")

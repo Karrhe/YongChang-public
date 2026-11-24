@@ -7,6 +7,7 @@ extends Control
 
 signal finished(result: Dictionary)
 
+var hammer_icon: TextureRect
 var input: Dictionary = {}
 var result: Dictionary = {}
 ## "name" 或 "hammer"。
@@ -28,6 +29,16 @@ func _ready() -> void:
 	bg.color = Color.html(String(Rules.get_value("story.backgrounds.gen_colors", {}).get(str(input.get("gen", 0)), "#000000")))
 	bg.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(bg)
+	var bg_cfg: Dictionary = Rules.get_value("story.backgrounds", {})
+	var bg_path := "%s%s.png" % [bg_cfg.get("dir", ""), bg_cfg.get("naming", "")]
+	if String(bg_cfg.get("naming", "")) != "" and ResourceLoader.exists(bg_path):
+		var art := TextureRect.new()
+		art.texture = load(bg_path)
+		art.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		art.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+		art.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		art.modulate = Color.html(String(bg_cfg.get("naming_tint", "#ffffff")))
+		add_child(art)
 	var holder := CenterContainer.new()
 	holder.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(holder)
@@ -44,6 +55,16 @@ func _ready() -> void:
 	column.add_theme_constant_override("separation", 8)
 	panel.add_child(column)
 
+	# 石锤（三代信物）：刻字那一步显示在上面。
+	hammer_icon = TextureRect.new()
+	var hammer_path := String(Rules.get_value("story.props.dir", "")) + "stone_hammer.png"
+	if ResourceLoader.exists(hammer_path):
+		hammer_icon.texture = load(hammer_path)
+	hammer_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	hammer_icon.custom_minimum_size = Vector2(64, 64)
+	hammer_icon.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	hammer_icon.visible = false
+	column.add_child(hammer_icon)
 	prompt = _label(column, _color("text"))
 	prompt.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	edit = LineEdit.new()
@@ -75,6 +96,7 @@ func _show_name_step() -> void:
 
 func _show_hammer_step() -> void:
 	step = "hammer"
+	hammer_icon.visible = hammer_icon.texture != null
 	prompt.text = Game.text("NAMING_HAMMER_PROMPT")
 	edit.text = ""
 	edit.max_length = int(input.get("hammer_max_chars", 12))

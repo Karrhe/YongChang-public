@@ -51,6 +51,8 @@ var seen_hints: Array = []
 var intents: Array[Dictionary] = []
 ## 发生过的事，界面取走后清空：{"kind": "hero_death" | "landing" | "lantern" | "saved" | "beacon" | "reinforcements" | "retire" | "end", ...}。
 var events: Array[Dictionary] = []
+## 这一下被打到的格子（画斩击效果用），界面画完后清空。
+var hits: Array[Vector2i] = []
 
 
 # ---------- 开始 ----------
@@ -449,6 +451,8 @@ func damage_to_structure(attacker: Dictionary) -> int:
 func _hurt(u: Dictionary, amount: int) -> void:
 	if amount <= 0 or not u.alive:
 		return
+	if u.pos != NOWHERE:
+		hits.append(u.pos)
 	u.hp = int(u.hp) - amount
 	if int(u.hp) <= 0:
 		u.hp = 0

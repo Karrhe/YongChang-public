@@ -64,6 +64,16 @@ func _build() -> void:
 	bg.color = Color.html(String(Rules.get_value("story.backgrounds.gen_colors", {}).get(str(state.gen), "#140c1c"))).darkened(0.5)
 	bg.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(bg)
+	# 劳作画面用工地背景，压暗了当底（没有图时只有上面的纯色）。
+	var bg_path := String(Rules.get_value("work.view.background", ""))
+	if bg_path != "" and ResourceLoader.exists(bg_path):
+		var art := TextureRect.new()
+		art.texture = load(bg_path)
+		art.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		art.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+		art.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		art.modulate = Color.html(String(Rules.get_value("work.view.background_tint", "#404040")))
+		add_child(art)
 	var root := VBoxContainer.new()
 	root.position = Vector2(8, 6)
 	root.size = Vector2(624, 348)
@@ -71,7 +81,18 @@ func _build() -> void:
 	add_child(root)
 	goal_label = _label(root, "#dad45e", 624)
 	season_label = _label(root)
-	resource_label = _label(root)
+	var res_row := HBoxContainer.new()
+	res_row.add_theme_constant_override("separation", 2)
+	root.add_child(res_row)
+	for icon_name: String in Rules.get_value("work.view.resource_icons", []):
+		var path := "res://assets/art/ui/%s.png" % icon_name
+		if ResourceLoader.exists(path):
+			var icon := TextureRect.new()
+			icon.texture = load(path)
+			icon.custom_minimum_size = Vector2(16, 16)
+			icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+			res_row.add_child(icon)
+	resource_label = _label(res_row)
 	var row := HBoxContainer.new()
 	row.add_theme_constant_override("separation", 10)
 	row.size_flags_vertical = Control.SIZE_EXPAND_FILL
