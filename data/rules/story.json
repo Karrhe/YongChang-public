@@ -32,7 +32,10 @@
 		"backgrounds": {
 			"_note": "流程节点 ID → 背景 ID，图在 dir/<ID>.png（640×360）。G1-2 同时管 G1-2_A、G1-2_B。四张背景（ART-001 §3.4）：home 家、site 工地和城墙、hall 宗祠内、river 河边。没配或还没有图时，按代用整体色 gen_colors（0 = 结局）。",
 			"dir": "res://assets/art/bg/",
-			"by_scene": {},
+			"by_scene": {"P1": "hall", "G1-1": "home", "G1-2": "home", "G1-3": "home", "G1-4": "home", "G1-5": "home", "G1-6": "hall", "T1": "site", "G2-1": "site", "G2-2": "site", "G2-3": "home", "G2-4": "hall", "G2-5": "site", "G2-6": "site", "T2": "site", "G3-1": "site", "G3-2": "site", "G3-3": "site", "G3-4": "hall", "G3-5": "home"},
+			"_tint_note": "gen_tints：按代整体调色（第一代偏暖、第二代偏灰、第三代偏冷，ART-001 §1）；night_scenes：夜里的场景再乘这个颜色。",
+			"gen_tints": {"1": "#fff0d8", "2": "#e0e0e0", "3": "#c8d4f0"},
+			"night_scenes": {"G1-5": "#6070b0", "G1-6": "#8890c0", "G2-5": "#7080a0", "G3-3": "#5060a0"},
 			"gen_colors": {"0": "#140c1c", "1": "#854c30", "2": "#4e4a4e", "3": "#30346d"}
 		},
 		"box": {

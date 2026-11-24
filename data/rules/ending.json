@@ -39,11 +39,12 @@
 		"dragon": {
 			"_note": "E6 的拼字龙灯：一张插图（ART-001 §3.5）。没有图时画五色色块，上面写“天下太平”。",
 			"art": "res://assets/art/ending/dragon.png",
-			"size": [320, 96],
+			"size": [320, 180],
 			"colors": ["#d04648", "#dad45e", "#6daa2c", "#597dce", "#deeed6"],
 			"text": "END_DRAGON"
 		},
 		"final_text": "END_FINAL",
+		"bg_art": {"_note": "步骤的 bg 有图时用图（乘 tint 调成夜色），没有图时用 colors 里的颜色。", "river": {"art": "res://assets/art/bg/river.png", "tint": "#5868a8"}},
 		"colors": {
 			"night": "#140c1c",
 			"river": "#30346d",

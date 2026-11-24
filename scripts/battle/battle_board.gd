@@ -1,6 +1,6 @@
 extends Control
 ## 战斗地图（BAT）：画地形、墙、单位、高亮和海寇的意图；把点击和悬停交给战斗画面。
-## 还没有美术时画色块和一个字（CLAUDE.md 美术）。颜色在 battle.json 的 view。
+## 有美术图就画图（battle.json 的 view.sprites），没有图时画色块和一个字（CLAUDE.md 美术）。
 
 signal cell_clicked(cell: Vector2i, button: int)
 signal cell_hovered(cell: Vector2i)
@@ -8,6 +8,7 @@ signal cell_hovered(cell: Vector2i)
 var view: Node  # 战斗画面（battle.gd）
 var cell := 32
 var _hover := Vector2i(-1, -1)
+var _tex_cache := {}
 
 
 func _ready() -> void:
@@ -73,13 +74,20 @@ func _draw_cell(s: BattleState, p: Vector2i, font: Font, fs: int) -> void:
 	var name := s.terrain_name(p)
 	if name == "mud" and s.is_flooded(p):
 		name = "mud_flooded"
-	draw_rect(_rect(p), Color.html(String(_v("terrain_colors", {}).get(name, "#000000"))))
+	var tile := _tile_tex(s, name)
+	if tile != null:
+		draw_texture_rect(tile, _rect(p), false)
+	else:
+		draw_rect(_rect(p), Color.html(String(_v("terrain_colors", {}).get(name, "#000000"))))
 	draw_rect(_rect(p), Color(0, 0, 0, 0.15), false, 1.0)
 	if s.structures.has(p):
 		var st: Dictionary = s.structures[p]
 		var colors: Dictionary = _v("structure_colors", {})
 		var r := _rect(p).grow(-3)
-		if int(st.hp) <= 0:
+		var st_tex := _structure_tex(st)
+		if st_tex != null:
+			draw_texture_rect(st_tex, _rect(p), false)
+		elif int(st.hp) <= 0:
 			draw_rect(r, Color.html(String(colors.ruin)), false, 2.0)
 			draw_line(r.position, r.end, Color.html(String(colors.ruin)), 2.0)
 		elif st.kind == "gate" and st.open:
@@ -89,10 +97,20 @@ func _draw_cell(s: BattleState, p: Vector2i, font: Font, fs: int) -> void:
 		if int(st.hp) > 0:
 			draw_string(font, r.position + Vector2(1, fs), str(st.hp), HORIZONTAL_ALIGNMENT_LEFT, -1, fs - 2, _c("dark_text"))
 	if s.barriers.has(p):
-		draw_rect(_rect(p).grow(-6), Color.html(String(_v("structure_colors", {}).barrier)))
+		var bar := _tex("tiles_dir", "barrier")
+		if bar != null:
+			draw_texture_rect(bar, _rect(p), false)
+		else:
+			draw_rect(_rect(p).grow(-6), Color.html(String(_v("structure_colors", {}).barrier)))
 	if s.beacons.has(p):
 		var lit := int(s.beacons[p]) > 0
-		draw_circle(_rect(p).position + Vector2(cell - 7, 7), 4.0, Color.html("#d27d2c") if lit else Color.html("#757161"))
+		var frame := ("beacon_lit_%d" % (1 if view.blink else 0)) if lit else "beacon_unlit"
+		var bt := _tex("tiles_dir", frame)
+		if bt != null:
+			# 烽火画在格子右上角，原大小（16×16），不挡住下面的敌台。
+			draw_texture_rect(bt, Rect2(_rect(p).position + Vector2(cell / 2, 0), Vector2(cell / 2, cell / 2)), false)
+		else:
+			draw_circle(_rect(p).position + Vector2(cell - 7, 7), 4.0, Color.html("#d27d2c") if lit else Color.html("#757161"))
 
 
 func _draw_unit(s: BattleState, u: Dictionary, font: Font, fs: int) -> void:
@@ -102,13 +120,29 @@ func _draw_unit(s: BattleState, u: Dictionary, font: Font, fs: int) -> void:
 		color = color.darkened(0.45)
 	if u.side == "ally" and s.threat_to(int(u.uid)) >= int(u.hp) and view.blink:
 		color = _c("danger_color")
-	draw_rect(r, color)
-	if u.role in ["hero", "elder"]:
-		draw_rect(r, _c("highlight_select"), false, 1.0)
-	var glyph: String = view.glyph(u)
-	var dark: bool = u.side == "villager"
-	draw_string(font, r.position + Vector2(0, r.size.y / 2 + fs / 2 - 1), glyph, HORIZONTAL_ALIGNMENT_CENTER, r.size.x, fs,
-		_c("dark_text") if dark else _c("text_color"))
+	var sprite := _unit_tex(u)
+	if sprite != null:
+		# 行动过的单位变暗；快被打死时闪红（和色块一样的含义）。
+		var tint := Color.WHITE
+		if u.side == "ally" and u.acted:
+			tint = Color(0.55, 0.55, 0.55)
+		if u.side == "ally" and s.threat_to(int(u.uid)) >= int(u.hp) and view.blink:
+			tint = _c("danger_color").lightened(0.3)
+		var size := Vector2(sprite.get_width(), sprite.get_height()) * (cell / 16.0)
+		if size.x > cell:
+			size = Vector2(sprite.get_width(), sprite.get_height())  # 弓箭船 32×16：按原大小画
+		var at := _rect(u.pos).position + (Vector2(cell, cell) - size) / 2.0
+		draw_texture_rect(sprite, Rect2(at, size), false, tint)
+		if u.role in ["hero", "elder"]:
+			draw_rect(_rect(u.pos).grow(-1), _c("highlight_select"), false, 1.0)
+	else:
+		draw_rect(r, color)
+		if u.role in ["hero", "elder"]:
+			draw_rect(r, _c("highlight_select"), false, 1.0)
+		var glyph: String = view.glyph(u)
+		var dark: bool = u.side == "villager"
+		draw_string(font, r.position + Vector2(0, r.size.y / 2 + fs / 2 - 1), glyph, HORIZONTAL_ALIGNMENT_CENTER, r.size.x, fs,
+			_c("dark_text") if dark else _c("text_color"))
 	# 血量：右下角的小字。
 	draw_string(font, _rect(u.pos).position + Vector2(cell - 11, cell - 1), str(u.hp), HORIZONTAL_ALIGNMENT_LEFT, -1, fs - 3,
 		_c("text_color"))
@@ -140,3 +174,45 @@ func _draw_intents(s: BattleState, font: Font, fs: int) -> void:
 
 func _center(p: Vector2i) -> Vector2:
 	return _rect(p).get_center()
+
+
+# ---------- 美术图 ----------
+
+func _tex(dir_key: String, file: String) -> Texture2D:
+	var path := "%s%s.png" % [String(_v("sprites." + dir_key, "")), file]
+	if not _tex_cache.has(path):
+		_tex_cache[path] = load(path) if file != "" and ResourceLoader.exists(path) else null
+	return _tex_cache[path]
+
+
+## “甲|乙”：pick_second 为真时用乙。
+static func _pick(spec: String, pick_second: bool) -> String:
+	var parts := spec.split("|")
+	return parts[1] if pick_second and parts.size() > 1 else parts[0]
+
+
+func _tile_tex(s: BattleState, terrain: String) -> Texture2D:
+	var spec := String(_v("sprites.tiles", {}).get(terrain, ""))
+	var file := _pick(spec, s.gen == 1).replace("{frame}", "1" if view.blink else "0")
+	return _tex("tiles_dir", file)
+
+
+func _structure_tex(st: Dictionary) -> Texture2D:
+	var kind := String(st.type)  # fence | stone
+	if int(st.hp) <= 0:
+		return _tex("tiles_dir", ("fence" if kind == "fence" else "stone_wall") + "_ruin")
+	if st.kind == "gate":
+		return _tex("tiles_dir", "gate_%s_%s" % [kind, "open" if st.open else "closed"])
+	var state := "intact" if int(st.hp) >= int(st.max) else "cracked"
+	return _tex("tiles_dir", ("fence" if kind == "fence" else "stone_wall") + "_" + state)
+
+
+func _unit_tex(u: Dictionary) -> Texture2D:
+	if u.role == "elder":
+		return _tex("units_dir", String(_v("sprites.units", {}).get("elder", "")))
+	if not u.hero.is_empty():
+		var list: Array = _v("sprites.heroes", {}).get(String(u.hero.role), [])
+		var g := int(u.hero.gen) - 1
+		return _tex("units_dir", String(list[g]) if g >= 0 and g < list.size() else "")
+	var spec := String(_v("sprites.units", {}).get(String(u.type), ""))
+	return _tex("units_dir", _pick(spec, int(u.uid) % 2 == 1))

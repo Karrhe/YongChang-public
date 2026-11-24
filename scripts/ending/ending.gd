@@ -15,6 +15,7 @@ var input: Dictionary = {}
 var save: SaveData
 var box: DialogueBox
 var background: ColorRect
+var background_art: TextureRect
 ## 灯、牌子、龙灯放在这一层，每一步开始时清空。
 var layer: Control
 ## 现在是 steps 里的第几步。
@@ -38,6 +39,12 @@ func _ready() -> void:
 	background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	background.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(background)
+	background_art = TextureRect.new()
+	background_art.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	background_art.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	background_art.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	background_art.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(background_art)
 	layer = Control.new()
 	layer.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -53,6 +60,7 @@ func _run() -> void:
 		step_index = i
 		var step: Dictionary = steps[i]
 		background.color = _color(step.get("bg", "night"))
+		_show_bg_art(String(step.get("bg", "night")))
 		for child in layer.get_children():
 			child.queue_free()
 		match step.type:
@@ -211,6 +219,18 @@ func _launch_lantern(group: Dictionary, lantern_name: String, order: int, rng: R
 
 
 ## 一盏灯：有图用图，没有图画同样大小的色块（CLAUDE.md 美术）。
+## 步骤背景有图（ending.json 的 bg_art）就铺图并调色，否则只留纯色。
+func _show_bg_art(bg: String) -> void:
+	var art_cfg: Dictionary = _cfg("bg_art", {}).get(bg, {})
+	var path := String(art_cfg.get("art", ""))
+	if path != "" and ResourceLoader.exists(path):
+		background_art.texture = load(path)
+		background_art.modulate = Color.html(String(art_cfg.get("tint", "#ffffff")))
+		background_art.visible = true
+	else:
+		background_art.visible = false
+
+
 func _lantern(group: String, color: Color) -> Control:
 	var side := float(_cfg("lantern.size", 8)) * float(_cfg("lantern.scale", 2))
 	var path := String(_cfg("lantern.art", "")).replace("{group}", group)

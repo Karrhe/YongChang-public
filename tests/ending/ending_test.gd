@@ -121,7 +121,7 @@ func _test_full_run(save: SaveData, label: String) -> void:
 		var type: String = steps[ending.step_index].type
 		if type == "lanterns":
 			var lanterns := ending.layer.get_children().filter(
-				func(n: Node) -> bool: return n is ColorRect and not n.is_queued_for_deletion())
+				func(n: Node) -> bool: return (n is ColorRect or n is TextureRect) and not n.is_queued_for_deletion())
 			most_lanterns = maxi(most_lanterns, lanterns.size())
 			if ending.box.playing and not ending.box.lines.is_empty():
 				var text: String = ending.box.lines[0].text

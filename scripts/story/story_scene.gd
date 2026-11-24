@@ -43,6 +43,12 @@ func _make_background() -> Control:
 		tex.texture = load(path)
 		tex.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		tex.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+		# 三代的氛围用整体调色，不重画（ART-001 §1）：按代乘一个颜色；夜里的场景再乘一层。
+		var tint := Color.html(String(cfg.get("gen_tints", {}).get(str(input.get("gen", 0)), "#ffffff")))
+		var night_tint: String = cfg.get("night_scenes", {}).get(input.get("scene_id", ""), "")
+		if night_tint != "":
+			tint *= Color.html(night_tint)
+		tex.modulate = tint
 		return tex
 	var block := ColorRect.new()
 	block.color = Color.html(String(cfg.get("gen_colors", {}).get(str(input.get("gen", 0)), "#000000")))
