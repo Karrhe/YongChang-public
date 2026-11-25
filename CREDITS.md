@@ -8,3 +8,4 @@
 | 素材 | 用在哪里 | 作者 | 来源链接 | 协议 | 是否修改 |
 |---|---|---|---|---|---|
 | `icon.svg` | 工程图标（Godot 默认图标，之后替换） | Andrea Calabró（Godot 标志） | https://godotengine.org/press/ | CC BY 4.0 | 否 |
+| `assets/fonts/fusion-pixel-12px-proportional-zh_hans.otf.woff2` | 全游戏的中文像素字体（12 px） | TakWolf（含 Ark Pixel、Cubic 11、Galmuri 的字形） | https://github.com/TakWolf/fusion-pixel-font （v2026.11.10） | SIL OFL 1.1（许可证原文在 `assets/fonts/*-OFL.txt`、`galmuri-LICENSE.txt`） | 否 |

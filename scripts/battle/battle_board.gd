@@ -47,7 +47,7 @@ func _draw() -> void:
 	var s: BattleState = view.state if view != null else null
 	if s == null:
 		return
-	var font := ThemeDB.fallback_font
+	var font := get_theme_default_font()
 	var fs := int(Rules.get_value("story.box.font_size", 12))
 	for y in s.height:
 		for x in s.width:
