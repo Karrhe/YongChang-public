@@ -3,7 +3,7 @@
 	"work": {
 		"view": {"_note": "劳作画面的美术：工地背景压暗当底；资源一行前面放人口、粮食、材料三个图标（顺序和 WORK_RESOURCES 一致）。", "background": "res://assets/art/bg/site.png", "background_tint": "#505058", "resource_icons": ["res_people", "res_grain", "res_material"]},
 		"seasons": 2,
-		"eat_per_person": 1,
+		"eat_per_person": 2,
 		"jobs": {
 			"farm": {"rice": 3},
 			"gather": {"materials": 2}

@@ -1,0 +1,16 @@
+{
+	"audio": {
+		"_note": "音效（ART/AUD）：事件名 → 文件，文件在 dir。由 tools/audio/make_sfx.py 合成，原创，CC BY 4.0。",
+		"dir": "res://assets/audio/",
+		"volume_db": -6.0,
+		"voices": 4,
+		"events": {
+			"gong": "gong.wav",
+			"tide": "tide.wav",
+			"hit": "hit.wav",
+			"repair": "repair.wav",
+			"beacon": "beacon.wav",
+			"lantern": "lantern.wav"
+		}
+	}
+}

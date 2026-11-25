@@ -43,7 +43,8 @@ func _test_jobs() -> void:
 	_check("点一下换兵种", s.train_types[1] == "crossbow")
 	_check("第一代不能练信使", not "courier" in Rules.get_value("work.train_types.1", []))
 	var report := s.end_season()
-	_check("季末：种田 5 人粮食 +15，8 人吃 8", s.rice == 6 + 15 - 8 and report.rice == 7)
+	var eat := int(Rules.get_value("work.eat_per_person", 1))
+	_check("季末：种田 5 人粮食 +15，8 人各吃 %d" % eat, s.rice == maxi(0, 6 + 15 - 8 * eat) and report.rice == 15 - 8 * eat)
 	_check("采料 1 人材料 +2", s.materials == 4)
 	_check("训练的人进名单，id 不重复", s.roster.size() == 2 and s.roster[0].id != s.roster[1].id and s.roster[1].type == "crossbow")
 	_check("训练只占这一季", s.assign.train == 0 and s.assign.farm == 5)
@@ -94,14 +95,14 @@ func _test_food() -> void:
 	s.end_season()  # 没人种田：6 − 8 < 0
 	_check("粮不够：开宗族义仓补到 0，不饿", s.rice == 0 and s.hungry == 0 and s.granary_used and s.reports[0].granary)
 	s.end_season()
-	_check("义仓开过以后：缺的变成饥饿", s.rice == 0 and s.hungry == 8)
+	_check("义仓开过以后：缺的变成饥饿", s.rice == 0 and s.hungry == 8 * int(Rules.get_value("work.eat_per_person", 1)))
 	var s2 := _state("after_battle_2", func(save: SaveData) -> void:
 		save.hungry = 3
 		save.granary_used[0] = true)
 	s2.set_job("farm", 8)
 	_check("预览：粮食够了", s2.preview().hungry == 0 and not s2.preview().granary)
 	s2.end_season()
-	_check("粮食够了饥饿就消失", s2.hungry == 0 and s2.rice == 6 + 24 - 8)
+	_check("粮食够了饥饿就消失", s2.hungry == 0 and s2.rice == 6 + 24 - 8 * int(Rules.get_value("work.eat_per_person", 1)))
 
 
 func _test_goals() -> void:

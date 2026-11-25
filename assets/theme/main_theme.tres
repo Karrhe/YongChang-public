@@ -1,6 +1,7 @@
-[gd_resource type="Theme" load_steps=7 format=3]
+[gd_resource type="Theme" load_steps=8 format=3]
 
 [ext_resource type="Texture2D" path="res://assets/art/ui/button_9patch.png" id="1_btn"]
+[ext_resource type="FontFile" uid="uid://crbdnpx5ma3c6" path="res://assets/fonts/fusion-pixel-12px-proportional-zh_hans.otf.woff2" id="2_font"]
 
 [sub_resource type="StyleBoxTexture" id="btn_normal"]
 content_margin_left = 6.0
@@ -52,6 +53,8 @@ modulate_color = Color(0.5, 0.5, 0.5, 1)
 [sub_resource type="StyleBoxEmpty" id="btn_focus"]
 
 [resource]
+default_font = ExtResource("2_font")
+default_font_size = 12
 Button/colors/font_color = Color(0.870588, 0.933333, 0.839216, 1)
 Button/colors/font_hover_color = Color(0.854902, 0.831373, 0.368627, 1)
 Button/colors/font_disabled_color = Color(0.458824, 0.443137, 0.380392, 1)

@@ -11,12 +11,38 @@ var save_path := DEFAULT_SAVE_PATH
 var save: SaveData = SaveData.new()
 ## 已加载的文本表路径（测试检查用）。
 var text_tables: PackedStringArray = PackedStringArray()
+## 音效（data/rules/audio.json）：事件名 → 文件；几个播放器轮流用，几个音效可以叠在一起。
+var _sfx_players: Array[AudioStreamPlayer] = []
+var _sfx_next := 0
+var _sfx_cache := {}
 
 
 func _ready() -> void:
 	# 只做中文：不跟随系统语言。
 	TranslationServer.set_locale("zh")
 	load_text_tables()
+
+
+## 播一个音效事件：gong、tide、hit、repair、beacon、lantern（TEAM-001 §4）。没配或没有文件时不出声。
+func play_sfx(event: String) -> void:
+	var file := String(Rules.get_value("audio.events." + event, ""))
+	if file == "":
+		return
+	var path := String(Rules.get_value("audio.dir", "")) + file
+	if not _sfx_cache.has(path):
+		_sfx_cache[path] = load(path) if ResourceLoader.exists(path) else null
+	if _sfx_cache[path] == null:
+		return
+	if _sfx_players.is_empty():
+		for i in int(Rules.get_value("audio.voices", 4)):
+			var player := AudioStreamPlayer.new()
+			add_child(player)
+			_sfx_players.append(player)
+	var player := _sfx_players[_sfx_next % _sfx_players.size()]
+	_sfx_next += 1
+	player.stream = _sfx_cache[path]
+	player.volume_db = float(Rules.get_value("audio.volume_db", 0.0))
+	player.play()
 
 
 func load_text_tables() -> void:

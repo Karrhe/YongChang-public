@@ -13,7 +13,8 @@
 
 ## 运行
 
-用 Godot 4.7 打开本文件夹里的 `project.godot`，按 F5 运行。
+- **玩：** 双击 `YongchangShouchao.exe`（Windows 10/11，单个文件，数据包已嵌在里面）。存档在 `%APPDATA%\Godot\app_userdata\<项目名>\` 下，自动保存。
+- **开发：** 用 Godot 4.7 打开本文件夹里的 `project.godot`，按 F5 运行。
 
 ## 目录
 
@@ -30,7 +31,12 @@
 | `scripts/ui/` | 各画面的脚本 |
 | `data/rules/*.json` | 所有可调的规则和数值；每个文件一个顶层键，键名等于文件名（`core.json` → `core`） |
 | `data/text/*.csv` | 所有显示给玩家的文字；每个模块一张表，启动时自动加载 |
-| `data/text/story.csv` | 剧情台词，一行一句（不是翻译表，导入方式是“保留文件”） |
+| `data/text/story.csv` | 剧情台词，一行一句（不是翻译表，导入方式是“保留文件”）；由 `tools/story/script_to_story_csv.py` 从剧本生成 |
+| `assets/art/` | 像素美术：`bg` 剧情背景、`portraits` 头像、`tiles` 地块、`units` 单位、`ui` 界面、`props` 道具、`ending` 结局（放灯、龙灯） |
+| `assets/audio/` | 音效（锣、潮水、命中、修墙、烽火、放灯），事件名见 `data/rules/audio.json` |
+| `assets/fonts/` | 中文像素字体 Fusion Pixel Font 12px（SIL OFL，许可证在同一目录） |
+| `assets/theme/` | 全局界面主题：按钮九宫格、默认字体 |
+| `tools/art/`、`tools/audio/`、`tools/story/` | 生成美术、音效、剧情表的 Python 脚本（需要 Pillow、numpy） |
 
 ## 测试
 
@@ -63,7 +69,13 @@ godot --path . res://tests/ending/ending_preview.tscn -- lost=4 dead=1,2
 
 ## 导出
 
-`export_presets.cfg` 里有 Windows 预设。导出 exe 需要 Godot 4.7.2 的导出模板（编辑器：编辑器 → 管理导出模板）。只导出数据包不需要模板：
+`export_presets.cfg` 里有 Windows 预设（数据包嵌在 exe 里）。导出 exe 需要 Godot 4.7.2 的导出模板（编辑器：编辑器 → 管理导出模板）：
+
+```
+godot --headless --path . --export-release "Windows Desktop" export/windows/YongchangShouchao.exe
+```
+
+只导出数据包不需要模板：
 
 ```
 godot --headless --path . --export-pack "Windows Desktop" export/windows/game.pck

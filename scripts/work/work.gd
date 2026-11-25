@@ -191,6 +191,7 @@ func _on_slot(slot: String) -> void:
 	elif state.repair_cost(slot) > 0:
 		var cost := state.repair_cost(slot)
 		if state.repair(slot):
+			Game.play_sfx("repair")
 			hint_label.text = Game.text("WORK_REPAIRED").format({"cost": cost})
 		else:
 			hint_label.text = Game.text("WORK_CANNOT_REPAIR").format({"cost": cost})
