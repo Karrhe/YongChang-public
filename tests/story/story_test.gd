@@ -185,6 +185,11 @@ func _test_story_scene() -> void:
 	scene.finished.connect(func(r: Dictionary) -> void: result[0] = r)
 	add_child(scene)
 	_check("剧情画面播放 P1", scene.box.lines.size() == 3 and scene.box.lines[2].speaker == "峤叔")
+	for i in 2:
+		scene.box.advance()
+		scene.box.advance()
+	_check("峤叔说话时显示他的头像图", scene.box._portrait_slot.visible and scene.box._portrait_tex.texture != null
+		and not scene.box._portrait_block.visible)
 	_check("P1 用宗祠背景图，按第一代调色",
 		scene.background is TextureRect and scene.background.modulate == Color.html("#fff0d8"))
 	var bare: Node = load("res://scenes/story/story.tscn").instantiate()

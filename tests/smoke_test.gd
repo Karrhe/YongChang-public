@@ -17,7 +17,7 @@ func _ready() -> void:
 
 	_check("文本表能读到标题", Game.text("UI_TITLE") == "永昌堡·守潮")
 	_check("文本表从 data/text 自动加载", Game.text_tables.size() >= 1)
-	_check("缺少的场景显示待写", Game.text("G1-2_A") == "[待写: G1-2_A]")
+	_check("缺少的文字显示待写", Game.text("G9-9_A") == "[待写: G9-9_A]")
 	_check("规则文件都合格", Rules.errors.is_empty())
 	var sfx: Dictionary = Rules.get_value("audio.events", {})
 	_check("六个音效事件都有文件", sfx.size() == 6 and sfx.keys().all(func(e: String) -> bool:
