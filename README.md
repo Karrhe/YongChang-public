@@ -13,7 +13,7 @@
 
 ## 运行
 
-- **玩：** 双击 `YongchangShouchao.exe`（Windows 10/11，单个文件，数据包已嵌在里面）。存档在 `%APPDATA%\Godotpp_userdata\` 下，自动保存。
+- **玩：** 双击 `YongchangShouchao.exe`（Windows 10/11，单个文件，数据包已嵌在里面）。存档在 `%APPDATA%\Godot\app_userdata\<项目名>\` 下，自动保存。
 - **开发：** 用 Godot 4.7 打开本文件夹里的 `project.godot`，按 F5 运行。
 
 ## 目录
