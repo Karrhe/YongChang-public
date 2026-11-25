@@ -80,10 +80,10 @@
 				"notice": {"summary": "EVT_SUMMARY_GEN2_TO_GEN3"}}
 		},
 		"lantern_names": {
-			"_note": "乡亲和守军的灯从文本表按顺序取名字：LANTERN_<组>_G<代>_<序号两位>，如 LANTERN_VILLAGER_G1_01。表里没有时用 LANTERN_UNNAMED（ISSUE-001 STO-15 临时做法：无名）。",
+			"_note": "乡亲和守军的灯从文本表按顺序取名字：LANTERN_<组>_G<代>_<序号两位>，如 LANTERN_VILLAGER_G1_01。名字表在 flow.csv（DRAFT-001，待负责人审）；表用完时按 fallback 的“姓 + 排行”生成，跳过已有的名字，再用完才用 LANTERN_UNNAMED。",
 			"villager_prefix": "LANTERN_VILLAGER_G",
 			"defender_prefix": "LANTERN_DEFENDER_G",
-			"unnamed": "LANTERN_UNNAMED"
+			"unnamed": "LANTERN_UNNAMED", "fallback_surnames": ["王", "陈", "林", "张", "黄", "周", "吴", "徐", "郑", "潘", "叶", "金"], "fallback_ranks": ["老大", "老二", "老三", "老四", "老五", "老六", "老七", "老八", "老九", "老十"]
 		},
 		"hero_name_keys": {
 			"hero": ["NAME_GEN1", "", ""],

@@ -199,9 +199,9 @@ func _test_story_scene() -> void:
 	scene.queue_free()
 
 	var missing: Node = load("res://scenes/story/story.tscn").instantiate()
-	missing.setup({"scene_id": "G1-3", "key": "G1-3_A", "gen": 1})
+	missing.setup({"scene_id": "G9-9", "key": "G9-9_A", "gen": 1})
 	add_child(missing)
-	_check("没录的场景显示待写", missing.box.lines[0].text == "[待写: G1-3_A]")
+	_check("没录的场景显示待写", missing.box.lines[0].text == "[待写: G9-9_A]")
 	missing.queue_free()
 	await get_tree().process_frame
 

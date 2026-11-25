@@ -173,8 +173,33 @@ static func add_lantern(save: SaveData, group: String, gen: int, battle_id: Stri
 	var key := "%s%d_%02d" % [names.get(group + "_prefix", ""), gen, n]
 	var name := _tr(key)
 	if name == key:
-		name = _tr(names.get("unnamed", ""))
+		name = _fallback_lantern_name(save, group, gen, n, names)
 	list.append({"key": key, "name": name, "gen": gen, "battle": battle_id})
+
+
+## 名字表用完时：按“姓 + 老大…老十”生成（DRAFT-001 §1.1），跳过表里和已用过的名字；还用完就“无名”。
+static func _fallback_lantern_name(save: SaveData, group: String, gen: int, n: int, names: Dictionary) -> String:
+	var surnames: Array = names.get("fallback_surnames", [])
+	var ranks: Array = names.get("fallback_ranks", [])
+	if surnames.is_empty() or ranks.is_empty():
+		return _tr(names.get("unnamed", ""))
+	var taken := {}
+	for g in range(1, 4):
+		for grp in ["villager", "defender"]:
+			for i in range(1, 31):
+				var k := "%s%d_%02d" % [names.get(grp + "_prefix", ""), g, i]
+				var t := _tr(k)
+				if t != k:
+					taken[t] = true
+	for entry: Dictionary in save.lanterns_villager + save.lanterns_defender:
+		taken[String(entry.name)] = true
+	var start := 0 if group == "villager" else surnames.size() / 2
+	for step in surnames.size() * ranks.size():
+		var idx := start + step
+		var candidate := String(surnames[idx % surnames.size()]) + String(ranks[(idx / surnames.size()) % ranks.size()])
+		if not taken.has(candidate):
+			return candidate
+	return _tr(names.get("unnamed", ""))
 
 
 static func hero_name(save: SaveData, hero: Dictionary) -> String:

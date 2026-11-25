@@ -107,8 +107,15 @@ func _test_battle_apply() -> void:
 	_check("主角阵亡写进存档", not save.hero_alive[0] and save.death_battle[0] == "battle_2")
 	_check("主角的灯写王成", save.lanterns_hero.size() == 1 and save.lanterns_hero[0].name == "王成")
 	_check("乡亲灯 2 盏、守军灯 1 盏", save.lanterns_villager.size() == 2 and save.lanterns_defender.size() == 1)
-	_check("名字表还没有时写无名", save.lanterns_villager[0].name == "无名")
+	_check("乡亲的灯从名字表按顺序取名", save.lanterns_villager[0].name == "王福生")
 	_check("灯的名字键按顺序", save.lanterns_villager[1].key == "LANTERN_VILLAGER_G1_02")
+	var many := SaveData.new()
+	for i in 12:
+		FlowLogic.add_lantern(many, "villager", 1, "battle_1")
+	var extra := String(many.lanterns_villager[10].name)
+	_check("名字表用完时按姓加排行起名，不和表里重名",
+		extra != "无名" and extra.contains("老")
+		and not many.lanterns_villager.slice(0, 10).any(func(e: Dictionary) -> bool: return e.name == extra))
 	_check("人口扣失去的乡亲和守军", save.people == 8 - 2 - 1)
 	_check("名单去掉阵亡的守军", save.roster.size() == 1)
 	var next_input := FlowLogic.battle_input(save, FlowLogic.find_node("battle_3"))
