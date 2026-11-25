@@ -23,6 +23,7 @@ var turn_label: Label
 var villager_label: Label
 var tide_bar: HBoxContainer
 var _hit_clock := 0.0
+var _last_tide := ""
 var unit_title: Label
 var unit_stats: Label
 var unit_note: Label
@@ -54,6 +55,8 @@ func _process(delta: float) -> void:
 	_clock += delta
 	# 斩击效果只停一会儿（ART-001 §3.2：8×8，2 帧）。
 	if state != null and not state.hits.is_empty():
+		if _hit_clock == 0.0:
+			Game.play_sfx("hit")
 		_hit_clock += delta
 		if _hit_clock > 0.45:
 			state.hits.clear()
@@ -73,6 +76,7 @@ func _begin(picks: Array) -> void:
 		deploy_panel = null
 	state.start(picks)
 	state.events.clear()
+	Game.play_sfx("gong")  # 锣只要一响（TEAM-001 AUD）
 	var keys: Dictionary = input.get("story_keys", {})
 	_queue_scenes(keys.get("start", []))
 	var hint_lines: Array[Dictionary] = []
@@ -127,6 +131,7 @@ func _take_events() -> void:
 			"lantern", "reinforcements", "retire", "npc_down", "saved":
 				counts[ev.kind] = int(counts.get(ev.kind, 0)) + 1
 			"beacon":
+				Game.play_sfx("beacon")
 				if ev.get("by", "") == "ally":
 					counts["beacon"] = 1
 	for kind: String in ["landing", "saved", "lantern", "reinforcements", "beacon", "retire", "npc_down"]:
@@ -160,6 +165,8 @@ func _on_cell_clicked(cell: Vector2i, button: int) -> void:
 		return
 	if mode != "":
 		if cell in target_cells:
+			if mode == "repair":
+				Game.play_sfx("repair")
 			state.do_action(selected, mode, cell)
 			_after_action()
 		else:
@@ -242,6 +249,10 @@ func _refresh() -> void:
 
 
 func _refresh_tide() -> void:
+	# 潮汐换了一步就响一下潮水声。
+	if state.tide() != _last_tide and _last_tide != "":
+		Game.play_sfx("tide")
+	_last_tide = state.tide()
 	for child in tide_bar.get_children():
 		child.queue_free()
 	var colors: Dictionary = Rules.get_value("battle.view.tide_colors", {})

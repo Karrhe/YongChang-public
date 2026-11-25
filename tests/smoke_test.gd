@@ -19,6 +19,9 @@ func _ready() -> void:
 	_check("文本表从 data/text 自动加载", Game.text_tables.size() >= 1)
 	_check("缺少的场景显示待写", Game.text("G1-2_A") == "[待写: G1-2_A]")
 	_check("规则文件都合格", Rules.errors.is_empty())
+	var sfx: Dictionary = Rules.get_value("audio.events", {})
+	_check("六个音效事件都有文件", sfx.size() == 6 and sfx.keys().all(func(e: String) -> bool:
+		return ResourceLoader.exists(String(Rules.get_value("audio.dir", "")) + String(sfx[e]))))
 	_check("规则能读到初始粮食", int(Rules.get_value("core.new_game.rice", -1)) == 6)
 	_check("找不到的规则返回默认值", Rules.get_value("no.such.key", 42) == 42)
 	_check("基础分辨率 640×360",

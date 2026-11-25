@@ -201,6 +201,8 @@ func _release_lanterns() -> void:
 
 
 func _launch_lantern(group: Dictionary, lantern_name: String, order: int, rng: RandomNumberGenerator) -> void:
+	if order == 0:
+		Game.play_sfx("lantern")  # 每组第一盏灯放下水时响一下
 	var lantern := _lantern(group.group, Color.html(String(group.color)))
 	var label := Label.new()
 	label.text = lantern_name
