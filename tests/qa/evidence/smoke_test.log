@@ -1,0 +1,28 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ok    文本表能读到标题
+ok    文本表从 data/text 自动加载
+ok    缺少的文字显示待写
+ok    规则文件都合格
+ok    六个音效事件都有文件
+ok    规则能读到初始粮食
+ok    找不到的规则返回默认值
+ok    基础分辨率 640×360
+ok    第一代名字固定
+ok    存档只存两个名字
+ok    名字和刻字占位符替换正确
+ok    新游戏使用规则里的初始人口
+ok    没起名时用默认名字
+ok    新单位 id 不重复
+ok    存档能读回
+ok    新字段能读回
+ok    测试存档已删除
+ok    假战斗的输入合格
+ok    假战斗的结果合格（held）
+ok    假战斗的结果合格（costly）
+ok    假战斗不改输入
+ok    假劳作的输入合格
+ok    假劳作的结果合格
+ok    接口检查能发现缺字段
+ok    真实存档路径没变
+SMOKE TEST: PASS
