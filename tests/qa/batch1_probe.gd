@@ -16,7 +16,7 @@ func _ready() -> void:
 	await _lanterns()
 	Game.delete_save()
 	print("QA BATCH 1 PROBE: %s" % ("PASS" if failures == 0 else "FAIL (%d)" % failures))
-	get_tree().quit(failures)
+	Game.quit(failures)
 
 
 func _check(label: String, ok: bool) -> void:
@@ -95,11 +95,15 @@ func _story() -> void:
 	var conditions := {
 		"GEN1_ALIVE": [true, false, false],
 		"GEN1_DEAD": [false, true, false],
+		"GEN1_NONE": [false, false, true],
 		"GEN2_ELDER_A": [true, false, false],
 		"GEN2_ELDER_B": [false, true, false],
 		"GEN2_NONE": [false, false, true],
 	}
 	var ok := true
+	var rows := 0
+	for scene: String in table.scenes:
+		rows += table.scenes[scene].filter(func(r: Dictionary) -> bool: return not r.condition.is_empty() and not r.line_id.begins_with("opt")).size()
 	for state in 3:
 		Game.new_game()
 		Game.save.hero_alive.assign([state == 0, state == 0, true])
@@ -107,13 +111,17 @@ func _story() -> void:
 		for scene: String in table.scenes:
 			var ids := table.lines(scene, Game.save).map(func(line: Dictionary) -> String: return line.line_id)
 			for row: Dictionary in table.scenes[scene]:
-				if row.condition.is_empty():
-					continue
+				if row.condition.is_empty() or row.line_id.begins_with("opt"):
+					continue  # 选项行不播放，按条件换说话人由 story_test 检查
 				checked += 1
-				if not conditions.has(row.condition) or ids.has(row.line_id) != conditions[row.condition][state]:
+				# 几个条件用 & 连起来时都成立才显示（STO-01 之后的组合条件）。
+				var parts: PackedStringArray = row.condition.split("&")
+				var known := Array(parts).all(func(c: String) -> bool: return conditions.has(c))
+				var want := known and Array(parts).all(func(c: String) -> bool: return conditions[c][state])
+				if not known or ids.has(row.line_id) != want:
 					print("  Unexpected conditional line %s/%s in state %d" % [scene, row.line_id, state])
 					ok = false
-	_check("production conditional rows across three survival states (%d checks)" % checked, ok and checked == 114)
+	_check("production conditional rows across three survival states (%d checks)" % checked, ok and checked == rows * 3)
 
 	for variant in ["A_met", "A_unmet", "B_met", "B_unmet"]:
 		for state in 3:
