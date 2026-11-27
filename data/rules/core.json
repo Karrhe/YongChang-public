@@ -7,6 +7,8 @@
 			"materials": 2
 		},
 		"min_people": 4,
+		"_people_loss_note": "一场战斗最多扣几口人（REDESIGN 第一轮调数值：疏散战失去的乡亲多，全扣会让人口一路掉到 4、没人砌墙）。灯照样每人一盏。",
+		"max_people_loss_per_battle": 1,
 		"walls": {
 			"_note": "墙位每格的满 HP。门位只有 1 格，墙位 2 格。",
 			"slots": ["A1", "A2", "A3", "B1", "B2", "B3", "C1", "C2", "C3"],

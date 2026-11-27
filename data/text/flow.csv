@@ -109,3 +109,8 @@ LANTERN_DEFENDER_G3_05,叶栓柱
 LANTERN_DEFENDER_G3_06,林老二
 LANTERN_DEFENDER_G3_07,金阿贵
 LANTERN_DEFENDER_G3_08,谢六郎
+EVT_ROLLCALL_INTRO,仗打完了。宗祠前，按名册一个一个点名。
+EVT_ROLLCALL_NAME,“{name}。”
+EVT_ROLLCALL_SILENT,……没有人应。
+EVT_ROLLCALL_END,灯簿上添了 {count} 个名字。中元节那天，一个一个写在灯上。
+EVT_ROLLCALL_NONE,点到的人都应了。这一代，灯簿上没有添名字。

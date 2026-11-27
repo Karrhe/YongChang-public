@@ -28,8 +28,8 @@ func _ready() -> void:
 					s.do_action(a, "attack", s.targets_for(a, "attack")[0])
 		s.end_turn()
 	var r := s.result()
-	print("%s %s: saved %d/%d lost %d outside %d looted %d defenders lost %d" % [id, policy, r.villagers_saved, s.goal,
-		r.villagers_lost, s.villagers_outside().size(), s.looted, r.defenders_lost])
+	print("%s %s: saved %d/%d lost %d outside %d looted %d defenders lost %d hero died %s" % [id, policy, r.villagers_saved, s.goal,
+		r.villagers_lost, s.villagers_outside().size(), s.looted, r.defenders_lost, r.hero_died])
 	Game.quit(0)
 
 

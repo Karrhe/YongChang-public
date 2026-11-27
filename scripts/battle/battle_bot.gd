@@ -12,12 +12,27 @@ static func play_turn(s: BattleState) -> void:
 	for a: Dictionary in allies:
 		if not s.can_command(a):
 			continue
-		var goal := _pick_goal(s, a, claimed)
+		# 主角半血以下就退回安全区（第三代 B7、B8 主角阵亡会强制重打，机器人不能拿主角去换）。
+		var goal := _safe_goal(s, a) if _is_hero(a) and int(a.hp) * 2 <= int(a.max_hp) else _pick_goal(s, a, claimed)
 		if goal != BattleState.NOWHERE:
 			var best := _best_cell(s, a, goal)
 			if best != a.pos:
 				s.move_unit(a, best)
 		_act(s, a)
+
+
+static func _is_hero(a: Dictionary) -> bool:
+	return a.role in ["hero", "elder"]
+
+
+static func _safe_goal(s: BattleState, a: Dictionary) -> Vector2i:
+	var best := BattleState.NOWHERE
+	for y in s.height:
+		for x in s.width:
+			var p := Vector2i(x, y)
+			if s.is_safe(p) and (best == BattleState.NOWHERE or BattleState.dist(p, a.pos) < BattleState.dist(best, a.pos)):
+				best = p
+	return best
 
 
 ## 这个守军这一回合要往哪走：先接没人陪的走不动的乡亲，再挡要抓人的海寇，再陪最远的乡亲，最后找海寇打。
@@ -94,8 +109,9 @@ static func _best_cell(s: BattleState, a: Dictionary, goal: Vector2i) -> Vector2
 	var best: Vector2i = a.pos
 	var best_key := [maxi(1, int(to_goal.get(a.pos, 999))), int(safe_dist.get(a.pos, 0))]
 	for p: Vector2i in s.move_range(a):
-		if s.threat_cell(p) >= int(a.hp):
-			continue  # 不走到会被打死的地方
+		var margin := 2 if _is_hero(a) else 0
+		if s.threat_cell(p) + margin >= int(a.hp):
+			continue  # 不走到会被打死的地方（主角多留 2 点）
 		var key := [maxi(1, int(to_goal.get(p, 999))), int(safe_dist.get(p, 0))]
 		if key[0] < best_key[0] or (key[0] == best_key[0] and key[1] < best_key[1]):
 			best = p
@@ -105,6 +121,9 @@ static func _best_cell(s: BattleState, a: Dictionary, goal: Vector2i) -> Vector2
 
 static func _act(s: BattleState, a: Dictionary) -> void:
 	var actions := s.actions_for(a)
+	if _is_hero(a) and int(a.hp) * 2 <= int(a.max_hp) and "retreat" in actions:
+		s.do_action(a, "retreat")
+		return
 	if "beacon" in actions:
 		s.do_action(a, "beacon")
 		actions = s.actions_for(a)

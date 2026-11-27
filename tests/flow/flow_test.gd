@@ -22,6 +22,7 @@ func _ready() -> void:
 	_test_auto_retry()
 	_test_events()
 	_test_both_dead()
+	_test_rollcall()
 	await _test_resume_at_event()
 	await _test_runner_end_to_end()
 
@@ -116,7 +117,7 @@ func _test_battle_apply() -> void:
 	_check("名字表用完时按姓加排行起名，不和表里重名",
 		extra != "无名" and extra.contains("老")
 		and not many.lanterns_villager.slice(0, 10).any(func(e: Dictionary) -> bool: return e.name == extra))
-	_check("人口扣失去的乡亲和守军", save.people == 8 - 2 - 1)
+	_check("人口扣失去的乡亲和守军，一场最多扣 max_people_loss_per_battle", save.people == 8 - mini(3, int(Rules.get_value("core.max_people_loss_per_battle", 3))))
 	_check("名单去掉阵亡的守军", save.roster.size() == 1)
 	var next_input := FlowLogic.battle_input(save, FlowLogic.find_node("battle_3"))
 	_check("主角阵亡后同伴出战", next_input.hero == {"gen": 1, "role": "companion"})
@@ -174,6 +175,23 @@ func _test_both_dead() -> void:
 	_check("一代两人都不在：battle_4 没有长辈", FlowLogic.battle_input(save, FlowLogic.find_node("battle_4")).elder == null)
 	_check("一代两人都不在：二代主角照常出战",
 		FlowLogic.battle_input(save, FlowLogic.find_node("battle_4")).hero == {"gen": 2, "role": "hero"})
+
+
+## 每代最后一仗之后的点名（REDESIGN-002 方案一）：只点这一代失去的人，四个名字一句。
+func _test_rollcall() -> void:
+	var save := _new_save()
+	_check("点名在 B3、B6、B9 之后", FlowLogic.next_id("battle_3") == "rollcall_1" and FlowLogic.next_id("battle_6") == "rollcall_2"
+		and FlowLogic.next_id("battle_9") == "rollcall_3")
+	var none := FlowLogic.event_notice("rollcall_1", FlowLogic.apply_event(save, "rollcall_1"))
+	_check("没人失去：点到的人都应了", none.append.size() == 2 and none.append[1].text == Game.text("EVT_ROLLCALL_NONE"))
+	for i in 5:
+		FlowLogic.add_lantern(save, "villager", 1, "battle_2")
+	FlowLogic.add_lantern(save, "villager", 2, "battle_4")
+	save.lanterns_hero.append({"name": "王成", "gen": 1, "battle": "battle_1"})
+	var v := FlowLogic.apply_event(save, "rollcall_1")
+	_check("只点第一代的 6 个人，主角在前", v.count == 6 and v.names[0] == "王成")
+	var n := FlowLogic.event_notice("rollcall_1", v)
+	_check("开头一句 + 两批名字各带一句没人应 + 结尾一句", n.append.size() == 6 and n.append[1].text.contains("王成"))
 
 
 ## 在规则事件节点退出再读档：事件只生效一次（存档在事件生效之前写，生效后的状态在下一个节点才写）。

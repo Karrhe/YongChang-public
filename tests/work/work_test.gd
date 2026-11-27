@@ -96,7 +96,8 @@ func _test_jobs_and_stones() -> void:
 	_check("三根木桩扎成栅栏，城防图上就是栅栏", s.wall_slots.A1.type == "fence" and s.wall_slots.A1.hp == [2, 2])
 	var eat := int(Rules.get_value("work.eat_per_person", 2))
 	var report := s.end_season()
-	_check("季末：种田 6 人粮食 +18，8 人各吃 %d" % eat, s.rice == maxi(0, 6 + 18 - 8 * eat) and report.rice == 18 - 8 * eat)
+	var farm := 6 * int(Rules.get_value("work.jobs.farm.rice", 3))
+	_check("季末：种田 6 人粮食 +%d，8 人各吃 %d" % [farm, eat], s.rice == maxi(0, 6 + farm - 8 * eat) and report.rice == farm - 8 * eat)
 	_check("训练的人进名单，id 不重复", s.roster.size() == 1 and s.roster[0].type == "spearman")
 	_check("第 2 季又送来石料", s.season == 2 and s.delivered == _delivery("after_battle_1", 2))
 	s.end_season()
@@ -166,7 +167,7 @@ func _test_food() -> void:
 	s2.set_job("farm", 8)
 	_check("预览：粮食够了", s2.preview().hungry == 0 and not s2.preview().granary)
 	s2.end_season()
-	_check("粮食够了饥饿就消失", s2.hungry == 0 and s2.rice == 6 + 24 - 8 * int(Rules.get_value("work.eat_per_person", 1)))
+	_check("粮食够了饥饿就消失", s2.hungry == 0 and s2.rice == 6 + 8 * int(Rules.get_value("work.jobs.farm.rice", 3)) - 8 * int(Rules.get_value("work.eat_per_person", 1)))
 
 
 func _test_goals() -> void:

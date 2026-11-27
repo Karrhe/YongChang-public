@@ -10,7 +10,7 @@
 		"seasons": 2,
 		"eat_per_person": 2,
 		"jobs": {
-			"farm": {"rice": 3}
+			"farm": {"rice": 4}
 		},
 		"repair_hp_per_material": 3,
 		"train_types": {

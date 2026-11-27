@@ -27,6 +27,7 @@
 			{"id": "C1", "type": "choice", "ab": true, "gen": 1},
 			{"id": "G1-5", "type": "story", "gen": 1, "ab": true},
 			{"id": "battle_3", "type": "battle", "gen": 1},
+			{"id": "rollcall_1", "type": "event", "gen": 1},
 			{"id": "G1-6", "type": "story", "gen": 1, "ab": true},
 			{"id": "T1", "type": "story", "gen": 1, "ab": true},
 			{"id": "gen1_to_gen2", "type": "event", "gen": 2},
@@ -45,6 +46,7 @@
 			{"id": "typhoon", "type": "event", "gen": 2},
 			{"id": "G2-5", "type": "story", "gen": 2, "ab": true},
 			{"id": "battle_6", "type": "battle", "gen": 2},
+			{"id": "rollcall_2", "type": "event", "gen": 2},
 			{"id": "repair_after_battle_6", "type": "event", "gen": 2},
 			{"id": "G2-6", "type": "story", "gen": 2, "ab": true, "goal_split": true},
 			{"id": "T2", "type": "story", "gen": 2},
@@ -62,6 +64,7 @@
 			{"id": "C5", "type": "choice", "gen": 3},
 			{"id": "G3-5", "type": "story", "gen": 3},
 			{"id": "battle_9", "type": "battle", "gen": 3},
+			{"id": "rollcall_3", "type": "event", "gen": 3},
 			{"id": "ending", "type": "ending", "gen": 3}
 		],
 		"elder_battles": {"battle_4": 1, "battle_9": 2},
@@ -75,6 +78,9 @@
 			"_note": "notice：事件生效后给玩家看的说明。story 是剧情表的场景 ID（先播），summary 是 flow.csv 里带数字的一句（后播）。没有 notice 的事件不显示。",
 			"gen1_to_gen2": {"materials_keep_fraction": 0.5, "materials_bonus": 6,
 				"notice": {"story": ["EVT_donation"], "summary": "EVT_SUMMARY_GEN1_TO_GEN2"}},
+			"rollcall_1": {"gen": 1, "names_per_line": 4, "notice": {"rollcall": true}},
+			"rollcall_2": {"gen": 2, "names_per_line": 4, "notice": {"rollcall": true}},
+			"rollcall_3": {"gen": 3, "names_per_line": 4, "notice": {"rollcall": true}},
 			"typhoon": {"gate_hp_loss": 3, "notice": {"summary": "EVT_SUMMARY_TYPHOON"}},
 			"gen2_to_gen3": {"gate_hp_loss": 3, "people_bonus": 2, "clear_roster": true,
 				"notice": {"summary": "EVT_SUMMARY_GEN2_TO_GEN3"}}

@@ -145,7 +145,8 @@ static func apply_battle(save: SaveData, input: Dictionary, result: Dictionary) 
 
 	# 人口只扣失去的人，不加救下的村民（ISSUE-001 WORK-01 临时做法）。
 	var min_people := int(Rules.get_value("core.min_people", 4))
-	save.people = maxi(min_people, save.people - int(result.villagers_lost) - roster_lost)
+	var loss := mini(int(result.villagers_lost) + roster_lost, int(Rules.get_value("core.max_people_loss_per_battle", 1 << 20)))
+	save.people = maxi(min_people, save.people - loss)
 
 	for i in int(result.villagers_lost):
 		add_lantern(save, "villager", gen, battle_id)
@@ -337,6 +338,15 @@ static func apply_event(save: SaveData, event_id: String) -> Dictionary:
 			values.after = save.materials
 		"retire_elder":
 			save.elder_retired = true
+		"rollcall_1", "rollcall_2", "rollcall_3":
+			# 每代最后一仗之后的点名（REDESIGN-002 方案一，负责人定每代一次）：这一代失去的人，按灯的顺序。
+			var g := int(cfg.get("gen", 1))
+			values.names = []
+			for entry: Dictionary in save.lanterns_hero + save.lanterns_defender + save.lanterns_villager:
+				if int(entry.gen) == g:
+					values.names.append(String(entry.name))
+			values.count = values.names.size()
+			values.per_line = int(cfg.get("names_per_line", 4))
 		"typhoon":
 			# 每段墙按红缝掉 HP，咬住的墙不掉；门照旧掉 gate_hp_loss（REDESIGN-002 方案一）。
 			values.gate = int(cfg.get("gate_hp_loss", 0))
@@ -363,6 +373,19 @@ static func event_notice(event_id: String, values: Dictionary) -> Dictionary:
 	if notice.is_empty():
 		return {}
 	var append: Array[Dictionary] = []
+	if notice.get("rollcall", false):
+		append.append(_narration_line(event_id, _tr("EVT_ROLLCALL_INTRO")))
+		var names: Array = values.get("names", [])
+		var per := maxi(1, int(values.get("per_line", 4)))
+		for i in range(0, names.size(), per):
+			var called := PackedStringArray()
+			for n: String in names.slice(i, i + per):
+				called.append(_tr("EVT_ROLLCALL_NAME").format({"name": n}))
+			append.append(_narration_line(event_id, "".join(called)))
+			append.append(_narration_line(event_id, _tr("EVT_ROLLCALL_SILENT")))
+		append.append(_narration_line(event_id, _tr("EVT_ROLLCALL_END" if not names.is_empty() else "EVT_ROLLCALL_NONE")
+			.format({"count": names.size()})))
+		return {"keys": [], "append": append}
 	var summary: String = notice.get("summary", "")
 	if summary != "":
 		append.append({"scene_id": event_id, "line_id": "", "speaker": "", "portrait": "",
@@ -464,6 +487,10 @@ static func _zeros(n: int) -> Array:
 	a.resize(n)
 	a.fill(0)
 	return a
+
+
+static func _narration_line(scene_id: String, text: String) -> Dictionary:
+	return {"scene_id": scene_id, "line_id": "", "speaker": "", "portrait": "", "text": text, "narration": true}
 
 
 static func _tr(key: String) -> String:

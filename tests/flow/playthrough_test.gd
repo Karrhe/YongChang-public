@@ -26,9 +26,14 @@ func _ready() -> void:
 	var margins: PackedStringArray = PackedStringArray()
 	var steps := 0
 	var started := Time.get_ticks_msec()
+	var trace := "--trace" in OS.get_cmdline_user_args()
+	var last_node := ""
 	while Game.save.progress != "done" and steps < 20000:
 		steps += 1
 		await get_tree().process_frame
+		if trace and flow.node.get("id", "") != last_node:
+			last_node = flow.node.get("id", "")
+			print("  [trace] step %d %.1fs %s" % [steps, (Time.get_ticks_msec() - started) / 1000.0, last_node])
 		var child: Node = flow.current
 		if child == null or not child.is_inside_tree():
 			var accept := _find_button(flow, Game.text("FLOW_ACCEPT"))
@@ -81,6 +86,8 @@ func _ready() -> void:
 		Game.save.materials, Game.save.lantern_count(), Game.save.lanterns_villager.size(),
 		Game.save.lanterns_defender.size(), Game.save.lanterns_hero.size()])
 	print("  主角存活：", Game.save.hero_alive, " 同伴存活：", Game.save.companion_alive)
+	var built := Game.save.wall_slots.keys().filter(func(k: String) -> bool: return Game.save.wall_slots[k].type != "none")
+	print("  目标卡：", Game.save.goal_met, " 筑成的墙和门：", built.size())
 	flow.queue_free()
 	Game.delete_save()
 	Game.save_path = real_path
