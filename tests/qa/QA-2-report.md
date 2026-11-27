@@ -50,14 +50,26 @@ Each phase advanced two seasons in eight test-loop steps. The logged campaign ex
 
 ## Issues
 
-Totals for QA-2 are **0 blocker, 0 high, 2 medium, 3 low**. Numbering starts at QA-005 as assigned. QA-1 also used QA-005 for a different issue (exit diagnostics), which did not recur in these suite runs.
+Totals for QA-2 are **0 blocker, 0 high, 2 medium, 3 low**. Numbering starts at QA-006: the lead renumbered these on merge because QA-1 already used QA-005 (exit diagnostics), which did not recur in these suite runs.
 
 | ID | Severity | Reproduction and finding |
 |---|---|---|
-| QA-005 | Medium | Load the generated v2 checkpoint. Its explicit version stays at 2 through resave, and its standing A1 wall opens with an empty 4×3 layout. Generation-three weathering skips legacy walls without layouts. The version and puzzle state are only partially compatible. [Save probe](qa2-evidence/save-preview.log) |
-| QA-006 | Low | Apply the typhoon to the loaded v2 checkpoint before rebuilding A1. The notice reports zero seams and only describes seam-based wall damage, yet A1 loses 3 HP per cell. The notice omits the legacy damage rule. [Save probe](qa2-evidence/save-preview.log) |
-| QA-007 | Medium | Run B5 with the escort bot and default deployment, then compare with the campaign escort route. Both miss the target (4/5 and 3/5). This is a balance finding for those routes. Turn-one unsolvability remains unverified. [Standalone](qa2-evidence/battle-5.log), [campaign](qa2-evidence/work-instrumented.log) |
-| QA-008 | Low | Read the generation-three weathering notice. It says to use `碎石`, while the work inventory and chisel action label the one-cell piece `楔石`. With zero weathered segments the unconditional instruction still says stones fell and need filling. [Text extract](qa2-evidence/text-extract.log), [zero-segment probe](qa2-evidence/save-preview.log) |
-| QA-009 | Low | Read any generation’s roll call after casualties. `按名册一个一个点名` suggests the whole roster will be called. The scene only names people whose names were added to the lantern ledger, then follows each group with silence. Clarify whose names are being read. [Rendered examples](qa2-evidence/work-instrumented.log) |
+| QA-006 | Medium | Load the generated v2 checkpoint. Its explicit version stays at 2 through resave, and its standing A1 wall opens with an empty 4×3 layout. Generation-three weathering skips legacy walls without layouts. The version and puzzle state are only partially compatible. [Save probe](qa2-evidence/save-preview.log) |
+| QA-007 | Low | Apply the typhoon to the loaded v2 checkpoint before rebuilding A1. The notice reports zero seams and only describes seam-based wall damage, yet A1 loses 3 HP per cell. The notice omits the legacy damage rule. [Save probe](qa2-evidence/save-preview.log) |
+| QA-008 | Medium | Run B5 with the escort bot and default deployment, then compare with the campaign escort route. Both miss the target (4/5 and 3/5). This is a balance finding for those routes. Turn-one unsolvability remains unverified. [Standalone](qa2-evidence/battle-5.log), [campaign](qa2-evidence/work-instrumented.log) |
+| QA-009 | Low | Read the generation-three weathering notice. It says to use `碎石`, while the work inventory and chisel action label the one-cell piece `楔石`. With zero weathered segments the unconditional instruction still says stones fell and need filling. [Text extract](qa2-evidence/text-extract.log), [zero-segment probe](qa2-evidence/save-preview.log) |
+| QA-010 | Low | Read any generation’s roll call after casualties. `按名册一个一个点名` suggests the whole roster will be called. The scene only names people whose names were added to the lantern ledger, then follows each group with silence. Clarify whose names are being read. [Rendered examples](qa2-evidence/work-instrumented.log) |
 
 A complete manual playthrough remains pending. Headless checks cover the automated path, rule behavior and Chinese strings, with visual legibility and pacing, alternate B5 tactics, the suspected gate stall, and Windows executable startup/save/exit still unverified.
+
+## 负责人处理（2026-11-27，合并时由 Claude Code 补）
+
+编号已改成 QA-006 起（QA-1 用过 QA-005）。五个问题都在 public main 修了，修复见 `AI_LOG.md` 2026-11-27 的 QA-2 一行：
+
+| ID | 处理 |
+|---|---|
+| QA-006 | 读档时 `FlowLogic.migrate` 给没有砖槽的旧墙补砖槽：旧石墙当完美咬合的墙（旧规则下本来就是满 HP 6），旧栅栏当刚扎成的木桩；不看版本号（旧存档没写版本字段，读进来就是默认的 3）。测试：`tests/flow/flow_test.gd` 的旧存档读档三条 |
+| QA-007 | 随 QA-006 解决：补过砖槽的旧墙按红缝过台风，说明文字和实际扣法一致 |
+| QA-008 | B5 目标人数 5 → 4；认真玩法机器人重跑救下 4/4 |
+| QA-009 | 第三代说明改为“用楔石、条石补上”；没有墙风化时改说“石墙咬得牢，三十年没掉一块石头” |
+| QA-010 | 点名开头改为“宗祠前点名，点的是这一代没能回来的人” |

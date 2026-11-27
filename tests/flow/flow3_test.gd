@@ -9,6 +9,7 @@ var failures := 0
 func _ready() -> void:
 	var real_save := Game.save
 	_test_effects()
+	_test_effect_text()
 	_test_cannot_pay()
 	_test_choice_input()
 	await _test_choice_scene()
@@ -70,6 +71,12 @@ func _test_effects() -> void:
 	_check("C5-B：粮食 +4", save.rice == 10)
 	FlowLogic.apply_choice(save, "C2", "B")
 	_check("C2-B：只记下选择", save.choices.C2 == "B" and save.rice == 10 and save.materials == 2)
+
+
+func _test_effect_text() -> void:
+	_check("选项说明按数据拼：C1-A 石料 +5", Choices.effect_text("C1", "A") == "石料 +5")
+	_check("选项说明：C5-A 粮食 −5、下一场守军 +2", Choices.effect_text("C5", "A") == "粮食 −5，下一场守军 +2")
+	_check("选项说明：C2-B 不变", Choices.effect_text("C2", "B") == Game.text("CHOICE_FX_none"))
 
 
 func _test_cannot_pay() -> void:

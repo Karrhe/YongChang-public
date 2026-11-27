@@ -54,7 +54,7 @@ func _show_options() -> void:
 		button.pressed.connect(_on_pick.bind(p))
 		column.add_child(button)
 		option_buttons[p] = button
-		var notes := PackedStringArray([Game.text("CHOICE_EFFECT_%s_%s" % [input.choice_id, p])])
+		var notes := PackedStringArray([Choices.effect_text(String(input.choice_id), p)])
 		if not option.enabled:
 			notes.append(Game.text(option.reason).format(option.get("reason_args", {})))
 		elif option.granary:

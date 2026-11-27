@@ -21,6 +21,7 @@ var ghost_shape := ""
 var ghost_rot := 0
 var hover := Vector2i(-1, -1)
 var active := true
+static var _tex_cache := {}
 
 
 func _ready() -> void:
@@ -73,7 +74,11 @@ func _draw() -> void:
 				draw_rect(r.grow(-1), COLORS.grid, false, 1.0)
 				continue
 			var shape := String(layout.shapes.get(str(id), "wedge"))
-			draw_rect(r, COLORS.get(shape, COLORS.wedge))
+			var tex := stone_texture(shape)
+			if tex != null:
+				draw_texture_rect(tex, r, false)
+			else:
+				draw_rect(r, COLORS.get(shape, COLORS.wedge))
 			var tl := r.position
 			var tr := r.position + Vector2(cell, 0)
 			var bl := r.position + Vector2(0, cell)
@@ -102,6 +107,15 @@ func _draw() -> void:
 				draw_rect(cell_rect(p).grow(-2), COLORS.ghost_ok if ok else COLORS.ghost_bad)
 
 
+## 这种石头每格用的贴图（work.json 的 view.stone_tiles）；没有图返回 null，画纯色块。
+static func stone_texture(shape: String) -> Texture2D:
+	var file := String(Rules.get_value("work.view.stone_tiles", {}).get(shape, ""))
+	var path := String(Rules.get_value("work.view.stone_dir", "")) + file + ".png"
+	if not _tex_cache.has(path):
+		_tex_cache[path] = load(path) if file != "" and ResourceLoader.exists(path) else null
+	return _tex_cache[path]
+
+
 ## 小图标：画一块石头的形状（库存窗口用）。
 static func draw_shape(canvas: CanvasItem, shape: String, rot: int, origin: Vector2, size: float, selected: bool) -> void:
 	var cells := StoneWall.shape_cells(shape, rot)
@@ -110,5 +124,9 @@ static func draw_shape(canvas: CanvasItem, shape: String, rot: int, origin: Vect
 		top = maxi(top, c.y)
 	for c in cells:
 		var r := Rect2(origin + Vector2(c.x * size, (top - c.y) * size), Vector2(size, size))
-		canvas.draw_rect(r, COLORS.get(shape, COLORS.wedge))
+		var tex := stone_texture(shape)
+		if tex != null:
+			canvas.draw_texture_rect(tex, r, false)
+		else:
+			canvas.draw_rect(r, COLORS.get(shape, COLORS.wedge))
 		canvas.draw_rect(r, COLORS.gold if selected else COLORS.edge, false, 1.0)

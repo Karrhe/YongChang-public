@@ -97,6 +97,7 @@ func load_game() -> bool:
 	var loaded := ResourceLoader.load(save_path, "", ResourceLoader.CACHE_MODE_IGNORE)
 	if loaded is SaveData:
 		save = loaded
+		FlowLogic.migrate(save)  # 旧存档补砖槽
 		return true
 	return false
 

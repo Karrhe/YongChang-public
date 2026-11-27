@@ -5,7 +5,10 @@
 			"_note": "劳作画面的美术：工地背景压暗当底；资源一行前面放人口、粮食、材料三个图标（顺序和 WORK_RESOURCES 一致）。",
 			"background": "res://assets/art/bg/site.png",
 			"background_tint": "#505058",
-			"resource_icons": ["res_people", "res_grain", "res_material"]
+			"resource_icons": ["res_people", "res_grain", "res_material"],
+			"_stone_note": "砖槽里每格的贴图（ART-2，leeli777 画）：形状 → 图，图在 stone_dir/<图>.png，16×16 平铺到每一格。没有图时画纯色块。",
+			"stone_dir": "res://assets/art/work/",
+			"stone_tiles": {"stake3": "stake", "wedge": "stone_wedge", "bar2": "stone_bar", "bar3": "stone_bar", "L3": "stone_corner", "sq": "stone_square"}
 		},
 		"seasons": 2,
 		"eat_per_person": 2,

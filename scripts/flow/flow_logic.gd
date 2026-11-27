@@ -358,6 +358,9 @@ static func apply_event(save: SaveData, event_id: String) -> Dictionary:
 			values.people = int(cfg.get("people_bonus", 0))
 			# 三十年风化：每段墙按 work.puzzle.weathering 掉几格（预设，不随机）；门照旧掉 gate_hp_loss。
 			values.weathered = weather(save)
+			# 没有墙风化时不说“掉了石头”（QA-2 的 QA-009）。
+			values.weather_text = _tr("EVT_WEATHER_SOME" if int(values.weathered) > 0 else "EVT_WEATHER_NONE") \
+				.format({"n": values.weathered})
 			damage_walls(save, values.loss, true)
 			save.people += values.people
 			if cfg.get("clear_roster", false):
@@ -470,6 +473,21 @@ static func collapse_ruins(save: SaveData) -> void:
 			continue  # 栅栏上正在砌的石墙：栅栏照旧是废墟，砖槽不动
 		StoneWall.clear_top_row(layout)
 		save.wall_slots[slot] = StoneWall.wall_after_loss(layout, wall)
+
+
+## 旧存档（砌石拼图之前）读进来以后补上砖槽：旧石墙当完美咬合的墙（旧规则下石墙本来就是满 HP 6），
+## 旧栅栏当刚扎成的木桩。不看版本号：旧存档没写版本字段，读进来就是默认的 3（QA-2 的 QA-006、QA-007）。
+static func migrate(save: SaveData) -> void:
+	for slot: String in save.wall_slots:
+		var wall: Dictionary = save.wall_slots[slot]
+		if slot.begins_with("gate_") or wall.type == "none" or save.wall_layouts.has(slot):
+			continue
+		var layout := StoneWall.perfect() if wall.type == "stone" else StoneWall.fence()
+		save.wall_layouts[slot] = layout
+		wall.max = StoneWall.max_hp(layout)
+		for i in wall.hp.size():
+			wall.hp[i] = mini(int(wall.hp[i]), int(wall.max))
+	save.version = 3
 
 
 ## 这段墙的满 HP：砌石筑成的墙记在 "max"，其余按类型查 core.walls.max_hp。

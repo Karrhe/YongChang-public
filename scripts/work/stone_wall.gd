@@ -212,6 +212,16 @@ static func typhoon_loss(layout: Dictionary) -> int:
 	return int(cfg().get("typhoon_per_seam", 2)) * red_seams(layout).size()
 
 
+## 一段木栅栏：前几列各插一根木桩，刚好扎成（旧存档补砖槽用）。
+static func fence() -> Dictionary:
+	var layout := empty("fence")
+	var stake_h := shape_cells("stake3").size()
+	var need := ceili(float(cfg().get("built_cells", 9)) / stake_h)
+	for x in mini(need, width()):
+		place(layout, "stake3", 0, Vector2i(x, 0))
+	return layout
+
+
 ## 一段完美咬合的墙（C2 调守军筑墙用）：形状和位置写在 puzzle.perfect 里。
 static func perfect() -> Dictionary:
 	var layout := empty("stone")

@@ -120,7 +120,7 @@
 					{"turn": 3, "rows": [0, 3], "units": ["raider", "raider", "raider", "axeman"]},
 					{"turn": 5, "rows": [4, 7], "units": ["raider", "raider"]}
 				]},
-			"battle_5": {"villager_schedule": [2, 3, 3], "slow_schedule": [0, 1, 1], "map": "B", "tide": "rising", "turns": 8, "villagers": 8, "goal": 5,
+			"battle_5": {"villager_schedule": [2, 3, 3], "slow_schedule": [0, 1, 1], "map": "B", "tide": "rising", "turns": 8, "villagers": 8, "goal": 4,
 				"waves": [
 					{"turn": 2, "rows": [0, 3], "units": ["raider", "raider", "axeman"]},
 					{"turn": 2, "rows": [0, 7], "units": ["archer_boat"], "sea": true},
@@ -158,7 +158,7 @@
 			"_note": "战斗画面：每格 16×16 放大 2 倍（ART-001）。颜色取自 Dawnbringer 16。没有图时画色块和一个字。",
 			"cell": 32,
 			"origin": [8, 44],
-			"sprites": {"_note": "美术图（ART-001）：有图就画图，没有图时画原来的色块。地块和单位都是 16×16，画到 32×32 的格子里。tiles 里写成“甲|乙”的，第一代用乙（木望楼、宗祠），以后用甲；units 里写成“甲|乙”的，按单位编号单双轮流用；{frame} 是海的 2 帧，随闪烁切换。", "units_dir": "res://assets/art/units/", "ui_dir": "res://assets/art/ui/", "tide_icons": {"low": "low", "rising": "rising", "high": "high", "falling": "ebbing"}, "tiles_dir": "res://assets/art/tiles/", "tiles": {"field": "field", "road": "road", "house": "house", "mud": "mud", "mud_flooded": "mud_flooded", "beach": "beach", "sea": "sea_{frame}", "tower": "tower|tower_gen1", "safe": "safe_fort|safe_hall"}, "heroes": {"hero": ["hero_gen1", "hero_gen2", "hero_gen3"], "companion": ["a_tang", "zhou_yan", "a_he"]}, "units": {"elder": "elder", "spearman": "spearman", "reinforcement": "spearman", "militia": "militia", "bonus": "militia", "crossbow": "crossbow", "craftsman": "craftsman", "courier": "courier", "elder2": "elder", "qiao": "qiao", "villager": "villager_m|villager_f", "villager_slow": "villager_f|villager_m", "raider": "raider", "axeman": "axeman", "archer_boat": "archer_boat", "chief": "chief"}},
+			"sprites": {"_note": "美术图（ART-001）：有图就画图，没有图时画原来的色块。地块和单位都是 16×16，画到 32×32 的格子里。tiles 里写成“甲|乙”的，第一代用乙（木望楼、宗祠），以后用甲；units 里写成“甲|乙”的，按单位编号单双轮流用；{frame} 是海的 2 帧，随闪烁切换。", "units_dir": "res://assets/art/units/", "ui_dir": "res://assets/art/ui/", "tide_icons": {"low": "low", "rising": "rising", "high": "high", "falling": "ebbing"}, "tiles_dir": "res://assets/art/tiles/", "tiles": {"field": "field", "road": "road", "house": "house", "mud": "mud", "mud_flooded": "mud_flooded", "beach": "beach", "sea": "sea_{frame}", "tower": "tower|tower_gen1", "safe": "safe_fort|safe_hall"}, "heroes": {"hero": ["hero_gen1", "hero_gen2", "hero_gen3"], "companion": ["a_tang", "zhou_yan", "a_he"]}, "units": {"elder": "elder", "spearman": "spearman", "reinforcement": "spearman", "militia": "militia", "bonus": "militia", "crossbow": "crossbow", "craftsman": "craftsman", "courier": "courier", "elder2": "elder", "qiao": "qiao", "villager": "villager_m|villager_f", "villager_slow": "villager_slow", "raider": "raider", "axeman": "axeman", "archer_boat": "archer_boat", "chief": "chief"}},
 			"terrain_colors": {"field": "#346524", "road": "#854c30", "house": "#d2aa99", "mud": "#757161", "mud_flooded": "#30346d",
 				"beach": "#dad45e", "sea": "#597dce", "tower": "#4e4a4e", "safe": "#442434"},
 			"structure_colors": {"fence": "#854c30", "stone": "#8595a1", "ruin": "#4e4a4e", "barrier": "#d27d2c", "gate_open": "#d2aa99"},

@@ -28,16 +28,6 @@ NAMING_OK,就这样
 NAMING_ERR_CHARS,名字要用 1–{max} 个汉字。
 NAMING_ERR_TAKEN,“{name}”已经是别人的名字了。
 NAMING_ERR_HAMMER,刻字最多 {max} 个字，不能有方括号和花括号。
-CHOICE_EFFECT_C1_A,材料 +3，守军 +1
-CHOICE_EFFECT_C1_B,不变
-CHOICE_EFFECT_C2_A,调走 1 名守军，选 1 段墙位筑成石墙
-CHOICE_EFFECT_C2_B,不变
-CHOICE_EFFECT_C3_A,粮食 +5，人口 −1
-CHOICE_EFFECT_C3_B,不变
-CHOICE_EFFECT_C4_A,材料 +6，粮食 +3，选 3 段石墙拆掉
-CHOICE_EFFECT_C4_B,粮食 −2
-CHOICE_EFFECT_C5_A,下一场守军 +2，粮食 −4
-CHOICE_EFFECT_C5_B,不变
 CHOICE_NEED_RICE,粮食不够，这一代的义仓已经开过了。
 CHOICE_NEED_PEOPLE,人手太少，不能再走人。
 CHOICE_NEED_DEFENDER,没有守军可以调。
@@ -54,7 +44,9 @@ WALL_TYPE_fence,栅栏
 WALL_TYPE_stone,石墙
 EVT_SUMMARY_GEN1_TO_GEN2,第一代的木桩多半用不上筑石墙：石料 {before} → {half}。王叔杲倡议捐银买石：石料 +{bonus}，现在有 {after} 块。
 EVT_SUMMARY_TYPHOON,台风过境：墙上一共 {seams} 条通缝，每条让那段墙每格 HP −2；咬住的墙一格不掉。门每格 HP −{gate}。
-EVT_SUMMARY_GEN2_TO_GEN3,三十年过去：{weathered} 段墙风化掉了几块石头，要用碎石补；门每格 HP −{loss}；孩子们长大了，人口 +{people}；守军要重新训练。
+EVT_SUMMARY_GEN2_TO_GEN3,三十年过去：{weather_text}门每格 HP −{loss}；孩子们长大了，人口 +{people}；守军要重新训练。
+EVT_WEATHER_SOME,{n} 段墙风化掉了几块石头，劳作时用楔石、条石补上；
+EVT_WEATHER_NONE,石墙咬得牢，三十年没掉一块石头；
 LANTERN_VILLAGER_G1_01,王福生
 LANTERN_VILLAGER_G1_02,陈大娘
 LANTERN_VILLAGER_G1_03,林九郎
@@ -109,8 +101,17 @@ LANTERN_DEFENDER_G3_05,叶栓柱
 LANTERN_DEFENDER_G3_06,林老二
 LANTERN_DEFENDER_G3_07,金阿贵
 LANTERN_DEFENDER_G3_08,谢六郎
-EVT_ROLLCALL_INTRO,仗打完了。宗祠前，按名册一个一个点名。
+EVT_ROLLCALL_INTRO,仗打完了。宗祠前点名，点的是这一代没能回来的人。
 EVT_ROLLCALL_NAME,“{name}。”
 EVT_ROLLCALL_SILENT,……没有人应。
 EVT_ROLLCALL_END,灯簿上添了 {count} 个名字。中元节那天，一个一个写在灯上。
 EVT_ROLLCALL_NONE,点到的人都应了。这一代，灯簿上没有添名字。
+CHOICE_FX_materials,石料 {n}
+CHOICE_FX_rice,粮食 {n}
+CHOICE_FX_people,人口 {n}
+CHOICE_FX_add_unit,多一名{unit}
+CHOICE_FX_remove_units,调走 {n} 名守军
+CHOICE_FX_build_stone,选 {n} 段墙位筑成咬合的石墙
+CHOICE_FX_demolish_stone,选 {n} 段石墙拆掉
+CHOICE_FX_bonus,下一场守军 +{n}
+CHOICE_FX_none,不变

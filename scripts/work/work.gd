@@ -310,7 +310,7 @@ func _refresh_jobs() -> void:
 		count.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		_button(line, "+", func() -> void: _change(job, 1), 20)
 		var note := _label(line, "#8595a1")
-		note.text = Game.text("WORK_NOTE_" + job)
+		note.text = Game.text("WORK_NOTE_" + job).format({"rice": int(Rules.get_value("work.jobs.farm.rice", 3))})
 	var masons := _label(jobs_box, "#8595a1", 200)
 	masons.text = Game.text("WORK_MASONS").format({"masons": state.masons(), "left": state.placements_left(),
 		"per": int(Rules.get_value("work.puzzle.placements_per_mason", 3))})

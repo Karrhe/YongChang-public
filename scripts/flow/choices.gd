@@ -134,3 +134,25 @@ static func _filled(n: int, value: int) -> Array:
 	a.resize(n)
 	a.fill(value)
 	return a
+
+
+## 选项下面那行效果说明：按 flow.json 的效果拼出来，数值改了说明跟着变（REDESIGN-001 M7 以后不再手写）。
+static func effect_text(id: String, pick: String) -> String:
+	var fx := effect(id, pick)
+	var parts := PackedStringArray()
+	for key: String in ["materials", "rice", "people"]:
+		var n := int(fx.get(key, 0))
+		if n != 0:
+			parts.append(Game.text("CHOICE_FX_" + key).format({"n": ("+%d" % n) if n > 0 else ("−%d" % -n)}))
+	for type: String in fx.get("add_units", []):
+		parts.append(Game.text("CHOICE_FX_add_unit").format({"unit": Game.text("BAT_UNIT_" + type)}))
+	if int(fx.get("remove_units", 0)) > 0:
+		parts.append(Game.text("CHOICE_FX_remove_units").format({"n": int(fx.remove_units)}))
+	if int(fx.get("build_stone", 0)) > 0:
+		parts.append(Game.text("CHOICE_FX_build_stone").format({"n": int(fx.build_stone)}))
+	if int(fx.get("demolish_stone", 0)) > 0:
+		parts.append(Game.text("CHOICE_FX_demolish_stone").format({"n": int(fx.demolish_stone)}))
+	var bonus: Dictionary = Rules.get_value("flow.bonus_defenders", {})
+	if bonus.get("choice", "") == id and bonus.get("pick", "") == pick:
+		parts.append(Game.text("CHOICE_FX_bonus").format({"n": int(bonus.get("count", 0))}))
+	return Game.text("CHOICE_FX_none") if parts.is_empty() else "，".join(parts)

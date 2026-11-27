@@ -197,13 +197,18 @@ func _test_rollcall() -> void:
 ## 在规则事件节点退出再读档：事件只生效一次（存档在事件生效之前写，生效后的状态在下一个节点才写）。
 func _test_resume_at_event() -> void:
 	var save := _new_save()
-	save.wall_slots.A1 = {"type": "stone", "hp": [6, 6]}
+	var stack := StoneWall.empty("stone")
+	for y in 3:
+		StoneWall.place(stack, "bar2", 0, Vector2i(0, y))
+		StoneWall.place(stack, "bar2", 0, Vector2i(2, y))
+	save.wall_layouts.A1 = stack  # 一条通缝：台风每格 −2
+	save.wall_slots.A1 = StoneWall.wall_full(stack, 2)
 	save.progress = "typhoon"
 	Game.save_game()
 	var copy := FlowLogic.find_node("typhoon")
 	_check("测试前提：台风是规则事件", copy.type == "event")
 	# 模拟“在台风节点退出”：读回的就是事件之前的存档。
-	_check("读档", Game.load_game() and Game.save.wall_slots.A1.hp == [6, 6])
+	_check("读档", Game.load_game() and Game.save.wall_slots.A1.hp == [5, 5])
 	var flow: Node = load("res://scenes/flow/flow.tscn").instantiate()
 	add_child(flow)
 	for i in 6:
@@ -216,6 +221,23 @@ func _test_resume_at_event() -> void:
 	_check("看完说明后停在 G2-5", Game.save.progress == "G2-5")
 	Game.load_game()
 	_check("读档后台风只扣了一次", Game.save.wall_slots.A1.hp == [3, 3])
+
+	# 旧存档（砌石拼图之前）：墙没有砖槽，读档时补上（QA-2 的 QA-006、QA-007）。
+	var old := _new_save()
+	old.wall_slots.A1 = {"type": "stone", "hp": [6, 4]}
+	old.wall_slots.B1 = {"type": "fence", "hp": [2, 2]}
+	old.wall_slots.gate_A = {"type": "stone", "hp": [8]}
+	old.progress = "typhoon"
+	Game.save = old
+	Game.save_game()
+	_check("旧存档读档：旧石墙补成完美咬合的砖槽，HP 不变", Game.load_game()
+		and StoneWall.red_seams(Game.save.wall_layouts.A1).is_empty() and Game.save.wall_slots.A1.hp == [6, 4]
+		and int(Game.save.wall_slots.A1.max) == 6)
+	_check("旧存档读档：旧栅栏补成木桩，门不拼", StoneWall.is_built(Game.save.wall_layouts.B1)
+		and Game.save.wall_layouts.B1.kind == "fence" and not Game.save.wall_layouts.has("gate_A"))
+	var tv := FlowLogic.apply_event(Game.save, "typhoon")
+	_check("补过砖槽的旧墙按红缝过台风", Game.save.wall_slots.A1.hp == [6, 4] and Game.save.wall_slots.B1.hp == [0, 0]
+		and int(tv.seams) == 3)
 	flow.queue_free()
 	await get_tree().process_frame
 
