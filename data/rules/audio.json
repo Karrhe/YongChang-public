@@ -12,7 +12,9 @@
 			"hit": "hit.wav",
 			"repair": "repair.wav",
 			"beacon": "beacon.wav",
-			"lantern": "lantern.wav"
+			"lantern": "lantern.wav",
+			"stone_place": "stone_place.wav",
+			"stone_bite": "stone_bite.wav"
 		}
 	}
 }

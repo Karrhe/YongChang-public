@@ -356,8 +356,11 @@ func _on_grid_click(cell: Vector2i, button: int) -> void:
 		hint_label.text = Game.text("WORK_NO_MASON" if state.placements_left() <= 0 else "WORK_NO_STONE").format({"stone": _stone_word()})
 		return
 	var was_built := StoneWall.is_built(state.layout(selected_slot))
+	var gold_before := StoneWall.gold_joints(state.layout(selected_slot)).size()
 	if state.place(selected_slot, pick, rot, cell):
-		Game.play_sfx("repair")
+		# 压出新的金线（咬住了）响一声清脆的，否则是放下石头的闷响（AUD-2，leeli777 合成）。
+		var bit := StoneWall.gold_joints(state.layout(selected_slot)).size() > gold_before
+		Game.play_sfx("stone_bite" if bit else "stone_place")
 		var layout := state.layout(selected_slot)
 		if not was_built and StoneWall.is_built(layout):
 			hint_label.text = Game.text("WORK_WALL_BUILT").format({"hp": StoneWall.max_hp(layout)})

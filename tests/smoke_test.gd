@@ -20,7 +20,7 @@ func _ready() -> void:
 	_check("缺少的文字显示待写", Game.text("G9-9_A") == "[待写: G9-9_A]")
 	_check("规则文件都合格", Rules.errors.is_empty())
 	var sfx: Dictionary = Rules.get_value("audio.events", {})
-	_check("六个音效事件都有文件", sfx.size() == 6 and sfx.keys().all(func(e: String) -> bool:
+	_check("八个音效事件都有文件（含 AUD-2 的放石、咬住）", sfx.size() == 8 and sfx.keys().all(func(e: String) -> bool:
 		return ResourceLoader.exists(String(Rules.get_value("audio.dir", "")) + String(sfx[e]))))
 	_check("规则能读到初始粮食", int(Rules.get_value("core.new_game.rice", -1)) == 6)
 	_check("找不到的规则返回默认值", Rules.get_value("no.such.key", 42) == 42)
