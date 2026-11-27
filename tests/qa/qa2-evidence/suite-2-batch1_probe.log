@@ -1,0 +1,43 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ok battle_1 attempt 1 Accept visibility / Retry available
+ok battle_1 attempt 1 pending result leaves save untouched
+ok battle_1 reopened a fresh battle with identical input on turn 1
+ok battle_1 attempt 2 Accept visibility / Retry available
+ok battle_1 attempt 2 pending result leaves save untouched
+ok battle_1 reopened a fresh battle with identical input on turn 1
+ok battle_1 identical autoplay reproduces same outcome and losses
+  battle_1 real result costly, villagers saved/lost 2/2, defenders lost 0
+ok battle_1 reload remains at battle start
+ok battle_7 attempt 1 Accept visibility / Retry available
+ok battle_7 attempt 1 pending result leaves save untouched
+ok battle_7 reopened a fresh battle with identical input on turn 1
+ok battle_7 reload remains at battle start
+ok battle_8 attempt 1 Accept visibility / Retry available
+ok battle_8 attempt 1 pending result leaves save untouched
+ok battle_8 reopened a fresh battle with identical input on turn 1
+ok battle_8 reload remains at battle start
+ok production conditional rows across three survival states (231 checks)
+ok G2-6_A_met state 0 selected, dialogue loaded (["01", "02", "03", "04", "06"])
+ok G2-6_A_met state 1 selected, dialogue loaded (["01", "02", "03", "05", "07"])
+ok G2-6_A_met state 2 selected, dialogue loaded (["01", "02", "03"])
+ok G2-6_A_unmet state 0 selected, dialogue loaded (["01", "02", "03", "04", "05"])
+ok G2-6_A_unmet state 1 selected, dialogue loaded (["01", "02", "03", "04", "06"])
+ok G2-6_A_unmet state 2 selected, dialogue loaded (["01", "02", "03", "04"])
+ok G2-6_B_met state 0 selected, dialogue loaded (["01", "03", "05", "07"])
+  custom name 测试石娘, actual memorial line （看着合上的缺口）今年七月半，给峤叔写一盏灯，也给测试石娘写一盏。
+ok G2-6_B_met state 1 selected, dialogue loaded (["01", "03", "06", "09"])
+ok G2-6_B_met state 2 selected, dialogue loaded (["01", "03"])
+ok G2-6_B_unmet state 0 selected, dialogue loaded (["01", "02", "05", "07"])
+  custom name 测试石娘, actual memorial line 今年七月半，给峤叔写一盏灯，也给测试石娘写一盏。
+ok G2-6_B_unmet state 1 selected, dialogue loaded (["01", "02", "06", "09"])
+ok G2-6_B_unmet state 2 selected, dialogue loaded (["01", "02"])
+ok accepted B4 hero death and B5 replacement death leave both Gen 2 characters dead
+  both Gen 2 dead, G2-6 first dialogue speaker:
+  B5 map B, G2-4 first line: 南门守住了，换粮的路却断了。
+  first overflow villager name: 王老大
+ok table overflow produces a distinct name
+  E3 floating labels: ["王福生", "王桂嫂", "王秀姑", "陈大娘", "林九郎", "张婆", "王七斤", "黄嫂", "细弟", "郑老四", "周阿婆", "吴二娘", "王老大", "王大根", "王坚官", "王岩生", "测试三代"]
+ok E3 displays names from all three generations, hero substitution and overflow
+ok ending completed
+QA BATCH 1 PROBE: PASS

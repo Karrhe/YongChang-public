@@ -1,0 +1,13 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ok    整局走到结局（551 步，4.3 秒）
+ok    九场战斗都接受了
+ok    五个选择都做了
+ok    两个名字都起了
+ok    每种画面都出现过
+  战斗结果：{ "battle_1": "costly", "battle_2": "costly", "battle_3": "costly", "battle_4": "held", "battle_5": "costly", "battle_6": "held", "battle_7": "held", "battle_8": "costly", "battle_9": "costly" }
+  战斗余量：1 救 2/4 失 2 · 2 救 1/3 失 4 · 3 救 4/5 失 4 · 4 救 3/3 失 3 · 5 救 3/5 失 4 · 6 救 4/4 失 4 · 7 救 4/4 失 4 · 8 救 3/5 失 5 · 9 救 4/6 失 5
+  人口 4 · 粮 4 · 材料 8 · 灯 35（乡亲 35、守军 0、主角和同伴 0）
+  主角存活：[true, true, true] 同伴存活：[true, true, true]
+  目标卡：[true, true, true] 筑成的墙和门：8
+PLAYTHROUGH TEST: PASS

@@ -1,0 +1,6 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+QA2 hold turn=4 tide=falling villager uid=9 at=(6, 5) consecutive=false slow=true
+QA2 hold turn=4 tide=falling villager uid=15 at=(7, 5) consecutive=false slow=true
+QA2 hold turn=5 tide=low villager uid=9 at=(6, 5) consecutive=true slow=true
+battle_8 escort: saved 5/5 lost 2 outside 1 looted 2 defenders lost 0 hero died false

@@ -1,0 +1,85 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ok    规则文件都合格
+ok    B1 从低潮开始，第 3 回合高潮
+ok    潮汐条显示 4 步
+ok    B6 风暴潮没有低潮
+ok    B6 第 1、2 回合都是高潮
+ok    B1 只有主角和教学枪兵
+ok    B1 六个乡亲分三批出来：第 1 回合 2 个
+ok    B1 第 1 回合还没有海寇
+ok    B2 不足 3 人补民兵
+ok    B4：主角和教学信使必出，长辈和 6 名守军里选 3 个
+ok    B4 出战 5 人，长辈在里面
+ok    B3 峤叔守在烽火台上、第 1 回合点了烽火
+ok    B3 第 1 回合还没有海寇（第 2 回合才登陆，留时间出去接人）
+ok    饥饿时守军移动 −1
+ok    剧情模式：回合 +1、海寇 HP −1
+ok    栅栏挡路
+ok    门开着能过
+ok    主角移动 4 格以内
+ok    不能走进墙
+ok    能移动
+ok    能撤销移动
+ok    门关上就挡路
+ok    HP 0 的栅栏是废墟，能走
+ok    高潮时滩涂淹着，走不了
+ok    退潮时滩涂能走，花 2 步
+ok    涨潮时站在滩涂上的人被推到干格、受 1 点伤害
+ok    架枪：走到枪兵旁边的海寇受 2 点伤害并停下
+ok    没有乡亲可抓时打最近的守军，主角反击
+ok    海寇的意图是抓人
+ok    抓走乡亲
+ok    抓着乡亲往海滩走
+ok    走到海滩等着
+ok    高潮：船开走，乡亲失去了
+ok    打倒抓人的海寇，乡亲救回来
+ok    站在烽火台上能点烽火
+ok    3 回合内援军还没到
+ok    点烽火 3 回合后来 2 名援军
+ok    援军不进名单
+ok    工匠能修旁边受损的墙
+ok    修墙 +3
+ok    做完动作就不能再动
+ok    能攻击相邻的海寇
+ok    伤害 = 攻击力
+ok    近战打不到弓箭船
+ok    结果的墙位 HP 写回去了
+ok    结果格式合格
+ok    走不动的乡亲旁边没有守军就不走
+ok    守军在旁边，走不动的乡亲就走
+ok    下一步涨潮时乡亲不停在滩涂上
+ok    没人可抓时海寇的意图是抢粮
+ok    冲进安全区抢了一次粮
+ok    同一个海寇不会再抢
+ok    战斗结果里有被抢的粮
+ok    战后扣掉被抢的粮
+ok    battle_1 能打完（7 回合）
+ok    battle_1 结果格式合格
+ok    battle_1 乡亲数对得上
+ok    battle_2 能打完（8 回合）
+ok    battle_2 结果格式合格
+ok    battle_2 乡亲数对得上
+ok    battle_3 能打完（9 回合）
+ok    battle_3 结果格式合格
+ok    battle_3 乡亲数对得上
+ok    battle_4 能打完（8 回合）
+ok    battle_4 结果格式合格
+ok    battle_4 乡亲数对得上
+ok    battle_5 能打完（8 回合）
+ok    battle_5 结果格式合格
+ok    battle_5 乡亲数对得上
+ok    battle_6 能打完（8 回合）
+ok    battle_6 结果格式合格
+ok    battle_6 乡亲数对得上
+ok    battle_7 能打完（8 回合）
+ok    battle_7 结果格式合格
+ok    battle_7 乡亲数对得上
+ok    battle_8 能打完（8 回合）
+ok    battle_8 结果格式合格
+ok    battle_8 乡亲数对得上
+ok    battle_9 能打完（10 回合）
+ok    battle_9 结果格式合格
+ok    battle_9 乡亲数对得上
+ok    战斗画面能打完并交回结果
+BATTLE TEST: PASS

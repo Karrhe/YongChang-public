@@ -1,0 +1,47 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+v2-default.tres loaded: version=3 progress=after_battle_5 rice=27 materials=7 names=["王岚", ""] wall={ "hp": [6, 6], "type": "stone" } layouts={  } queue=[]
+work opened: queue size=11 materials=11 A1 filled=0 contract=[]
+QA2 work after_battle_5 S1 build_gate gate_A
+QA2 work after_battle_5 S1 place A1 rot=0 gold=0 red=2
+QA2 work after_battle_5 S1 place A1 rot=0 gold=0 red=1
+QA2 work after_battle_5 S1 place A1 rot=0 gold=1 red=0
+QA2 work after_battle_5 S1 place A1 rot=0 gold=2 red=0
+QA2 work after_battle_5 S1 place A2 rot=0 gold=0 red=2
+QA2 work after_battle_5 S1 place A2 rot=0 gold=0 red=1
+QA2 work after_battle_5 S1 place A2 rot=0 gold=1 red=0
+QA2 work after_battle_5 S1 place A3 rot=0 gold=0 red=3
+QA2 work after_battle_5 S1 place A3 rot=0 gold=0 red=3
+QA2 work after_battle_5 S2 place A3 rot=0 gold=0 red=2
+QA2 work after_battle_5 S2 place A3 rot=0 gold=1 red=1
+QA2 work after_battle_5 S2 place A3 rot=0 gold=2 red=0
+QA2 work after_battle_5 S2 place B1 rot=0 gold=0 red=2
+QA2 work after_battle_5 S2 place B1 rot=0 gold=0 red=1
+QA2 work after_battle_5 S2 place B1 rot=0 gold=0 red=1
+work completed: done=true contract=[]
+legacy typhoon: { &"gate": 3, "walls": 1, "seams": 0 } A1 after={ "hp": [3, 3], "type": "stone" } notice=台风过境：墙上一共 0 条通缝，每条让那段墙每格 HP −2；咬住的墙一格不掉。门每格 HP −3。
+legacy weathering: { &"loss": 3, &"people": 2, &"weathered": 0 }
+reopened after saving: version=3
+v2-explicit.tres loaded: version=2 progress=after_battle_5 rice=27 materials=7 names=["王岚", ""] wall={ "hp": [6, 6], "type": "stone" } layouts={  } queue=[]
+work opened: queue size=11 materials=11 A1 filled=0 contract=[]
+QA2 work after_battle_5 S1 build_gate gate_A
+QA2 work after_battle_5 S1 place A1 rot=0 gold=0 red=2
+QA2 work after_battle_5 S1 place A1 rot=0 gold=0 red=1
+QA2 work after_battle_5 S1 place A1 rot=0 gold=1 red=0
+QA2 work after_battle_5 S1 place A1 rot=0 gold=2 red=0
+QA2 work after_battle_5 S1 place A2 rot=0 gold=0 red=2
+QA2 work after_battle_5 S1 place A2 rot=0 gold=0 red=1
+QA2 work after_battle_5 S1 place A2 rot=0 gold=1 red=0
+QA2 work after_battle_5 S1 place A3 rot=0 gold=0 red=3
+QA2 work after_battle_5 S1 place A3 rot=0 gold=0 red=3
+QA2 work after_battle_5 S2 place A3 rot=0 gold=0 red=2
+QA2 work after_battle_5 S2 place A3 rot=0 gold=1 red=1
+QA2 work after_battle_5 S2 place A3 rot=0 gold=2 red=0
+QA2 work after_battle_5 S2 place B1 rot=0 gold=0 red=2
+QA2 work after_battle_5 S2 place B1 rot=0 gold=0 red=1
+QA2 work after_battle_5 S2 place B1 rot=0 gold=0 red=1
+work completed: done=true contract=[]
+legacy typhoon: { &"gate": 3, "walls": 1, "seams": 0 } A1 after={ "hp": [3, 3], "type": "stone" } notice=台风过境：墙上一共 0 条通缝，每条让那段墙每格 HP −2；咬住的墙一格不掉。门每格 HP −3。
+legacy weathering: { &"loss": 3, &"people": 2, &"weathered": 0 }
+reopened after saving: version=2
+preview load probe exit=0

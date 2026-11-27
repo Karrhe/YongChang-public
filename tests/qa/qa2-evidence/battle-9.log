@@ -1,0 +1,104 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+--- turn 1 tide low next rising
+FFW.hmmmmvhs~
+FFW..mmmmv.s~
+FFTMhmmmm.hs~
+FFGHHrrrrr.s~
+FFW..mmmmvhs~
+FFW..mmmm..s~
+FFW.hmmmm.hs~
+FFW..mmmm..s~
+--- turn 2 tide rising next high
+FFW.h~~~~vheb
+FFW..~~~~v.e~
+FFTMh~~~~vhs~
+FFGrrrvHrH.s~
+FFW..~~~~vhs~
+FFW..~~~~..s~
+FFW.h~~~~Vhs~
+FFW..~~~~..s~
+  e@(11, 0) -> grab (9, 0)
+  e@(11, 1) -> grab (9, 1)
+  b@(12, 0) -> none (-1, -1)
+--- turn 3 tide high next falling
+FFW.h~~~~eekb
+FFW..~~~~e.a~
+FFT.h~~~~Vha~
+FFGvrMvvVH.e~
+FFW..~~~~vhs~
+FFW..~~~~H.s~
+FFW.h~~~~.hs~
+FFW..~~~~..s~
+  e@(9, 0) -> carry (11, 4)
+  e@(9, 1) -> carry (11, 4)
+  b@(12, 0) -> none (-1, -1)
+  k@(11, 0) -> none (9, 3)
+  a@(11, 1) -> none (9, 3)
+  a@(11, 2) -> attack (9, 3)
+  e@(11, 3) -> grab (9, 4)
+  e@(10, 0) -> none (9, 5)
+--- turn 4 tide falling next low
+FFW.hmmmmvhkb
+FFW..mmmmeea~
+FFT.hmmmm.es~
+FFGvrMvVvHae~
+FFW..mmmmvhs~
+FFW..mmmmH.s~
+FFW.hmmmm.hs~
+FFW..mmmm..s~
+  e@(10, 1) -> carry (11, 2)
+  e@(10, 2) -> carry (11, 4)
+  b@(12, 0) -> none (-1, -1)
+  k@(11, 0) -> none (9, 3)
+  a@(11, 1) -> none (1, 1)
+  a@(10, 3) -> none (1, 2)
+  e@(11, 3) -> none (8, 3)
+  e@(9, 1) -> carry (11, 4)
+--- turn 5 tide low next rising
+FFW.hmmmvkhsb
+FFW..mmmm.ae~
+FFT.hmmmmehe~
+FFGvVMvvrH.s~
+FFW..mmHm.es~
+FFW..mmmm..s~
+FFW.hmmmm.hs~
+FFW..mmmm..s~
+  e@(11, 2) -> carry (-1, -1)
+  e@(10, 4) -> carry (11, 4)
+  b@(12, 0) -> none (-1, -1)
+  k@(9, 0) -> none (9, 3)
+  a@(10, 1) -> none (1, 1)
+  e@(9, 2) -> grab (8, 0)
+  e@(11, 1) -> carry (-1, -1)
+--- turn 6 tide rising next high
+FFW.h~~~~ehsb
+FFW..~~~~a.eb
+FFT.M~~~~.ke~
+FFGvvrrHrH.s~
+FFW..~~~~.he~
+FFW..~~~~..s~
+FFW.h~~~~.hs~
+FFW..~~~~..s~
+  e@(11, 2) -> carry (-1, -1)
+  e@(11, 4) -> carry (-1, -1)
+  b@(12, 0) -> none (-1, -1)
+  k@(10, 2) -> attack (9, 3)
+  a@(9, 1) -> none (9, 3)
+  e@(9, 0) -> carry (11, 0)
+  e@(11, 1) -> carry (-1, -1)
+  b@(12, 1) -> shoot (9, 3)
+--- turn 7 tide high next falling
+FFW.h~~~~.hsb
+FFW..~~~~..s~
+FFT.h~~~~kas~
+FFvrrrMHrr.sb
+FFW..~~~~.hs~
+FFW..~~~~..s~
+FFW.h~~~~.hs~
+FFW..~~~~..s~
+  b@(12, 0) -> none (-1, -1)
+  k@(9, 2) -> attack (7, 3)
+  a@(10, 2) -> none (-1, -1)
+  b@(12, 3) -> none (-1, -1)
+battle_9 escort: saved 6/6 lost 4 outside 0 looted 0 defenders lost 0 hero died true
