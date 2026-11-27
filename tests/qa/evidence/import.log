@@ -1,0 +1,407 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Unable to open file: res://.godot/imported/button_9patch.png-0f67e8daae201e1faa6c8a074ddb55ea.ctex.
+   at: _load_data (scene/resources/compressed_texture.cpp:45)
+ERROR: Failed loading resource: res://.godot/imported/button_9patch.png-0f67e8daae201e1faa6c8a074ddb55ea.ctex.
+   at: _load (core/io/resource_loader.cpp:317)
+ERROR: Failed loading resource: res://assets/art/ui/button_9patch.png.
+   at: _load (core/io/resource_loader.cpp:317)
+ERROR: Cannot open file 'res://.godot/imported/fusion-pixel-12px-proportional-zh_hans.otf.woff2-8d2336143140ba13abfe41cb25203b56.fontdata'.
+   at: load (core/io/resource_format_binary.cpp:1156)
+ERROR: Failed loading resource: res://.godot/imported/fusion-pixel-12px-proportional-zh_hans.otf.woff2-8d2336143140ba13abfe41cb25203b56.fontdata.
+   at: _load (core/io/resource_loader.cpp:317)
+ERROR: Failed loading resource: res://assets/fonts/fusion-pixel-12px-proportional-zh_hans.otf.woff2.
+   at: _load (core/io/resource_loader.cpp:317)
+ERROR: res://assets/theme/main_theme.tres:11 - Parse Error: [ext_resource] referenced non-existent resource at: res://assets/art/ui/button_9patch.png.
+   at: _printerr (scene/resources/resource_format_text.cpp:41)
+ERROR: res://assets/theme/main_theme.tres:11 - Parse Error: [ext_resource] referenced non-existent resource at: res://assets/art/ui/button_9patch.png.
+   at: _printerr (scene/resources/resource_format_text.cpp:41)
+ERROR: Failed loading resource: res://assets/theme/main_theme.tres.
+   at: _load (core/io/resource_loader.cpp:317)
+ERROR: Error loading custom project theme 'res://assets/theme/main_theme.tres'
+   at: initialize_theme (scene/theme/theme_db.cpp:74)
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Started Project initialization (5 steps)[39m[0m
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Scanning file structure...[39m[0m
+[  16% ] [90m[1mfirst_scan_filesystem[22m | Loading global class names...[39m[0m
+[  33% ] [90m[1mfirst_scan_filesystem[22m | Verifying GDExtensions...[39m[0m
+[  50% ] [90m[1mfirst_scan_filesystem[22m | Creating autoload scripts...[39m[0m
+[  66% ] [90m[1mfirst_scan_filesystem[22m | Initializing plugins...[39m[0m
+[  83% ] [90m[1mfirst_scan_filesystem[22m | Starting file scan...[39m[0m
+[92m[ DONE ][39m [1mfirst_scan_filesystem[22m
+[0m
+[   0% ] [90m[1mupdate_scripts_classes[22m | Started Registering global classes... (37 steps)[39m[0m
+[   0% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   2% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   5% ] [90m[1mupdate_scripts_classes[22m | BattleState[39m[0m
+[   7% ] [90m[1mupdate_scripts_classes[22m | Contract[39m[0m
+[  10% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  13% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  15% ] [90m[1mupdate_scripts_classes[22m | SaveData[39m[0m
+[  18% ] [90m[1mupdate_scripts_classes[22m | EndingScreen[39m[0m
+[  21% ] [90m[1mupdate_scripts_classes[22m | Choices[39m[0m
+[  23% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  26% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  28% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  31% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  34% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  36% ] [90m[1mupdate_scripts_classes[22m | FlowLogic[39m[0m
+[  39% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  42% ] [90m[1mupdate_scripts_classes[22m | NamingScreen[39m[0m
+[  44% ] [90m[1mupdate_scripts_classes[22m | DialogueBox[39m[0m
+[  47% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  50% ] [90m[1mupdate_scripts_classes[22m | StoryTable[39m[0m
+[  52% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  55% ] [90m[1mupdate_scripts_classes[22m | DevUI[39m[0m
+[  57% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  60% ] [90m[1mupdate_scripts_classes[22m | WallMap[39m[0m
+[  63% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  65% ] [90m[1mupdate_scripts_classes[22m | WorkState[39m[0m
+[  68% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  71% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  73% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  76% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  78% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  81% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  84% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  86% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  89% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  92% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  94% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[92m[ DONE ][39m [1mupdate_scripts_classes[22m
+[0m
+[   0% ] [90m[1m_update_scan_actions[22m | Started Scanning actions... (107 steps)[39m[0m
+[   0% ] [90m[1m_update_scan_actions[22m | hall.png[39m[0m
+[   0% ] [90m[1m_update_scan_actions[22m | home.png[39m[0m
+[   1% ] [90m[1m_update_scan_actions[22m | river.png[39m[0m
+[   2% ] [90m[1m_update_scan_actions[22m | site.png[39m[0m
+[   3% ] [90m[1m_update_scan_actions[22m | dragon.png[39m[0m
+[   4% ] [90m[1m_update_scan_actions[22m | lantern_defender.png[39m[0m
+[   5% ] [90m[1m_update_scan_actions[22m | lantern_door.png[39m[0m
+[   6% ] [90m[1m_update_scan_actions[22m | lantern_hero.png[39m[0m
+[   7% ] [90m[1m_update_scan_actions[22m | lantern_villager.png[39m[0m
+[   8% ] [90m[1m_update_scan_actions[22m | a_he.png[39m[0m
+[   9% ] [90m[1m_update_scan_actions[22m | a_nan.png[39m[0m
+[  10% ] [90m[1m_update_scan_actions[22m | a_tang.png[39m[0m
+[  11% ] [90m[1m_update_scan_actions[22m | gen2.png[39m[0m
+[  12% ] [90m[1m_update_scan_actions[22m | gen3.png[39m[0m
+[  12% ] [90m[1m_update_scan_actions[22m | qiao_shu.png[39m[0m
+[  13% ] [90m[1m_update_scan_actions[22m | su_niang.png[39m[0m
+[  14% ] [90m[1m_update_scan_actions[22m | wang_cheng.png[39m[0m
+[  15% ] [90m[1m_update_scan_actions[22m | wang_shugao.png[39m[0m
+[  16% ] [90m[1m_update_scan_actions[22m | zhou_yan.png[39m[0m
+[  17% ] [90m[1m_update_scan_actions[22m | clothes_red_cloth.png[39m[0m
+[  18% ] [90m[1m_update_scan_actions[22m | fishing_net.png[39m[0m
+[  19% ] [90m[1m_update_scan_actions[22m | grain_ledger.png[39m[0m
+[  20% ] [90m[1m_update_scan_actions[22m | rice.png[39m[0m
+[  21% ] [90m[1m_update_scan_actions[22m | spear.png[39m[0m
+[  22% ] [90m[1m_update_scan_actions[22m | stone_hammer.png[39m[0m
+[  23% ] [90m[1m_update_scan_actions[22m | stove_bowl.png[39m[0m
+[  24% ] [90m[1m_update_scan_actions[22m | swaddle.png[39m[0m
+[  25% ] [90m[1m_update_scan_actions[22m | barrier.png[39m[0m
+[  25% ] [90m[1m_update_scan_actions[22m | beach.png[39m[0m
+[  26% ] [90m[1m_update_scan_actions[22m | beacon_lit_0.png[39m[0m
+[  27% ] [90m[1m_update_scan_actions[22m | beacon_lit_1.png[39m[0m
+[  28% ] [90m[1m_update_scan_actions[22m | beacon_unlit.png[39m[0m
+[  29% ] [90m[1m_update_scan_actions[22m | fence_cracked.png[39m[0m
+[  30% ] [90m[1m_update_scan_actions[22m | fence_intact.png[39m[0m
+[  31% ] [90m[1m_update_scan_actions[22m | fence_ruin.png[39m[0m
+[  32% ] [90m[1m_update_scan_actions[22m | field.png[39m[0m
+[  33% ] [90m[1m_update_scan_actions[22m | gate_fence_closed.png[39m[0m
+[  34% ] [90m[1m_update_scan_actions[22m | gate_fence_open.png[39m[0m
+[  35% ] [90m[1m_update_scan_actions[22m | gate_stone_closed.png[39m[0m
+[  36% ] [90m[1m_update_scan_actions[22m | gate_stone_open.png[39m[0m
+[  37% ] [90m[1m_update_scan_actions[22m | house.png[39m[0m
+[  37% ] [90m[1m_update_scan_actions[22m | mud.png[39m[0m
+[  38% ] [90m[1m_update_scan_actions[22m | mud_flooded.png[39m[0m
+[  39% ] [90m[1m_update_scan_actions[22m | road.png[39m[0m
+[  40% ] [90m[1m_update_scan_actions[22m | safe_fort.png[39m[0m
+[  41% ] [90m[1m_update_scan_actions[22m | safe_hall.png[39m[0m
+[  42% ] [90m[1m_update_scan_actions[22m | sea_0.png[39m[0m
+[  43% ] [90m[1m_update_scan_actions[22m | sea_1.png[39m[0m
+[  44% ] [90m[1m_update_scan_actions[22m | stone_wall_cracked.png[39m[0m
+[  45% ] [90m[1m_update_scan_actions[22m | stone_wall_intact.png[39m[0m
+[  46% ] [90m[1m_update_scan_actions[22m | stone_wall_ruin.png[39m[0m
+[  47% ] [90m[1m_update_scan_actions[22m | tower.png[39m[0m
+[  48% ] [90m[1m_update_scan_actions[22m | tower_gen1.png[39m[0m
+[  49% ] [90m[1m_update_scan_actions[22m | button_9patch.png[39m[0m
+[  50% ] [90m[1m_update_scan_actions[22m | cursor.png[39m[0m
+[  50% ] [90m[1m_update_scan_actions[22m | dialog_9patch.png[39m[0m
+[  51% ] [90m[1m_update_scan_actions[22m | intent_arrow.png[39m[0m
+[  52% ] [90m[1m_update_scan_actions[22m | intent_unknown.png[39m[0m
+[  53% ] [90m[1m_update_scan_actions[22m | move_mark.png[39m[0m
+[  54% ] [90m[1m_update_scan_actions[22m | res_grain.png[39m[0m
+[  55% ] [90m[1m_update_scan_actions[22m | res_material.png[39m[0m
+[  56% ] [90m[1m_update_scan_actions[22m | res_people.png[39m[0m
+[  57% ] [90m[1m_update_scan_actions[22m | slash_0.png[39m[0m
+[  58% ] [90m[1m_update_scan_actions[22m | slash_1.png[39m[0m
+[  59% ] [90m[1m_update_scan_actions[22m | tablet_9patch.png[39m[0m
+[  60% ] [90m[1m_update_scan_actions[22m | target_mark.png[39m[0m
+[  61% ] [90m[1m_update_scan_actions[22m | tide_ebbing.png[39m[0m
+[  62% ] [90m[1m_update_scan_actions[22m | tide_high.png[39m[0m
+[  62% ] [90m[1m_update_scan_actions[22m | tide_low.png[39m[0m
+[  63% ] [90m[1m_update_scan_actions[22m | tide_rising.png[39m[0m
+[  64% ] [90m[1m_update_scan_actions[22m | tide_storm.png[39m[0m
+[  65% ] [90m[1m_update_scan_actions[22m | archer_boat.png[39m[0m
+[  66% ] [90m[1m_update_scan_actions[22m | axeman.png[39m[0m
+[  67% ] [90m[1m_update_scan_actions[22m | a_he.png[39m[0m
+[  68% ] [90m[1m_update_scan_actions[22m | a_tang.png[39m[0m
+[  69% ] [90m[1m_update_scan_actions[22m | chief.png[39m[0m
+[  70% ] [90m[1m_update_scan_actions[22m | courier.png[39m[0m
+[  71% ] [90m[1m_update_scan_actions[22m | craftsman.png[39m[0m
+[  72% ] [90m[1m_update_scan_actions[22m | crossbow.png[39m[0m
+[  73% ] [90m[1m_update_scan_actions[22m | elder.png[39m[0m
+[  74% ] [90m[1m_update_scan_actions[22m | hero_gen1.png[39m[0m
+[  75% ] [90m[1m_update_scan_actions[22m | hero_gen2.png[39m[0m
+[  75% ] [90m[1m_update_scan_actions[22m | hero_gen3.png[39m[0m
+[  76% ] [90m[1m_update_scan_actions[22m | militia.png[39m[0m
+[  77% ] [90m[1m_update_scan_actions[22m | qiao.png[39m[0m
+[  78% ] [90m[1m_update_scan_actions[22m | raider.png[39m[0m
+[  79% ] [90m[1m_update_scan_actions[22m | spearman.png[39m[0m
+[  80% ] [90m[1m_update_scan_actions[22m | villager_f.png[39m[0m
+[  81% ] [90m[1m_update_scan_actions[22m | villager_m.png[39m[0m
+[  82% ] [90m[1m_update_scan_actions[22m | zhou_yan.png[39m[0m
+[  83% ] [90m[1m_update_scan_actions[22m | beacon.wav[39m[0m
+[  84% ] [90m[1m_update_scan_actions[22m | gong.wav[39m[0m
+[  85% ] [90m[1m_update_scan_actions[22m | hit.wav[39m[0m
+[  86% ] [90m[1m_update_scan_actions[22m | lantern.wav[39m[0m
+[  87% ] [90m[1m_update_scan_actions[22m | repair.wav[39m[0m
+[  87% ] [90m[1m_update_scan_actions[22m | tide.wav[39m[0m
+[  88% ] [90m[1m_update_scan_actions[22m | fusion-pixel-12px-proportional-zh_hans.otf.woff2[39m[0m
+[  89% ] [90m[1m_update_scan_actions[22m | battle.csv[39m[0m
+[  90% ] [90m[1m_update_scan_actions[22m | ending.csv[39m[0m
+[  91% ] [90m[1m_update_scan_actions[22m | flow.csv[39m[0m
+[  92% ] [90m[1m_update_scan_actions[22m | story.csv[39m[0m
+[  93% ] [90m[1m_update_scan_actions[22m | work.csv[39m[0m
+[  94% ] [90m[1m_update_scan_actions[22m | zh_main.csv[39m[0m
+[  95% ] [90m[1m_update_scan_actions[22m | fixture_bad.csv[39m[0m
+[  96% ] [90m[1m_update_scan_actions[22m | fixture_story.csv[39m[0m
+[  97% ] [90m[1m_update_scan_actions[22m | sto07_event_lines.csv[39m[0m
+[  98% ] [90m[1m_update_scan_actions[22m | icon.svg[39m[0m
+[92m[ DONE ][39m [1m_update_scan_actions[22m
+[0m
+[   0% ] [90m[1mreimport[22m | Started (Re)Importing Assets (104 steps)[39m[0m
+[   0% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   0% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   1% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   2% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   3% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   4% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   5% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   6% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   7% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   8% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   9% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  10% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  11% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  12% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  13% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  14% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  15% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  16% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  17% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  18% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  19% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  20% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  20% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  21% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  22% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  23% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  24% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  25% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  26% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  27% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  28% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  29% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  30% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  31% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  32% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  33% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  34% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  35% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  36% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  37% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  38% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  39% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  40% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  40% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  41% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  42% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  43% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  44% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  45% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  46% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  47% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  48% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  49% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  50% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  51% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  52% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  53% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  54% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  55% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  56% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  57% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  58% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  59% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  60% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  60% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  61% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  62% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  63% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  64% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  65% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  66% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  67% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  68% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  69% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  70% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  71% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  72% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  73% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  74% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  75% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  76% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  77% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  78% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  79% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  80% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  80% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  81% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  82% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  83% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  84% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  85% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  86% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  87% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  88% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  89% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  90% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  91% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  92% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  93% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  94% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  95% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  96% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  97% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  98% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   0% ] [90m[1mreimport[22m | Executing pre-reimport operations...[39m[0m
+[   0% ] [90m[1mreimport[22m | sto07_event_lines.csv[39m[0m
+WARNING: Locale 'condition' does not contain any translation. This locale will be ignored.
+     at: import (editor/import/resource_importer_csv_translation.cpp:239)
+[   0% ] [90m[1mreimport[22m | zh_main.csv[39m[0m
+[   1% ] [90m[1mreimport[22m | work.csv[39m[0m
+WARNING: Locale 'portrait' does not contain any translation. This locale will be ignored.
+     at: import (editor/import/resource_importer_csv_translation.cpp:239)
+[   2% ] [90m[1mreimport[22m | flow.csv[39m[0m
+[   3% ] [90m[1mreimport[22m | ending.csv[39m[0m
+[   4% ] [90m[1mreimport[22m | battle.csv[39m[0m
+[   5% ] [90m[1mreimport[22m | fusion-pixel-12px-proportional-zh_hans.otf.woff2[39m[0m
+[   6% ] [90m[1mreimport[22m | sto07_event_lines.csv[39m[0m
+[   7% ] [90m[1mreimport[22m | zh_main.csv[39m[0m
+[   8% ] [90m[1mreimport[22m | work.csv[39m[0m
+[   9% ] [90m[1mreimport[22m | flow.csv[39m[0m
+[  10% ] [90m[1mreimport[22m | ending.csv[39m[0m
+[  11% ] [90m[1mreimport[22m | battle.csv[39m[0m
+[  12% ] [90m[1mreimport[22m | fusion-pixel-12px-proportional-zh_hans.otf.woff2[39m[0m
+[  13% ] [90m[1mreimport[22m | res_material.png[39m[0m
+[  14% ] [90m[1mreimport[22m | res_people.png[39m[0m
+[  15% ] [90m[1mreimport[22m | slash_0.png[39m[0m
+[  16% ] [90m[1mreimport[22m | slash_1.png[39m[0m
+[  17% ] [90m[1mreimport[22m | tablet_9patch.png[39m[0m
+[  18% ] [90m[1mreimport[22m | target_mark.png[39m[0m
+[  19% ] [90m[1mreimport[22m | tide_ebbing.png[39m[0m
+[  20% ] [90m[1mreimport[22m | tide_high.png[39m[0m
+[  20% ] [90m[1mreimport[22m | tide_low.png[39m[0m
+[  21% ] [90m[1mreimport[22m | tide_rising.png[39m[0m
+[  22% ] [90m[1mreimport[22m | res_grain.png[39m[0m
+[  23% ] [90m[1mreimport[22m | move_mark.png[39m[0m
+[  24% ] [90m[1mreimport[22m | intent_unknown.png[39m[0m
+[  25% ] [90m[1mreimport[22m | intent_arrow.png[39m[0m
+[  26% ] [90m[1mreimport[22m | dialog_9patch.png[39m[0m
+[  27% ] [90m[1mreimport[22m | cursor.png[39m[0m
+[  28% ] [90m[1mreimport[22m | button_9patch.png[39m[0m
+[  29% ] [90m[1mreimport[22m | tower_gen1.png[39m[0m
+[  30% ] [90m[1mreimport[22m | tower.png[39m[0m
+[  31% ] [90m[1mreimport[22m | stone_wall_ruin.png[39m[0m
+[  32% ] [90m[1mreimport[22m | stone_wall_intact.png[39m[0m
+[  33% ] [90m[1mreimport[22m | icon.svg[39m[0m
+[  34% ] [90m[1mreimport[22m | zhou_yan.png[39m[0m
+[  35% ] [90m[1mreimport[22m | villager_m.png[39m[0m
+[  36% ] [90m[1mreimport[22m | villager_f.png[39m[0m
+[  37% ] [90m[1mreimport[22m | spearman.png[39m[0m
+[  38% ] [90m[1mreimport[22m | raider.png[39m[0m
+[  39% ] [90m[1mreimport[22m | qiao.png[39m[0m
+[  40% ] [90m[1mreimport[22m | militia.png[39m[0m
+[  40% ] [90m[1mreimport[22m | hero_gen3.png[39m[0m
+[  41% ] [90m[1mreimport[22m | hero_gen2.png[39m[0m
+[  42% ] [90m[1mreimport[22m | hero_gen1.png[39m[0m
+[  43% ] [90m[1mreimport[22m | elder.png[39m[0m
+[  44% ] [90m[1mreimport[22m | crossbow.png[39m[0m
+[  45% ] [90m[1mreimport[22m | craftsman.png[39m[0m
+[  46% ] [90m[1mreimport[22m | courier.png[39m[0m
+[  47% ] [90m[1mreimport[22m | chief.png[39m[0m
+[  48% ] [90m[1mreimport[22m | a_tang.png[39m[0m
+[  49% ] [90m[1mreimport[22m | a_he.png[39m[0m
+[  50% ] [90m[1mreimport[22m | axeman.png[39m[0m
+[  51% ] [90m[1mreimport[22m | archer_boat.png[39m[0m
+[  52% ] [90m[1mreimport[22m | tide_storm.png[39m[0m
+[  53% ] [90m[1mreimport[22m | spear.png[39m[0m
+[  54% ] [90m[1mreimport[22m | rice.png[39m[0m
+[  55% ] [90m[1mreimport[22m | grain_ledger.png[39m[0m
+[  56% ] [90m[1mreimport[22m | fishing_net.png[39m[0m
+[  57% ] [90m[1mreimport[22m | clothes_red_cloth.png[39m[0m
+[  58% ] [90m[1mreimport[22m | zhou_yan.png[39m[0m
+[  59% ] [90m[1mreimport[22m | wang_shugao.png[39m[0m
+[  60% ] [90m[1mreimport[22m | wang_cheng.png[39m[0m
+[  60% ] [90m[1mreimport[22m | su_niang.png[39m[0m
+[  61% ] [90m[1mreimport[22m | qiao_shu.png[39m[0m
+[  62% ] [90m[1mreimport[22m | gen3.png[39m[0m
+[  63% ] [90m[1mreimport[22m | gen2.png[39m[0m
+[  64% ] [90m[1mreimport[22m | a_tang.png[39m[0m
+[  65% ] [90m[1mreimport[22m | a_nan.png[39m[0m
+[  66% ] [90m[1mreimport[22m | a_he.png[39m[0m
+[  67% ] [90m[1mreimport[22m | lantern_villager.png[39m[0m
+[  68% ] [90m[1mreimport[22m | lantern_hero.png[39m[0m
+[  69% ] [90m[1mreimport[22m | lantern_door.png[39m[0m
+[  70% ] [90m[1mreimport[22m | lantern_defender.png[39m[0m
+[  71% ] [90m[1mreimport[22m | dragon.png[39m[0m
+[  72% ] [90m[1mreimport[22m | site.png[39m[0m
+[  73% ] [90m[1mreimport[22m | river.png[39m[0m
+[  74% ] [90m[1mreimport[22m | home.png[39m[0m
+[  75% ] [90m[1mreimport[22m | hall.png[39m[0m
+[  76% ] [90m[1mreimport[22m | stone_wall_cracked.png[39m[0m
+[  77% ] [90m[1mreimport[22m | sea_1.png[39m[0m
+[  78% ] [90m[1mreimport[22m | sea_0.png[39m[0m
+[  79% ] [90m[1mreimport[22m | safe_hall.png[39m[0m
+[  80% ] [90m[1mreimport[22m | safe_fort.png[39m[0m
+[  80% ] [90m[1mreimport[22m | road.png[39m[0m
+[  81% ] [90m[1mreimport[22m | mud_flooded.png[39m[0m
+[  82% ] [90m[1mreimport[22m | mud.png[39m[0m
+[  83% ] [90m[1mreimport[22m | house.png[39m[0m
+[  84% ] [90m[1mreimport[22m | gate_stone_open.png[39m[0m
+[  85% ] [90m[1mreimport[22m | gate_stone_closed.png[39m[0m
+[  86% ] [90m[1mreimport[22m | gate_fence_open.png[39m[0m
+[  87% ] [90m[1mreimport[22m | stone_hammer.png[39m[0m
+[  88% ] [90m[1mreimport[22m | stove_bowl.png[39m[0m
+[  89% ] [90m[1mreimport[22m | swaddle.png[39m[0m
+[  90% ] [90m[1mreimport[22m | barrier.png[39m[0m
+[  91% ] [90m[1mreimport[22m | beach.png[39m[0m
+[  92% ] [90m[1mreimport[22m | beacon_lit_0.png[39m[0m
+[  93% ] [90m[1mreimport[22m | sto07_event_lines.csv[39m[0m
+[  94% ] [90m[1mreimport[22m | zh_main.csv[39m[0m
+[  95% ] [90m[1mreimport[22m | work.csv[39m[0m
+[  96% ] [90m[1mreimport[22m | flow.csv[39m[0m
+[  97% ] [90m[1mreimport[22m | ending.csv[39m[0m
+[  98% ] [90m[1mreimport[22m | battle.csv[39m[0m
+[  99% ] [90m[1mreimport[22m | Finalizing Asset Import...[39m[0m
+[92m[ DONE ][39m [1mreimport[22m
+[0m
+[   0% ] [90m[1mreimport[22m | Started (Re)Importing Assets (104 steps)[39m[0m
+[   0% ] [90m[1mreimport[22m | Executing post-reimport operations...[39m[0m
+[92m[ DONE ][39m [1mreimport[22m
+[0m
+[   0% ] [90m[1mloading_editor_layout[22m | Started Loading editor (5 steps)[39m[0m
+[   0% ] [90m[1mloading_editor_layout[22m | Loading editor layout...[39m[0m
+[  16% ] [90m[1mloading_editor_layout[22m | Loading docks...[39m[0m
+[92m[ DONE ][39m [1mloading_editor_layout[22m
+[0m
