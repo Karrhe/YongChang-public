@@ -87,7 +87,7 @@ func _build_structures(wall_slots: Dictionary) -> void:
 			continue
 		var cells: Array = map.slots[slot]
 		var is_gate := slot.begins_with("gate_")
-		var full := FlowLogic.max_hp(slot, wall.type)
+		var full := FlowLogic.wall_max(slot, wall)
 		for i in cells.size():
 			var hp: int = int(wall.hp[i]) if i < wall.hp.size() else full
 			structures[Vector2i(cells[i][0], cells[i][1])] = {

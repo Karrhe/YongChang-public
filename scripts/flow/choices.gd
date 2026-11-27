@@ -106,11 +106,13 @@ static func apply(save: SaveData, choice_id: String, result: Dictionary, gen: in
 	var slots: Array = result.get("slots", [])
 	for slot: String in slots.slice(0, int(fx.get("build_stone", 0))):
 		if slot in buildable_slots(save):
-			var full := FlowLogic.max_hp(slot, "stone")
-			save.wall_slots[slot] = {"type": "stone", "hp": _filled(save.wall_slots[slot].hp.size(), full)}
+			# 调守军筑的墙是一段完美咬合的砌石（REDESIGN-002 方案一）。
+			save.wall_layouts[slot] = StoneWall.perfect()
+			save.wall_slots[slot] = StoneWall.wall_full(save.wall_layouts[slot], save.wall_slots[slot].hp.size())
 	for slot: String in slots.slice(0, int(fx.get("demolish_stone", 0))):
 		if slot in stone_slots(save):
 			save.wall_slots[slot] = {"type": "none", "hp": _filled(save.wall_slots[slot].hp.size(), 0)}
+			save.wall_layouts.erase(slot)
 	return out
 
 

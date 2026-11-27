@@ -131,6 +131,7 @@ static func apply_battle(save: SaveData, input: Dictionary, result: Dictionary) 
 	save.rice = maxi(0, save.rice - int(result.get("rice_looted", 0)))
 	save.seen_hints = PackedStringArray(result.seen_hints)
 	save.wall_slots = result.wall_slots.duplicate(true)
+	collapse_ruins(save)
 
 	# 名单上少了的人（训练过的守军和教学单位）：人口 −1（ISSUE-001 WORK-02 临时做法）。
 	var survivors := {}
@@ -226,6 +227,9 @@ static func work_input(save: SaveData, node: Dictionary) -> Dictionary:
 		"roster": save.roster.duplicate(true),
 		"wall_slots": save.wall_slots.duplicate(true),
 		"granary_used": save.granary_used[gen - 1],
+		"wall_layouts": save.wall_layouts.duplicate(true),
+		"stone_queue": Array(save.stone_queue),
+		"stone_next": save.stone_next,
 	}
 
 
@@ -238,6 +242,9 @@ static func apply_work(save: SaveData, result: Dictionary) -> void:
 	save.roster.assign(result.roster.duplicate(true))
 	save.wall_slots = result.wall_slots.duplicate(true)
 	save.granary_used[gen - 1] = result.granary_used
+	save.wall_layouts = result.get("wall_layouts", save.wall_layouts).duplicate(true)
+	save.stone_queue = PackedStringArray(result.get("stone_queue", Array(save.stone_queue)))
+	save.stone_next = int(result.get("stone_next", save.stone_next))
 	# 目标卡看这一代最后一个劳作阶段（第二代就是台风之前的那一次）。
 	save.goal_met[gen - 1] = result.goal_met
 
@@ -331,14 +338,17 @@ static func apply_event(save: SaveData, event_id: String) -> Dictionary:
 		"retire_elder":
 			save.elder_retired = true
 		"typhoon":
-			values.loss = int(cfg.get("wall_hp_loss", 0))
-			damage_walls(save, values.loss)
+			# 每段墙按红缝掉 HP，咬住的墙不掉；门照旧掉 gate_hp_loss（REDESIGN-002 方案一）。
+			values.gate = int(cfg.get("gate_hp_loss", 0))
+			values.merge(typhoon(save, values.gate))
 		"repair_after_battle_6":
 			repair_walls(save)
 		"gen2_to_gen3":
-			values.loss = int(cfg.get("wall_hp_loss", 0))
+			values.loss = int(cfg.get("gate_hp_loss", 0))
 			values.people = int(cfg.get("people_bonus", 0))
-			damage_walls(save, values.loss)
+			# 三十年风化：每段墙按 work.puzzle.weathering 掉几格（预设，不随机）；门照旧掉 gate_hp_loss。
+			values.weathered = weather(save)
+			damage_walls(save, values.loss, true)
 			save.people += values.people
 			if cfg.get("clear_roster", false):
 				save.roster.clear()
@@ -360,11 +370,11 @@ static func event_notice(event_id: String, values: Dictionary) -> Dictionary:
 	return {"keys": notice.get("story", []).duplicate(), "append": append}
 
 
-## 每段墙和门（栅栏、石墙）每格 HP −amount，最低 0（ISSUE-001 WORK-04 临时做法：门也受影响）。
-static func damage_walls(save: SaveData, amount: int) -> void:
+## 每段墙和门（栅栏、石墙）每格 HP −amount，最低 0（ISSUE-001 WORK-04 临时做法：门也受影响）。gates_only = 只扣门。
+static func damage_walls(save: SaveData, amount: int, gates_only: bool = false) -> void:
 	for slot: String in save.wall_slots:
 		var wall: Dictionary = save.wall_slots[slot]
-		if wall.type == "none":
+		if wall.type == "none" or (gates_only and not slot.begins_with("gate_")):
 			continue
 		var hp: Array = wall.hp
 		for i in hp.size():
@@ -377,10 +387,71 @@ static func repair_walls(save: SaveData) -> void:
 		var wall: Dictionary = save.wall_slots[slot]
 		if wall.type == "none":
 			continue
-		var full := max_hp(slot, wall.type)
+		var full := wall_max(slot, wall)
 		var hp: Array = wall.hp
 		for i in hp.size():
 			hp[i] = full
+
+
+## 台风：有砖槽的墙每格 HP −（每条红缝 typhoon_per_seam），木栅栏全是红缝；没有砖槽的墙和门 −gate_loss。
+## 返回 {"walls": 掉了 HP 的墙段数, "seams": 红缝总数}。
+static func typhoon(save: SaveData, gate_loss: int) -> Dictionary:
+	var hit := 0
+	var seams := 0
+	for slot: String in save.wall_slots:
+		var wall: Dictionary = save.wall_slots[slot]
+		if wall.type == "none":
+			continue
+		var loss := gate_loss
+		if not slot.begins_with("gate_"):
+			var layout: Dictionary = save.wall_layouts.get(slot, {})
+			if layout.is_empty():
+				pass  # 没有砖槽的墙（旧存档）：照旧掉 gate_loss
+			elif layout.kind != wall.type:
+				# 栅栏上正在砌、还没筑成的石墙：按栅栏算，每条竖线都是通缝。
+				var all_seams := StoneWall.width() - 1
+				seams += all_seams
+				loss = int(Rules.get_value("work.puzzle.typhoon_per_seam", 2)) * all_seams
+			else:
+				seams += StoneWall.red_seams(layout).size()
+				loss = StoneWall.typhoon_loss(layout)
+		if loss > 0:
+			hit += 1
+		for i in wall.hp.size():
+			wall.hp[i] = maxi(0, int(wall.hp[i]) - loss)
+	return {"walls": hit, "seams": seams}
+
+
+## 第三代开头的风化：每段筑成的墙按 work.puzzle.weathering 清掉几格，重算满 HP。返回掉了格子的墙段数。
+static func weather(save: SaveData) -> int:
+	var holes: Dictionary = Rules.get_value("work.puzzle.weathering", {})
+	var n := 0
+	for slot: String in save.wall_layouts:
+		var wall: Dictionary = save.wall_slots.get(slot, {})
+		if wall.is_empty() or wall.type == "none" or not holes.has(slot) or save.wall_layouts[slot].kind != wall.type:
+			continue
+		StoneWall.clear_cells(save.wall_layouts[slot], holes[slot])
+		n += 1
+		save.wall_slots[slot] = StoneWall.wall_after_loss(save.wall_layouts[slot], wall)
+	return n
+
+
+## 战后：被打成废墟（有格子 HP 0）的墙，砖槽最上面一行塌掉；剩下的还够筑成就留着（塌掉的格子 HP 1），不够就变回空地。
+static func collapse_ruins(save: SaveData) -> void:
+	for slot: String in save.wall_layouts:
+		var wall: Dictionary = save.wall_slots.get(slot, {})
+		if wall.is_empty() or wall.type == "none" or not wall.hp.any(func(h: Variant) -> bool: return int(h) <= 0):
+			continue
+		var layout: Dictionary = save.wall_layouts[slot]
+		if layout.kind != wall.type:
+			continue  # 栅栏上正在砌的石墙：栅栏照旧是废墟，砖槽不动
+		StoneWall.clear_top_row(layout)
+		save.wall_slots[slot] = StoneWall.wall_after_loss(layout, wall)
+
+
+## 这段墙的满 HP：砌石筑成的墙记在 "max"，其余按类型查 core.walls.max_hp。
+static func wall_max(slot: String, wall: Dictionary) -> int:
+	return int(wall.get("max", max_hp(slot, wall.type)))
 
 
 static func max_hp(slot: String, type: String) -> int:

@@ -145,7 +145,7 @@ func _test_events() -> void:
 	save.wall_slots.A2 = {"type": "fence", "hp": [2, 1]}
 	save.wall_slots.gate_A = {"type": "stone", "hp": [8]}
 	FlowLogic.apply_event(save, "typhoon")
-	_check("台风：石墙 −3", save.wall_slots.A1.hp == [3, 3])
+	_check("台风：没有砖槽的旧石墙照旧 −3", save.wall_slots.A1.hp == [3, 3])
 	_check("台风：栅栏变废墟", save.wall_slots.A2.hp == [0, 0])
 	_check("台风：门也 −3", save.wall_slots.gate_A.hp == [5])
 	_check("台风：空墙位不变", save.wall_slots.A3.hp == [0, 0])
@@ -155,8 +155,8 @@ func _test_events() -> void:
 	save.roster.assign([save.new_unit("spearman")])
 	var people := save.people
 	FlowLogic.apply_event(save, "gen2_to_gen3")
-	_check("第二代到第三代：墙老化 −3、人口 +2、守军清零",
-		save.wall_slots.A1.hp == [3, 3] and save.people == people + 2 and save.roster.is_empty())
+	_check("第二代到第三代：门老化 −3、没有砖槽的墙不风化、人口 +2、守军清零",
+		save.wall_slots.gate_A.hp == [5] and save.wall_slots.A1.hp == [6, 6] and save.people == people + 2 and save.roster.is_empty())
 	FlowLogic.apply_default_name(save, 2)
 	_check("起名界面之前用默认名字", save.names[0] == "阿囡")
 

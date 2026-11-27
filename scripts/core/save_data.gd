@@ -4,7 +4,7 @@ extends Resource
 ## 代的下标：0 = 第一代，1 = 第二代，2 = 第三代。
 
 ## 存档格式版本。以后改字段时加 1，读档时按版本补默认值。
-@export var version: int = 2
+@export var version: int = 3
 
 ## 玩家起的名字，只有第二、三代：下标 0 = {名2}，下标 1 = {名3}。
 ## 第一代主角名字固定，写在文本表 NAME_GEN1 里，不进存档。
@@ -34,6 +34,12 @@ extends Resource
 
 ## 墙位：键是墙位 ID（如 "A1"、"gate_A"），值是 {"type": "none"/"fence"/"stone", "hp": [每一格的 HP]}。
 @export var wall_slots: Dictionary = {}
+## 砌石拼图（REDESIGN-002 方案一）：墙位 ID → 砖槽（格式见 StoneWall）。墙位筑成后 wall_slots 里另记 "max"（这段墙的满 HP）。
+@export var wall_layouts: Dictionary = {}
+## 石料库存的形状，从前往后用；长度跟着 materials 走（WorkState 补齐或截掉）。
+@export var stone_queue: PackedStringArray = PackedStringArray()
+## 下一块补进来的石料从这一代 sequence 的第几个开始。
+@export var stone_next: int = 0
 ## 每代的目标卡是否达成（G2-6 看第二代的）。
 @export var goal_met: Array[bool] = [false, false, false]
 ## 每代的宗族义仓是否用过（WORK-001 §8，每代一次）。

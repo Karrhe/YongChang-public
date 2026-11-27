@@ -75,8 +75,8 @@
 			"_note": "notice：事件生效后给玩家看的说明。story 是剧情表的场景 ID（先播），summary 是 flow.csv 里带数字的一句（后播）。没有 notice 的事件不显示。",
 			"gen1_to_gen2": {"materials_keep_fraction": 0.5, "materials_bonus": 6,
 				"notice": {"story": ["EVT_donation"], "summary": "EVT_SUMMARY_GEN1_TO_GEN2"}},
-			"typhoon": {"wall_hp_loss": 3, "notice": {"summary": "EVT_SUMMARY_TYPHOON"}},
-			"gen2_to_gen3": {"wall_hp_loss": 3, "people_bonus": 2, "clear_roster": true,
+			"typhoon": {"gate_hp_loss": 3, "notice": {"summary": "EVT_SUMMARY_TYPHOON"}},
+			"gen2_to_gen3": {"gate_hp_loss": 3, "people_bonus": 2, "clear_roster": true,
 				"notice": {"summary": "EVT_SUMMARY_GEN2_TO_GEN3"}}
 		},
 		"lantern_names": {

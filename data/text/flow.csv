@@ -52,9 +52,9 @@ CHOICE_GRANARY_SUMMARY,开了宗族义仓：粮食补到 0。这一代的义仓�
 WALL_TYPE_none,空地
 WALL_TYPE_fence,栅栏
 WALL_TYPE_stone,石墙
-EVT_SUMMARY_GEN1_TO_GEN2,第一代的木料多半用不上筑石墙：材料 {before} → {half}。王叔杲倡议捐银：材料 +{bonus}，现在有 {after}。
-EVT_SUMMARY_TYPHOON,台风过境：每段墙和门每格 HP −{loss}。
-EVT_SUMMARY_GEN2_TO_GEN3,三十年过去：城墙老化，每格 HP −{loss}；孩子们长大了，人口 +{people}；守军要重新训练。
+EVT_SUMMARY_GEN1_TO_GEN2,第一代的木桩多半用不上筑石墙：石料 {before} → {half}。王叔杲倡议捐银买石：石料 +{bonus}，现在有 {after} 块。
+EVT_SUMMARY_TYPHOON,台风过境：墙上一共 {seams} 条通缝，每条让那段墙每格 HP −2；咬住的墙一格不掉。门每格 HP −{gate}。
+EVT_SUMMARY_GEN2_TO_GEN3,三十年过去：{weathered} 段墙风化掉了几块石头，要用碎石补；门每格 HP −{loss}；孩子们长大了，人口 +{people}；守军要重新训练。
 LANTERN_VILLAGER_G1_01,王福生
 LANTERN_VILLAGER_G1_02,陈大娘
 LANTERN_VILLAGER_G1_03,林九郎

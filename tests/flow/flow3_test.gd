@@ -44,7 +44,8 @@ func _test_effects() -> void:
 	save.wall_slots.B2 = {"type": "fence", "hp": [2, 1]}
 	FlowLogic.apply_choice(save, "C2", {"pick": "A", "slots": ["B2"]})
 	_check("C2-A：调走最后加入的枪兵", save.roster.size() == 2 and save.roster[0].id == "u1" and save.roster[1].type == "craftsman")
-	_check("C2-A：选的墙位筑成满 HP 石墙", save.wall_slots.B2 == {"type": "stone", "hp": [6, 6]})
+	_check("C2-A：选的墙位筑成满 HP 石墙（完美咬合的砌石）", save.wall_slots.B2.type == "stone" and save.wall_slots.B2.hp == [6, 6]
+		and StoneWall.red_seams(save.wall_layouts.B2).is_empty())
 
 	save = _new_save()
 	FlowLogic.apply_choice(save, "C3", "A")

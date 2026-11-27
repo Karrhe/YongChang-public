@@ -7,6 +7,8 @@ extends GridContainer
 signal slot_pressed(slot: String)
 
 var buttons: Dictionary = {}
+## 紧凑：按钮小一些，两行字（劳作画面左边用）。
+var compact := false
 
 
 func _ready() -> void:
@@ -15,7 +17,8 @@ func _ready() -> void:
 	add_theme_constant_override("v_separation", 4)
 
 
-func show_slots(wall_slots: Dictionary, marked: Array = [], disabled: Array = []) -> void:
+## layouts：砌石的砖槽（REDESIGN-002），有就在按钮上写填了几格。
+func show_slots(wall_slots: Dictionary, marked: Array = [], disabled: Array = [], layouts: Dictionary = {}) -> void:
 	for child in get_children():
 		child.queue_free()
 	buttons.clear()
@@ -37,8 +40,10 @@ func show_slots(wall_slots: Dictionary, marked: Array = [], disabled: Array = []
 			var wall: Dictionary = wall_slots.get(slot, {"type": "none", "hp": []})
 			var b := Button.new()
 			b.text = _label(slot, wall)
+			if compact:
+				b.text = _compact_label(slot, wall, layouts.get(slot, {}))
 			b.focus_mode = Control.FOCUS_NONE
-			b.custom_minimum_size = Vector2(96, 30)
+			b.custom_minimum_size = Vector2(62, 30) if compact else Vector2(96, 30)
 			b.add_theme_font_size_override("font_size", _fs() - 1)
 			var style := StyleBoxFlat.new()
 			style.bg_color = Color.html(_type_color(slot, wall))
@@ -59,6 +64,17 @@ func _label(slot: String, wall: Dictionary) -> String:
 	var type_key := "WORK_TYPE_" + ("gate_" if slot.begins_with("gate_") else "") + String(wall.type)
 	var hp := "/".join(wall.hp.map(func(h: Variant) -> String: return str(h))) if wall.type != "none" else ""
 	return Game.text("WORK_SLOT").format({"slot": Game.text("WORK_SLOT_" + slot), "type": Game.text(type_key), "hp": hp})
+
+
+func _compact_label(slot: String, wall: Dictionary, layout: Dictionary) -> String:
+	var type_key := "WORK_TYPE_" + ("gate_" if slot.begins_with("gate_") else "") + String(wall.type)
+	var second := ""
+	if wall.type != "none":
+		second = "HP " + "/".join(wall.hp.map(func(h: Variant) -> String: return str(h)))
+	if not layout.is_empty() and not StoneWall.is_built(layout) and StoneWall.filled(layout) > 0:
+		second = Game.text("WORK_SLOT_PROGRESS").format({"filled": StoneWall.filled(layout),
+			"need": int(Rules.get_value("work.puzzle.built_cells", 9))})
+	return Game.text("WORK_SLOT_" + slot) + Game.text(type_key) + "\n" + second
 
 
 func _type_color(slot: String, wall: Dictionary) -> String:

@@ -1,18 +1,16 @@
 {
-	"_note": "劳作（WORK，负责人维护）。规则见 WORK-001：每个劳作阶段 2 个季节；每季把人分到种田、采料、修建、训练；季末每人吃 1 份粮；修墙不占人手只花材料（每格每 3 点 HP 1 材料，不足 3 点向上取整，ISSUE-001 WORK-06 临时做法）；废墟按修建的价格重建；粮不够时每代一次开宗族义仓补到 0，之后再不够就记为饥饿（下一场守军移动 −1）。",
+	"_note": "劳作（WORK，负责人维护）。REDESIGN-002 方案一（负责人 2026-11-27 定）：每个劳作阶段 2 个季节；每季只分种田和训练，剩下的人是石匠，每人放 puzzle.placements_per_mason 块石头（砌石拼图，规则见 scripts/work/stone_wall.gd）；“材料”就是石料库存，每季按潮汐送来 puzzle.deliveries 块；季末每人吃 eat_per_person 份粮；修墙花石料（每格每 3 点 HP 1 块）；粮不够时每代一次开宗族义仓补到 0，之后再不够就记为饥饿（下一场守军移动 −1）。",
 	"work": {
-		"view": {"_note": "劳作画面的美术：工地背景压暗当底；资源一行前面放人口、粮食、材料三个图标（顺序和 WORK_RESOURCES 一致）。", "background": "res://assets/art/bg/site.png", "background_tint": "#505058", "resource_icons": ["res_people", "res_grain", "res_material"]},
+		"view": {
+			"_note": "劳作画面的美术：工地背景压暗当底；资源一行前面放人口、粮食、材料三个图标（顺序和 WORK_RESOURCES 一致）。",
+			"background": "res://assets/art/bg/site.png",
+			"background_tint": "#505058",
+			"resource_icons": ["res_people", "res_grain", "res_material"]
+		},
 		"seasons": 2,
 		"eat_per_person": 2,
 		"jobs": {
-			"farm": {"rice": 3},
-			"gather": {"materials": 2}
-		},
-		"build": {
-			"_note": "第一代扎栅栏（1 人 + 2 材料一段），第二代起筑石墙（2 人 + 2 材料一段），同一个墙位可以从栅栏升级成石墙（WORK-001 §3、§5）。门位和墙位同价。",
-			"1": {"type": "fence", "people": 1, "materials": 2},
-			"2": {"type": "stone", "people": 2, "materials": 2},
-			"3": {"type": "stone", "people": 2, "materials": 2}
+			"farm": {"rice": 3}
 		},
 		"repair_hp_per_material": 3,
 		"train_types": {
@@ -22,15 +20,43 @@
 		},
 		"phases": {
 			"_note": "这一代的第几个劳作阶段（算“还剩几季”用）。",
-			"after_battle_1": 1, "after_battle_2": 2, "after_battle_4": 1, "after_battle_5": 2, "after_battle_7": 1, "after_battle_8": 2
+			"after_battle_1": 1,
+			"after_battle_2": 2,
+			"after_battle_4": 1,
+			"after_battle_5": 2,
+			"after_battle_7": 1,
+			"after_battle_8": 2
 		},
 		"phases_per_gen": 2,
 		"goals": {
-			"_note": "目标卡（WORK-001 §4）。walls / gates 数修好的墙位、门位（type 要求那一种或更好，每格 HP > 0；full 为 true 时要修满）；defenders 数名单上的人（含教学单位）。",
-			"1": {"text": "WORK_GOAL_1", "type": "fence", "walls": 6, "gates": 1, "defenders": 4, "full": false},
-			"2": {"text": "WORK_GOAL_2", "type": "stone", "walls": 7, "gates": 1, "defenders": 0, "full": false},
-			"3": {"text": "WORK_GOAL_3", "type": "stone", "walls": 8, "gates": 0, "defenders": 5, "full": true}
+			"_note": "目标卡（WORK-001 §4，REDESIGN-002 调低段数：砌石要人手）。walls / gates 数筑成的墙位、门位（type 那一种或更好，每格 HP > 0；full 为 true 时要修满）；defenders 数名单上的人（含教学单位）。",
+			"1": {"text": "WORK_GOAL_1", "type": "fence", "walls": 4, "gates": 1, "defenders": 3, "full": false},
+			"2": {"text": "WORK_GOAL_2", "type": "stone", "walls": 5, "gates": 1, "defenders": 0, "full": false},
+			"3": {"text": "WORK_GOAL_3", "type": "stone", "walls": 6, "gates": 0, "defenders": 4, "full": true}
 		},
-		"granary_scenes": {"1": "EVT_granary_G1", "2": "EVT_granary_G2", "3": "EVT_granary_G3"}
+		"granary_scenes": {
+			"1": "EVT_granary_G1",
+			"2": "EVT_granary_G2",
+			"3": "EVT_granary_G3"
+		}
+,
+		"puzzle": {
+			"_note": "砌石拼图。w × h 砖槽，y = 0 是底行；built_cells 格以上算筑成；hp：木栅栏固定 fence，石墙 stone − 红缝数 − ⌈空格/2⌉，最少 min；门位不拼：花 1 次放置 + gate_pieces 块石料直接修成；chisel：花 1 次放置把挑中的石块凿成楔石。sets：每代能用的形状；sequence：每代石料的顺序（循环用，玩家从前 window 块里挑）；deliveries：每个劳作阶段两季送来几块、那季的潮汐（低潮多、高潮少）；weathering：第三代开头每个墙位风化掉的格子 [x, y]（预设，不随机）；perfect：C2 调守军筑的完美咬合墙。",
+			"w": 4,
+			"h": 3,
+			"built_cells": 9,
+			"placements_per_mason": 3,
+			"window": 3,
+			"gate_pieces": 2,
+			"hp": {"fence": 2, "stone": 6, "min": 1},
+			"typhoon_per_seam": 2,
+			"shapes": {"stake3": {"cells": [[0, 0], [0, 1], [0, 2]], "rotate": false}, "wedge": {"cells": [[0, 0]], "rotate": false}, "bar2": {"cells": [[0, 0], [1, 0]]}, "bar3": {"cells": [[0, 0], [1, 0], [2, 0]]}, "L3": {"cells": [[0, 0], [1, 0], [0, 1]]}, "sq": {"cells": [[0, 0], [1, 0], [0, 1], [1, 1]], "rotate": false}},
+			"kind": {"1": "fence", "2": "stone", "3": "stone"},
+			"sets": {"1": ["stake3"], "2": ["bar2", "L3", "bar3", "sq", "wedge"], "3": ["bar2", "wedge", "L3"]},
+			"sequence": {"1": ["stake3"], "2": ["bar2", "L3", "bar2", "wedge", "L3", "bar3", "bar2", "L3", "sq", "bar2", "wedge", "L3"], "3": ["bar2", "wedge", "bar2", "L3", "wedge", "bar2"]},
+			"deliveries": {"after_battle_1": [{"tide": "low", "pieces": 5}, {"tide": "high", "pieces": 3}], "after_battle_2": [{"tide": "falling", "pieces": 5}, {"tide": "rising", "pieces": 4}], "after_battle_4": [{"tide": "low", "pieces": 7}, {"tide": "rising", "pieces": 5}], "after_battle_5": [{"tide": "high", "pieces": 4}, {"tide": "falling", "pieces": 6}], "after_battle_7": [{"tide": "low", "pieces": 6}, {"tide": "high", "pieces": 4}], "after_battle_8": [{"tide": "falling", "pieces": 5}, {"tide": "low", "pieces": 6}]},
+			"weathering": {"A1": [[3, 2]], "A2": [[0, 1]], "A3": [[2, 2]], "B1": [[1, 2], [2, 1]], "B2": [[3, 1]], "B3": [[0, 2]], "C1": [[2, 2]], "C2": [[1, 1]], "C3": [[3, 2], [0, 2]]},
+			"perfect": [{"shape": "bar2", "at": [0, 0]}, {"shape": "bar2", "at": [2, 0]}, {"shape": "wedge", "at": [0, 1]}, {"shape": "bar2", "at": [1, 1]}, {"shape": "wedge", "at": [3, 1]}, {"shape": "bar2", "at": [0, 2]}, {"shape": "bar2", "at": [2, 2]}]
+		}
 	}
 }
