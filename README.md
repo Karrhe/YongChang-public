@@ -2,7 +2,11 @@
 
 2026 开源游戏开发大赛（OSGJ）参赛作品。受历史启发。
 
-一家三代人，从组织义兵、修筑城堡到最终守住永昌堡。以潮汐为核心的格子战术，战斗之间是种田、筑城、训练守军的劳作阶段。
+一家三代人，从组织义兵、修筑城堡到最终守住永昌堡。
+
+- **战斗是潮汐疏散：** 乡亲住在海边，海寇从海滩登陆。看潮汐条带乡亲过潮沟、走土堤回家；走不动的乡亲要守军去接；门开着，海寇也会冲进来抢粮。
+- **劳作是砌石拼图：** 潮水按季送来石料，石匠把石头一块块砌进砖槽。石头要彼此咬住——压住接缝亮金线，通到底的竖缝是红线，台风来时就从那里裂开。第一代只有木桩，第二代女儿学会了砌石，第三代补三十年风化的缺口。
+- **失去的人会被记住：** 每代最后一仗之后在宗祠前点名，没有应答的名字写进灯簿，中元节放灯。
 
 - 引擎：Godot 4.7（GDScript）
 - 平台：Windows 10/11
@@ -25,8 +29,8 @@
 | `scripts/flow/` | 主流程；剧情选择 C1–C5（`Choices`）；假战斗、假劳作（真模块交付前顶替） |
 | `scripts/naming/` | 起名界面和石锤刻字 |
 | `scripts/ending/` | 结局：E1–E6、放灯、三代墓志、祠堂记录 |
-| `scripts/battle/` | 战斗：规则 `BattleState`、地图 `battle_board.gd`、战斗画面 |
-| `scripts/work/` | 劳作：规则 `WorkState`、城防图 `WallMap`、劳作画面 |
+| `scripts/battle/` | 战斗：规则 `BattleState`、地图 `battle_board.gd`、战斗画面；测试用的“认真玩法” `BattleBot` |
+| `scripts/work/` | 劳作：规则 `WorkState`、砌石拼图 `StoneWall`、砖槽 `StoneGrid`、城防图 `WallMap`、劳作画面；测试用的 `WorkBot` |
 | `scripts/story/` | 剧情表 `StoryTable`、对话框 `DialogueBox`、剧情画面（对话只有文字，没有配音） |
 | `scripts/ui/` | 各画面的脚本 |
 | `data/rules/*.json` | 所有可调的规则和数值；每个文件一个顶层键，键名等于文件名（`core.json` → `core`） |
