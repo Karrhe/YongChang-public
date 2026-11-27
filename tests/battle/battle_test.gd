@@ -21,7 +21,7 @@ func _ready() -> void:
 	await _test_scene()
 	Game.save = real_save
 	print("BATTLE TEST: %s" % ("PASS" if failures == 0 else "FAIL (%d)" % failures))
-	get_tree().quit(failures)
+	Game.quit(failures)
 
 
 func _save() -> SaveData:

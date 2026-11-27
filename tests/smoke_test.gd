@@ -73,7 +73,7 @@ func _ready() -> void:
 	Game.save = real_save
 	_check("真实存档路径没变", Game.save_path == Game.DEFAULT_SAVE_PATH)
 	print("SMOKE TEST: %s" % ("PASS" if failures == 0 else "FAIL (%d)" % failures))
-	get_tree().quit(failures)
+	Game.quit(failures)
 
 
 func _check_fakes() -> void:

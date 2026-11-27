@@ -5,7 +5,7 @@ extends RefCounted
 
 const COLUMNS := ["scene_id", "line_id", "condition", "speaker", "portrait", "text"]
 ## 条件行（剧本“人物设定”下的表）。死亡阶段替换句另用 DEATH_B1–DEATH_B9。
-const CONDITIONS := ["GEN1_ALIVE", "GEN1_DEAD", "GEN2_ELDER_A", "GEN2_ELDER_B", "GEN2_NONE"]
+const CONDITIONS := ["GEN1_ALIVE", "GEN1_DEAD", "GEN1_NONE", "GEN2_ELDER_A", "GEN2_ELDER_B", "GEN2_NONE"]
 const DEATH_PREFIX := "DEATH_B"
 const BATTLE_COUNT := 9
 ## line_id 以它开头的行不在对话里播放，留给 FLOW-3 做选项。
@@ -89,7 +89,8 @@ func _add_row(record: int, cells: PackedStringArray) -> void:
 		errors.append("%s: unknown condition %s" % [where, row.condition])
 	var rows: Array = scenes.get_or_add(scene_id, [])
 	for other: Dictionary in rows:
-		if other.line_id == row.line_id:
+		# 同一个 line_id 只能给条件行用：几行都带条件，按条件挑一行（选项台词换说话人，ISSUE-001 STO-01）。
+		if other.line_id == row.line_id and (other.condition == "" or row.condition == ""):
 			errors.append("%s: line_id repeated" % where)
 			return
 	rows.append(row)
@@ -134,6 +135,8 @@ static func _holds(condition: String, save: SaveData) -> bool:
 			return save.hero_alive[0]
 		"GEN1_DEAD":  # [一代阵亡]：王成阵亡且阿棠在
 			return not save.hero_alive[0] and save.companion_alive[0]
+		"GEN1_NONE":  # [一代都不在]：王成和阿棠都阵亡
+			return not save.hero_alive[0] and not save.companion_alive[0]
 		"GEN2_ELDER_A":  # [二代长辈] 甲：{名2} 在
 			return save.hero_alive[1]
 		"GEN2_ELDER_B":  # [二代长辈] 乙：{名2} 不在、周砚在
@@ -171,14 +174,20 @@ func lines(scene_id: String, save: SaveData = null) -> Array[Dictionary]:
 	return out
 
 
-## 按 line_id 取一行（FLOW-3 取选项用），不看条件。没有时返回空表。
+## 按 line_id 取一行（FLOW-3 取选项用）。同一个 line_id 有几行条件行时，取第一行条件成立的；
+## 都不成立就取第一行。没有时返回空表。
 func find_line(scene_id: String, line_id: String, save: SaveData = null) -> Dictionary:
 	if save == null:
 		save = Game.save
+	var first: Dictionary = {}
 	for row: Dictionary in scenes.get(scene_id, []):
-		if row.line_id == line_id:
+		if row.line_id != line_id:
+			continue
+		if condition_holds(row.condition, save):
 			return _resolve(scene_id, row, save)
-	return {}
+		if first.is_empty():
+			first = row
+	return {} if first.is_empty() else _resolve(scene_id, first, save)
 
 
 func _resolve(scene_id: String, row: Dictionary, save: SaveData) -> Dictionary:

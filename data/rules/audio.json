@@ -4,6 +4,8 @@
 		"dir": "res://assets/audio/",
 		"volume_db": -6.0,
 		"voices": 4,
+		"_quit_note": "退出前停掉音效后等几秒，让音频线程放掉正在播的声音，免得退出时报泄漏（ISSUE-001 QA-005）。",
+		"quit_delay_seconds": 0.2,
 		"events": {
 			"gong": "gong.wav",
 			"tide": "tide.wav",

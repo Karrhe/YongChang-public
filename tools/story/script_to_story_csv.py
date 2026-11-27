@@ -13,7 +13,12 @@ import csv
 import re
 import sys
 
-COND = {"[一代存活]": "GEN1_ALIVE", "[一代阵亡]": "GEN1_DEAD", "[二代都不在]": "GEN2_NONE"}
+COND = {"[一代存活]": "GEN1_ALIVE", "[一代阵亡]": "GEN1_DEAD", "[一代都不在]": "GEN1_NONE",
+        "[二代同伴在]": "GEN2_ELDER_B", "[二代都不在]": "GEN2_NONE"}
+# "**[一代都不在] 峤叔（选项 A）：** ……" replaces who says option A when that condition holds (STO-01)
+SAY_RE = re.compile(r"^(.+?)（选项 ([AB])）$")
+# the companion's own option line only shows while the companion is alive, once an override exists
+COMPANION_ALIVE = {"C1": "GEN1_DEAD", "C2": "GEN2_ELDER_B", "C3": "GEN2_ELDER_B"}
 AB_SCENES = {"G1-2", "G1-3", "G1-4", "C1", "G1-5", "G1-6", "T1", "G2-2", "C2", "G2-3", "G2-4", "C3", "G2-5", "G2-6"}
 # who says the chosen option: the hero of that generation in version A, the companion in version B
 SAY = {("C1", "A"): "王成", ("C1", "B"): "阿棠", ("C2", "A"): "{名2}", ("C2", "B"): "周砚",
@@ -100,15 +105,29 @@ def parse(md):
         lm = LINE_RE.match(line)
         if lm:
             who, text = lm.groups()
-            cond = ""
-            for mark, code in COND.items():
-                if who.startswith(mark):
-                    cond, who = code, who[len(mark):].strip()
-            if who.startswith("[二代长辈]"):
-                rest = who[len("[二代长辈]"):].strip()
-                cond = "GEN2_ELDER_A" if rest.startswith("甲") else "GEN2_ELDER_B"
-                who = rest[1:].strip()
+            conds = []
+            found = True
+            while found:  # several marks may be combined: [一代存活][二代都不在] 王成
+                found = False
+                for mark, code in COND.items():
+                    if who.startswith(mark):
+                        conds.append(code)
+                        who, found = who[len(mark):].strip(), True
+                if who.startswith("[二代长辈]"):
+                    rest = who[len("[二代长辈]"):].strip()
+                    conds.append("GEN2_ELDER_A" if rest.startswith("甲") else "GEN2_ELDER_B")
+                    who, found = rest[1:].strip(), True
+            cond = "&".join(conds)
             text = clean(text)
+            sm = SAY_RE.match(who)
+            if sm and text:
+                base = scene + ("_" + version if scene in AB_SCENES and version else "")
+                pick = sm.group(2)
+                for r in rows:
+                    if r[0] == base and r[1] == "opt%s_say" % pick and not r[2]:
+                        r[2] = COMPANION_ALIVE.get(scene, "")
+                add(base, "opt%s_say" % pick, cond, sm.group(1).strip(), text.strip("\"“”"))
+                continue
             if text:
                 add(key(), None, cond, who, text)
             continue

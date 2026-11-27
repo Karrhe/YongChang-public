@@ -17,7 +17,7 @@ func _ready() -> void:
 	await _test_scene()
 	Game.save = real_save
 	print("WORK TEST: %s" % ("PASS" if failures == 0 else "FAIL (%d)" % failures))
-	get_tree().quit(failures)
+	Game.quit(failures)
 
 
 func _state(work_id: String, edit: Callable = Callable()) -> WorkState:

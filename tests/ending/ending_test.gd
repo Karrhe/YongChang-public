@@ -18,7 +18,7 @@ func _ready() -> void:
 	await _test_full_run(_new_save(), "一盏灯也没有")
 	Game.save = real_save
 	print("ENDING TEST: %s" % ("PASS" if failures == 0 else "FAIL (%d)" % failures))
-	get_tree().quit(failures)
+	Game.quit(failures)
 
 
 func _new_save() -> SaveData:

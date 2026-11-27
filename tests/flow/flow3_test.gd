@@ -17,7 +17,7 @@ func _ready() -> void:
 	_test_event_notice()
 	Game.save = real_save
 	print("FLOW3 TEST: %s" % ("PASS" if failures == 0 else "FAIL (%d)" % failures))
-	get_tree().quit(failures)
+	Game.quit(failures)
 
 
 func _new_save() -> SaveData:

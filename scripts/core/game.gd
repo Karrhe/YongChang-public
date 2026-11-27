@@ -15,6 +15,8 @@ var text_tables: PackedStringArray = PackedStringArray()
 var _sfx_players: Array[AudioStreamPlayer] = []
 var _sfx_next := 0
 var _sfx_cache := {}
+## 开始退出后不再出声。
+var _quitting := false
 
 
 func _ready() -> void:
@@ -25,6 +27,8 @@ func _ready() -> void:
 
 ## 播一个音效事件：gong、tide、hit、repair、beacon、lantern（TEAM-001 §4）。没配或没有文件时不出声。
 func play_sfx(event: String) -> void:
+	if _quitting:
+		return
 	var file := String(Rules.get_value("audio.events." + event, ""))
 	if file == "":
 		return
@@ -43,6 +47,13 @@ func play_sfx(event: String) -> void:
 	player.stream = _sfx_cache[path]
 	player.volume_db = float(Rules.get_value("audio.volume_db", 0.0))
 	player.play()
+
+
+## 停掉所有还在响的音效。
+func stop_sfx() -> void:
+	for player in _sfx_players:
+		player.stop()
+		player.stream = null
 
 
 func load_text_tables() -> void:
@@ -135,5 +146,12 @@ func go_to(scene_path: String) -> void:
 	get_tree().change_scene_to_file(scene_path)
 
 
-func quit() -> void:
-	get_tree().quit()
+## 退出游戏。先停掉音效、等音频服务器放掉正在播的声音再退，
+## 否则 Godot 退出时报对象泄漏和资源占用（ISSUE-001 QA-005）。测试也用它退出。
+func quit(exit_code: int = 0) -> void:
+	_quitting = true
+	stop_sfx()
+	_sfx_cache.clear()
+	# 音频线程按真实时间混音，等几帧不够（无界面时一帧很快），按秒等。
+	await get_tree().create_timer(float(Rules.get_value("audio.quit_delay_seconds", 0.2)), true, false, true).timeout
+	get_tree().quit(exit_code)

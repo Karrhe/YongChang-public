@@ -22,6 +22,8 @@ func _ready() -> void:
 	add_child(flow)
 	var seen := {}
 	var battles := 0
+	## 每场战斗的余量（调难度用，ISSUE-001 BAT-08）：救下 / 目标、失去的乡亲。
+	var margins: PackedStringArray = PackedStringArray()
 	var steps := 0
 	var started := Time.get_ticks_msec()
 	while Game.save.progress != "done" and steps < 20000:
@@ -40,6 +42,11 @@ func _ready() -> void:
 		seen[type] = int(seen.get(type, 0)) + 1
 		match type:
 			"battle":
+				if child.has_signal("finished") and not child.has_meta("margin_hooked"):
+					child.set_meta("margin_hooked", true)
+					child.finished.connect(func(r: Dictionary) -> void:
+						margins.append("%s 救 %d/%d 失 %d" % [String(r.battle_id).trim_prefix("battle_"),
+							int(r.villagers_saved), int(child.state.goal), int(r.villagers_lost)]))
 				if child.has_method("auto_play_for_test"):
 					child.auto_play_for_test()
 			"work":
@@ -60,6 +67,7 @@ func _ready() -> void:
 					child.box.advance()
 		if flow.node.type == "battle" and flow.current == child and child.state != null and child.state.over:
 			battles += 1
+
 	Rules.data.flow.scenes.after_ending = real_after
 	_check("整局走到结局（%d 步，%.1f 秒）" % [steps, (Time.get_ticks_msec() - started) / 1000.0], Game.save.progress == "done")
 	_check("九场战斗都接受了", Game.save.battle_results.size() == 9)
@@ -68,6 +76,7 @@ func _ready() -> void:
 	_check("每种画面都出现过", seen.has("story") and seen.has("battle") and seen.has("work")
 		and seen.has("choice") and seen.has("naming") and seen.has("ending"))
 	print("  战斗结果：", Game.save.battle_results)
+	print("  战斗余量：", " · ".join(margins))
 	print("  人口 %d · 粮 %d · 材料 %d · 灯 %d（乡亲 %d、守军 %d、主角和同伴 %d）" % [Game.save.people, Game.save.rice,
 		Game.save.materials, Game.save.lantern_count(), Game.save.lanterns_villager.size(),
 		Game.save.lanterns_defender.size(), Game.save.lanterns_hero.size()])
@@ -77,7 +86,7 @@ func _ready() -> void:
 	Game.save_path = real_path
 	Game.save = real_save
 	print("PLAYTHROUGH TEST: %s" % ("PASS" if failures == 0 else "FAIL (%d)" % failures))
-	get_tree().quit(failures)
+	Game.quit(failures)
 
 
 func _find_button(root: Node, text: String) -> Button:

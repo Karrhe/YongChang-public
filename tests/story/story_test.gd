@@ -15,6 +15,7 @@ func _ready() -> void:
 	_test_reading()
 	_test_conditions()
 	_test_resolve()
+	_test_companion_dead()
 	_test_bad_table()
 	_test_bbcode_and_pauses()
 	await _test_dialogue_box()
@@ -22,7 +23,7 @@ func _ready() -> void:
 	_test_flow_keys()
 	Game.save = real_save
 	print("STORY TEST: %s" % ("PASS" if failures == 0 else "FAIL (%d)" % failures))
-	get_tree().quit(failures)
+	Game.quit(failures)
 
 
 func _new_save() -> SaveData:
@@ -102,6 +103,48 @@ func _test_resolve() -> void:
 	_check("没录的场景显示待写", missing.size() == 1 and missing[0].text == "[待写: G9-9]")
 	Game.save = save
 	_check("不给存档时用当前存档", table.lines("T_PLAY")[0].speaker == "石娘")
+
+
+## 主角和同伴都阵亡时，B 版不再让同伴说话或做选择（ISSUE-001 STO-01，QA-001）；
+## G2-4 是南门（STO-03，QA-002）；七月半写灯用起的名字（QA-003）。
+func _test_companion_dead() -> void:
+	var table := StoryTable.reload_main()
+	var after := {
+		1: {"who": "阿棠", "scenes": ["G1-4_B", "C1_B", "G1-5_B", "G1-6_B", "T1_B"]},
+		2: {"who": "周砚", "scenes": ["G2-4_B", "C3_B", "G2-5_B", "G2-6_B_met", "G2-6_B_unmet"]},
+	}
+	for gen: int in after:
+		for elder_alive: bool in [true, false]:
+			var save := _new_save()
+			save.names[0] = "测试石娘"
+			save.hero_alive[gen - 1] = false
+			save.companion_alive[gen - 1] = false
+			if gen == 2:
+				save.hero_alive[0] = elder_alive
+				save.companion_alive[0] = true
+			var who: String = after[gen].who
+			for scene: String in after[gen].scenes:
+				var lines := table.lines(scene, save)
+				var speakers := lines.map(func(l: Dictionary) -> String: return l.speaker)
+				var texts := " ".join(_texts(lines))
+				_check("%s：%s 也阵亡后不说话（一代长辈%s）" % [scene, who, "在" if elder_alive else "不在"],
+					table.has_scene(scene) and not who in speakers and not texts.contains("[待写"))
+				for p in ["A", "B"]:
+					var say := table.find_line(scene, "opt%s_say" % p, save)
+					if not say.is_empty():
+						_check("%s 选项 %s 不由 %s 说" % [scene, p, who], say.speaker != who and say.speaker != "")
+			if gen == 2:
+				var lantern := " ".join(_texts(table.lines("G2-6_B_met", save)))
+				_check("G2-6 写灯也写周砚和起的名字（一代长辈%s）" % ("在" if elder_alive else "不在"),
+					lantern.contains("周砚各写一盏") or lantern.contains("还有周砚"))
+				_check("G2-6 写灯用起的名字，不写阿囡", lantern.contains("测试石娘") and not lantern.contains("阿囡"))
+	var alive := _new_save()
+	alive.hero_alive[0] = false
+	_check("阿棠在时仍由阿棠说 C1 选项", table.find_line("C1_B", "optA_say", alive).speaker == "阿棠")
+	alive.hero_alive[1] = false
+	_check("周砚在时仍由周砚说 C3 选项", table.find_line("C3_B", "optA_say", alive).speaker == "周砚")
+	var g24 := table.lines("G2-4_A", _new_save())
+	_check("G2-4 说的是南门", g24[0].text.contains("南门") and not g24[0].text.contains("西门"))
 
 
 func _test_bad_table() -> void:

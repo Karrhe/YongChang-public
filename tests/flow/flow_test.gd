@@ -29,7 +29,7 @@ func _ready() -> void:
 	Game.save_path = real_path
 	Game.save = real_save
 	print("FLOW TEST: %s" % ("PASS" if failures == 0 else "FAIL (%d)" % failures))
-	get_tree().quit(failures)
+	Game.quit(failures)
 
 
 func _new_save() -> SaveData:
