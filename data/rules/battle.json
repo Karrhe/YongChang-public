@@ -23,6 +23,10 @@
 		"flood_damage": 1,
 		"barrier_hp": 3,
 		"beacon": {"delay": 3, "reinforcements": 2},
+		"_story_mode_note": "剧情模式（BAT-001 §8）：海寇 HP 减 raider_hp_loss（最少 1），每场多 extra_turns 回合。",
+		"story_mode": {"raider_hp_loss": 1, "extra_turns": 1},
+		"_hunger_note": "饥饿（WORK-001 §3）：下一场守军移动减 move_loss（最少 1）。",
+		"hunger": {"move_loss": 1},
 		"deploy": {"max": 5, "min_from_battle_2": 3},
 		"units": {
 			"hero": {"hp": 8, "atk": 3, "move": 4, "range": [1, 1]},
@@ -126,7 +130,7 @@
 					{"turn": 2, "rows": [0, 7], "units": ["archer_boat"], "sea": true},
 					{"turn": 5, "rows": [4, 7], "units": ["raider", "raider", "axeman"]}
 				]},
-			"battle_6": {"villager_schedule": [2, 2, 2, 2], "slow_schedule": [0, 1, 0, 1], "map": "C", "tide": "high", "storm": true, "turns": 9, "villagers": 8, "goal": 4,
+			"battle_6": {"villager_schedule": [2, 2, 2, 2], "slow_schedule": [0, 1, 0, 1], "map": "C", "tide": "high", "storm": true, "turns": 9, "villagers": 8, "goal": 5,
 				"waves": [
 					{"turn": 2, "rows": [0, 7], "units": ["archer_boat"], "sea": true},
 					{"turn": 2, "rows": [0, 3], "units": ["raider", "axeman"]},
@@ -164,6 +168,12 @@
 			"structure_colors": {"fence": "#854c30", "stone": "#8595a1", "ruin": "#4e4a4e", "barrier": "#d27d2c", "gate_open": "#d2aa99"},
 			"side_colors": {"ally": "#597dce", "enemy": "#d04648", "villager": "#deeed6", "npc": "#6daa2c"},
 			"text_color": "#deeed6",
+			"_ui_colors_note": "界面框和烽火占位（DB16）：bg 是战斗画面底色，panel / panel_border 是出战勾选框，beacon_lit / beacon_unlit 是没有烽火图时画的小圆点。当前潮位、选中的动作和单位名用 highlight_select。",
+			"bg": "#140c1c",
+			"panel": "#140c1c",
+			"panel_border": "#8595a1",
+			"beacon_lit": "#d27d2c",
+			"beacon_unlit": "#757161",
 			"dark_text": "#140c1c",
 			"highlight_move": "#deeed655",
 			"highlight_target": "#d04648",

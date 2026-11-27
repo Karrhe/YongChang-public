@@ -160,7 +160,9 @@ func _first_slot() -> String:
 
 func _refresh() -> void:
 	var p := state.goal_progress()
-	goal_label.text = Game.text(String(state.goal().get("text", ""))) + "  " + Game.text("WORK_PROGRESS").format(p) \
+	var g := state.goal()
+	goal_label.text = Game.text(String(g.get("text", ""))).format({"walls": int(g.get("walls", 0)),
+		"gates": int(g.get("gates", 0)), "defenders": int(g.get("defenders", 0))}) + "  " + Game.text("WORK_PROGRESS").format(p) \
 		+ ("  " + Game.text("WORK_GOAL_MET") if p.met else "")
 	var delivery := state.season_delivery()
 	season_label.text = Game.text("WORK_SEASON").format({"season": state.season, "seasons": state.seasons(),
@@ -168,7 +170,8 @@ func _refresh() -> void:
 		"tide": Game.text("BAT_TIDE_" + String(delivery.get("tide", "low"))), "pieces": state.delivered, "stone": _stone_word()})
 	resource_label.text = Game.text("WORK_RESOURCES").format({"people": state.people, "rice": state.rice,
 		"materials": state.materials, "stone": _stone_word(), "masons": state.masons(), "left": state.placements_left()}) \
-		+ ("  " + Game.text("WORK_HUNGRY").format({"n": state.hungry}) if state.hungry > 0 else "")
+		+ ("  " + Game.text("WORK_HUNGRY").format({"n": state.hungry,
+			"loss": int(Rules.get_value("battle.hunger.move_loss", 0))}) if state.hungry > 0 else "")
 	wall_map.show_slots(state.wall_slots, [selected_slot], [], state.wall_layouts)
 	_refresh_slot()
 	_refresh_stones()

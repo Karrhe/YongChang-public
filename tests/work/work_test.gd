@@ -218,6 +218,17 @@ func _test_weather_and_ruins() -> void:
 	FlowLogic.collapse_ruins(save)
 	_check("战后塌顶：A1 最上面一行没了", StoneWall.filled(save.wall_layouts.A1) <= 8)
 	_check("塌完不够筑成就变回空地", save.wall_slots.A1.type == "none")
+	# B6 之后紧接着自动修墙：废墟不塌，修好（flow.json battle_6 的 keep_ruins，ISSUE-001 WORK-04）。
+	save.wall_layouts.A1 = StoneWall.perfect()
+	save.wall_slots.A1 = StoneWall.wall_full(save.wall_layouts.A1, 2)
+	save.wall_slots.A1.hp = [0, 4]
+	var b6 := FlowLogic.battle_input(save, FlowLogic.find_node("battle_6"))
+	var r6: Dictionary = preload("res://scripts/flow/fake_battle.gd").make_result(b6, "held", false)
+	r6.wall_slots = save.wall_slots.duplicate(true)
+	FlowLogic.apply_battle(save, b6, r6)
+	_check("B6 后废墟不塌顶", save.wall_slots.A1.type == "stone" and StoneWall.filled(save.wall_layouts.A1) == 12)
+	FlowLogic.apply_event(save, "repair_after_battle_6")
+	_check("B6 后废墟修满", save.wall_slots.A1.hp == [int(save.wall_slots.A1.max), int(save.wall_slots.A1.max)])
 
 
 func _test_scene() -> void:

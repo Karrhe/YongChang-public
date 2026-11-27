@@ -29,7 +29,7 @@ func show_slots(wall_slots: Dictionary, marked: Array = [], disabled: Array = []
 		var title := Label.new()
 		title.text = Game.text("WORK_MAP_" + m)
 		title.add_theme_font_size_override("font_size", _fs())
-		title.add_theme_color_override("font_color", Color.html("#dad45e"))
+		title.add_theme_color_override("font_color", _color("title"))
 		add_child(title)
 	for row in 4:
 		for m: String in maps:
@@ -46,14 +46,14 @@ func show_slots(wall_slots: Dictionary, marked: Array = [], disabled: Array = []
 			b.custom_minimum_size = Vector2(62, 30) if compact else Vector2(96, 30)
 			b.add_theme_font_size_override("font_size", _fs() - 1)
 			var style := StyleBoxFlat.new()
-			style.bg_color = Color.html(_type_color(slot, wall))
+			style.bg_color = _color(_type_color(slot, wall))
 			style.set_content_margin_all(3)
 			if slot in marked:
-				style.border_color = Color.html("#dad45e")
+				style.border_color = _color("marked")
 				style.set_border_width_all(2)
 			b.add_theme_stylebox_override("normal", style)
 			b.add_theme_stylebox_override("hover", style)
-			b.add_theme_color_override("font_color", Color.html("#deeed6"))
+			b.add_theme_color_override("font_color", _color("text"))
 			b.disabled = slot in disabled
 			b.pressed.connect(func() -> void: slot_pressed.emit(slot))
 			add_child(b)
@@ -77,15 +77,21 @@ func _compact_label(slot: String, wall: Dictionary, layout: Dictionary) -> Strin
 	return Game.text("WORK_SLOT_" + slot) + Game.text(type_key) + "\n" + second
 
 
+## 墙位按钮的底色用 work.json view.map_colors 的哪一个。
 func _type_color(slot: String, wall: Dictionary) -> String:
 	if wall.type == "none":
-		return "#346524"
+		return "none"
 	if wall.hp.any(func(h: Variant) -> bool: return int(h) <= 0):
-		return "#4e4a4e"
+		return "ruin"
 	var full := FlowLogic.max_hp(slot, wall.type)
 	if wall.hp.any(func(h: Variant) -> bool: return int(h) < full):
-		return "#854c30" if wall.type == "fence" else "#757161"
-	return "#854c30" if wall.type == "fence" else "#597dce"
+		return "fence" if wall.type == "fence" else "stone_damaged"
+	return "fence" if wall.type == "fence" else "stone"
+
+
+## 墙位画面的颜色（work.json 的 view.map_colors，DB16）。
+func _color(key: String) -> Color:
+	return Color.html(String(Rules.get_value("work.view.map_colors", {}).get(key, "#140c1c")))
 
 
 func _fs() -> int:

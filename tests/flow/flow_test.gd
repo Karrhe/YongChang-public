@@ -223,11 +223,13 @@ func _test_resume_at_event() -> void:
 	_check("读档后台风只扣了一次", Game.save.wall_slots.A1.hp == [3, 3])
 
 	# 旧存档（砌石拼图之前）：墙没有砖槽，读档时补上（QA-2 的 QA-006、QA-007）。
+	_check("新游戏写上当前存档版本", _new_save().version == SaveData.CURRENT_VERSION)
 	var old := _new_save()
 	old.wall_slots.A1 = {"type": "stone", "hp": [6, 4]}
 	old.wall_slots.B1 = {"type": "fence", "hp": [2, 2]}
 	old.wall_slots.gate_A = {"type": "stone", "hp": [8]}
 	old.progress = "typhoon"
+	old.version = 0  # 没写版本的旧存档
 	Game.save = old
 	Game.save_game()
 	_check("旧存档读档：旧石墙补成完美咬合的砖槽，HP 不变", Game.load_game()
@@ -235,6 +237,7 @@ func _test_resume_at_event() -> void:
 		and int(Game.save.wall_slots.A1.max) == 6)
 	_check("旧存档读档：旧栅栏补成木桩，门不拼", StoneWall.is_built(Game.save.wall_layouts.B1)
 		and Game.save.wall_layouts.B1.kind == "fence" and not Game.save.wall_layouts.has("gate_A"))
+	_check("旧存档读档：版本号补成当前版本", Game.save.version == SaveData.CURRENT_VERSION)
 	var tv := FlowLogic.apply_event(Game.save, "typhoon")
 	_check("补过砖槽的旧墙按红缝过台风", Game.save.wall_slots.A1.hp == [6, 4] and Game.save.wall_slots.B1.hp == [0, 0]
 		and int(tv.seams) == 3)

@@ -131,7 +131,9 @@ static func apply_battle(save: SaveData, input: Dictionary, result: Dictionary) 
 	save.rice = maxi(0, save.rice - int(result.get("rice_looted", 0)))
 	save.seen_hints = PackedStringArray(result.seen_hints)
 	save.wall_slots = result.wall_slots.duplicate(true)
-	collapse_ruins(save)
+	# keep_ruins：后面紧接着自动修墙的那一场（B6）不塌，废墟一起修好（ISSUE-001 WORK-04 临时做法）。
+	if not find_node(battle_id).get("keep_ruins", false):
+		collapse_ruins(save)
 
 	# 名单上少了的人（训练过的守军和教学单位）：人口 −1（ISSUE-001 WORK-02 临时做法）。
 	var survivors := {}
@@ -476,7 +478,8 @@ static func collapse_ruins(save: SaveData) -> void:
 
 
 ## 旧存档（砌石拼图之前）读进来以后补上砖槽：旧石墙当完美咬合的墙（旧规则下石墙本来就是满 HP 6），
-## 旧栅栏当刚扎成的木桩。不看版本号：旧存档没写版本字段，读进来就是默认的 3（QA-2 的 QA-006、QA-007）。
+## 旧栅栏当刚扎成的木桩。不看版本号：v2 以前的存档大多没写版本字段（读进来是 0），按墙有没有砖槽补（QA-2 的 QA-006、QA-007）。
+## 补完写成当前版本，下次保存时版本号会写进文件。
 static func migrate(save: SaveData) -> void:
 	for slot: String in save.wall_slots:
 		var wall: Dictionary = save.wall_slots[slot]
@@ -487,7 +490,7 @@ static func migrate(save: SaveData) -> void:
 		wall.max = StoneWall.max_hp(layout)
 		for i in wall.hp.size():
 			wall.hp[i] = mini(int(wall.hp[i]), int(wall.max))
-	save.version = 3
+	save.version = SaveData.CURRENT_VERSION
 
 
 ## 这段墙的满 HP：砌石筑成的墙记在 "max"，其余按类型查 core.walls.max_hp。

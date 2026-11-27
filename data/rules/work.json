@@ -8,7 +8,10 @@
 			"resource_icons": ["res_people", "res_grain", "res_material"],
 			"_stone_note": "砖槽里每格的贴图（ART-2，leeli777 画）：形状 → 图，图在 stone_dir/<图>.png，16×16 平铺到每一格。没有图时画纯色块。",
 			"stone_dir": "res://assets/art/work/",
-			"stone_tiles": {"stake3": "stake", "wedge": "stone_wedge", "bar2": "stone_bar", "bar3": "stone_bar", "L3": "stone_corner", "sq": "stone_square"}
+			"stone_tiles": {"stake3": "stake", "wedge": "stone_wedge", "bar2": "stone_bar", "bar3": "stone_bar", "L3": "stone_corner", "sq": "stone_square"},
+			"_colors_note": "颜色（DB16）。stone_colors：砖槽画面（没有贴图时按形状涂色；slot 是空槽底，grid 是空格线，edge 是石块边，gold / red 是咬住和红缝，ghost_ok / ghost_bad 是要放的石头的影子）。map_colors：墙位按钮（title 是地图名，marked 是选中框，text 是按钮字；none 空位、ruin 有废墟格、fence 栅栏、stone_damaged 没修满的石墙、stone 修满的石墙）。",
+			"stone_colors": {"slot": "#140c1c", "grid": "#4e4a4e", "stake3": "#854c30", "wedge": "#8595a1", "bar2": "#757161", "bar3": "#8595a1", "L3": "#757161", "sq": "#757161", "edge": "#140c1c", "gold": "#dad45e", "red": "#d04648", "ghost_ok": "#6daa2c99", "ghost_bad": "#d0464899"},
+			"map_colors": {"title": "#dad45e", "marked": "#dad45e", "text": "#deeed6", "none": "#346524", "ruin": "#4e4a4e", "fence": "#854c30", "stone_damaged": "#757161", "stone": "#597dce"}
 		},
 		"seasons": 2,
 		"eat_per_person": 2,

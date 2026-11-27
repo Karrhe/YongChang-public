@@ -70,7 +70,7 @@ func setup(battle_input: Dictionary) -> void:
 	width = rows[0].length()
 	var number := int(battle_id.trim_prefix("battle_"))
 	gen = 1 if number <= 3 else (2 if number <= 6 else 3)
-	turns = int(bcfg.turns) + (1 if input.get("story_mode", false) else 0)
+	turns = int(bcfg.turns) + (int(cfg.get("story_mode", {}).get("extra_turns", 0)) if input.get("story_mode", false) else 0)
 	goal = int(bcfg.goal)
 	tide_cycle = cfg.tides["storm" if bcfg.get("storm", false) else "normal"]
 	tide_start = tide_cycle.find(bcfg.tide)
@@ -193,10 +193,10 @@ func _make_unit(type: String, side: String, role: String, roster_id: String = ""
 	var stats: Dictionary = cfg.units[type]
 	var hp := int(stats.hp)
 	if side == "enemy" and input.get("story_mode", false):
-		hp = maxi(1, hp - 1)  # 剧情模式：海寇 HP −1（BAT-001 §8）
+		hp = maxi(1, hp - int(cfg.get("story_mode", {}).get("raider_hp_loss", 0)))  # 剧情模式：海寇 HP 减少（BAT-001 §8，battle.json story_mode）
 	var move := int(stats.get("move", 0))
 	if side == "ally" and int(input.get("hungry", 0)) > 0:
-		move = maxi(1, move - 1)  # 饥饿：守军移动 −1（WORK-001 §3）
+		move = maxi(1, move - int(cfg.get("hunger", {}).get("move_loss", 0)))  # 饥饿：守军移动减少（WORK-001 §3，battle.json hunger）
 	var r: Array = stats.get("range", [0, 0])
 	var u := {
 		"uid": next_uid, "type": type, "side": side, "role": role, "roster_id": roster_id,

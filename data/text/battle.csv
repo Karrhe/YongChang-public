@@ -70,6 +70,7 @@ BAT_BEACON_LIT,烽火已点
 BAT_STRUCTURE,{type} HP {hp}/{max}
 BAT_GATE_OPEN,开着
 BAT_GATE_CLOSED,关着
+BAT_LIST_SEPARATOR,，
 BAT_STRUCT_fence,栅栏
 BAT_STRUCT_stone,石墙
 BAT_STRUCT_gate_fence,栅栏门
@@ -89,7 +90,7 @@ BAT_EVENT_saved,{count} 位乡亲进了安全区。
 BAT_EVENT_lantern,失去了 {count} 个人。灯 +{count}。
 BAT_EVENT_loot,{count} 个海寇冲进安全区抢了粮，还在里面。
 BAT_EVENT_reinforcements,烽火有了回应：援军从路上赶来了。
-BAT_EVENT_beacon,烽火点起来了，3 回合后援军会到。
+BAT_EVENT_beacon,烽火点起来了，{delay} 回合后援军会到。
 BAT_EVENT_retire,长辈重伤，撤了下去。
 BAT_EVENT_npc_down,峤叔倒下了。
 BAT_DEPLOY_TITLE,选出战的人（主角必出，还能选 {n} 个）

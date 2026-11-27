@@ -136,7 +136,8 @@ func _take_events() -> void:
 					counts["beacon"] = 1
 	for kind: String in ["landing", "saved", "lantern", "loot", "reinforcements", "beacon", "retire", "npc_down"]:
 		if counts.has(kind):
-			notes.append(Game.text("BAT_EVENT_" + kind).format({"count": counts[kind]}))
+			notes.append(Game.text("BAT_EVENT_" + kind).format({"count": counts[kind],
+				"delay": int(Rules.get_value("battle.beacon.delay", 0))}))
 	state.events.clear()
 	if not notes.is_empty():
 		info_label.text = " ".join(notes)
@@ -266,7 +267,7 @@ func _refresh_tide() -> void:
 			style.border_color = Color.html(String(colors.get("storm", "#ff0000")))
 			style.set_border_width_all(1)
 		if i == 0:
-			style.border_color = Color.html("#dad45e")
+			style.border_color = _color("highlight_select")
 			style.set_border_width_all(2)
 		style.set_content_margin_all(2)
 		panel.add_theme_stylebox_override("panel", style)
@@ -343,7 +344,7 @@ func _refresh_panel() -> void:
 		b.custom_minimum_size = Vector2(96, 20)
 		b.pressed.connect(_on_action.bind(action))
 		if action == mode:
-			b.modulate = Color.html("#dad45e")
+			b.modulate = _color("highlight_select")
 		action_grid.add_child(b)
 
 
@@ -386,7 +387,7 @@ func _describe(cell: Vector2i) -> String:
 			type_key = "BAT_STRUCT_ruin"
 		var text := Game.text("BAT_STRUCTURE").format({"type": Game.text(type_key), "hp": st.hp, "max": st.max})
 		if st.kind == "gate" and int(st.hp) > 0:
-			text += "，" + Game.text("BAT_GATE_OPEN" if st.open else "BAT_GATE_CLOSED")
+			text += Game.text("BAT_LIST_SEPARATOR") + Game.text("BAT_GATE_OPEN" if st.open else "BAT_GATE_CLOSED")
 		parts.append(text)
 	if state.barriers.has(cell):
 		parts.append(Game.text("BAT_BARRIER").format({"hp": state.barriers[cell]}))
@@ -398,6 +399,11 @@ func _describe(cell: Vector2i) -> String:
 		if u.side == "enemy":
 			parts.append(_intent_text(u))
 	return " · ".join(parts)
+
+
+## 战斗画面的颜色（battle.json 的 view.<key>，DB16）。
+func _color(key: String) -> Color:
+	return Color.html(String(Rules.get_value("battle.view." + key, "#140c1c")))
 
 
 func _fs() -> int:
@@ -417,7 +423,7 @@ func _label(parent: Node, pos: Vector2, size: Vector2 = Vector2.ZERO) -> Label:
 
 func _build() -> void:
 	var bg := ColorRect.new()
-	bg.color = Color.html("#140c1c")
+	bg.color = _color("bg")
 	bg.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(bg)
 	var cell := int(Rules.get_value("battle.view.cell", 32))
@@ -447,7 +453,7 @@ func _build() -> void:
 	add_child(panel)
 	unit_title = Label.new()
 	unit_title.add_theme_font_size_override("font_size", _fs())
-	unit_title.add_theme_color_override("font_color", Color.html("#dad45e"))
+	unit_title.add_theme_color_override("font_color", _color("highlight_select"))
 	panel.add_child(unit_title)
 	unit_stats = Label.new()
 	unit_stats.add_theme_font_size_override("font_size", _fs())
@@ -482,8 +488,8 @@ func _show_deploy(options: Dictionary) -> void:
 	add_child(deploy_panel)
 	var frame := PanelContainer.new()
 	var style := StyleBoxFlat.new()
-	style.bg_color = Color.html("#140c1c")
-	style.border_color = Color.html("#8595a1")
+	style.bg_color = _color("panel")
+	style.border_color = _color("panel_border")
 	style.set_border_width_all(1)
 	style.set_content_margin_all(10)
 	frame.add_theme_stylebox_override("panel", style)

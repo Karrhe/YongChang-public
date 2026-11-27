@@ -1,6 +1,6 @@
 {
 	"audio": {
-		"_note": "音效（ART/AUD）：事件名 → 文件，文件在 dir。由 tools/audio/make_sfx.py 合成，原创，CC BY 4.0。",
+		"_note": "音效（ART/AUD）：事件名 → 文件，文件在 dir。gong、tide、hit、repair、beacon、lantern 由 tools/audio/make_sfx.py 合成；stone_place、stone_bite 是 leeli777 的 AUD-2，用 Python 脚本合成，脚本待补交进仓库。都是原创，CC BY 4.0。",
 		"dir": "res://assets/audio/",
 		"volume_db": -6.0,
 		"voices": 4,

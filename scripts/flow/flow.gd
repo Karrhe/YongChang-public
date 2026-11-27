@@ -95,6 +95,8 @@ func _open(scene_path: String, input: Dictionary, on_done: Callable) -> void:
 	var packed := load(scene_path) as PackedScene
 	if packed == null:
 		push_error("Cannot load scene: %s" % scene_path)
+		# 不留一块空白画面：回主菜单（存档停在这个节点的开头）。
+		Game.go_to.call_deferred(MENU_SCENE)
 		return
 	current = packed.instantiate()
 	current.setup(input)

@@ -9,6 +9,16 @@
 		"min_people": 4,
 		"_people_loss_note": "一场战斗最多扣几口人（REDESIGN 第一轮调数值：疏散战失去的乡亲多，全扣会让人口一路掉到 4、没人砌墙）。灯照样每人一盏。",
 		"max_people_loss_per_battle": 1,
+		"settings": {
+			"_note": "设置画面（PLAN 第 13 天）：玩家偏好存在 user://settings.cfg，这里是第一次启动的默认值。volume 是主音量（0–1，接 Master 总线），volume_step 是滑条一格。",
+			"story_mode": false,
+			"volume": 1.0,
+			"volume_step": 0.1,
+			"fullscreen": false,
+			"_colors_note": "设置画面和暂停画面：dim 是盖住游戏画面的半透明底，panel / border 是框，note 是说明文字（DB16）。",
+			"colors": {"dim": "#140c1cc0", "panel": "#140c1c", "border": "#8595a1", "note": "#8595a1"},
+			"panel_width": 360
+		},
 		"walls": {
 			"_note": "墙位每格的满 HP。门位只有 1 格，墙位 2 格。",
 			"slots": ["A1", "A2", "A3", "B1", "B2", "B3", "C1", "C2", "C3"],

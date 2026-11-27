@@ -4,7 +4,10 @@ extends Resource
 ## 代的下标：0 = 第一代，1 = 第二代，2 = 第三代。
 
 ## 存档格式版本。以后改字段时加 1，读档时按版本补默认值。
-@export var version: int = 3
+## 默认 0 = 没写版本的旧存档（Godot 不保存等于默认值的字段，默认值不是 0 就永远写不进文件）；
+## 新游戏（Game.new_game）和读档迁移（FlowLogic.migrate）写成当前版本 CURRENT_VERSION。
+const CURRENT_VERSION := 3
+@export var version: int = 0
 
 ## 玩家起的名字，只有第二、三代：下标 0 = {名2}，下标 1 = {名3}。
 ## 第一代主角名字固定，写在文本表 NAME_GEN1 里，不进存档。

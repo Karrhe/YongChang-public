@@ -19,6 +19,8 @@
 
 - **玩：** 双击 `YongchangShouchao.exe`（Windows 10/11，单个文件，数据包已嵌在里面）。存档在 `%APPDATA%\Godot\app_userdata\<项目名>\` 下，自动保存。
 - **开发：** 用 Godot 4.7 打开本文件夹里的 `project.godot`，按 F5 运行。
+- **设置：** 主菜单的“设置”里有剧情模式（海寇 HP −1、每场多 1 回合）、音量、全屏；存在同一目录的 `settings.cfg`。剧情模式同时改当前存档和以后新游戏的默认值。
+- **暂停：** 游戏中（剧情、战斗、劳作、起名、选择）按 Esc 暂停：继续、设置、回到主菜单、退出游戏。每一段开始时自动存档，回主菜单后继续从这一段开头来。
 
 ## 目录
 
@@ -32,12 +34,12 @@
 | `scripts/battle/` | 战斗：规则 `BattleState`、地图 `battle_board.gd`、战斗画面；测试用的“认真玩法” `BattleBot` |
 | `scripts/work/` | 劳作：规则 `WorkState`、砌石拼图 `StoneWall`、砖槽 `StoneGrid`、城防图 `WallMap`、劳作画面；测试用的 `WorkBot` |
 | `scripts/story/` | 剧情表 `StoryTable`、对话框 `DialogueBox`、剧情画面（对话只有文字，没有配音） |
-| `scripts/ui/` | 各画面的脚本 |
+| `scripts/ui/` | 各画面的脚本；设置画面 `SettingsPanel`、暂停画面（自动加载 `Pause`） |
 | `data/rules/*.json` | 所有可调的规则和数值；每个文件一个顶层键，键名等于文件名（`core.json` → `core`） |
 | `data/text/*.csv` | 所有显示给玩家的文字；每个模块一张表，启动时自动加载 |
 | `data/text/story.csv` | 剧情台词，一行一句（不是翻译表，导入方式是“保留文件”）；由 `tools/story/script_to_story_csv.py` 从剧本生成 |
-| `assets/art/` | 像素美术：`bg` 剧情背景、`portraits` 头像、`tiles` 地块、`units` 单位、`ui` 界面、`props` 道具、`ending` 结局（放灯、龙灯） |
-| `assets/audio/` | 音效（锣、潮水、命中、修墙、烽火、放灯），事件名见 `data/rules/audio.json` |
+| `assets/art/` | 像素美术：`bg` 剧情背景、`portraits` 头像、`tiles` 地块、`units` 单位、`ui` 界面、`props` 道具、`work` 砖槽石纹、`ending` 结局（放灯、龙灯） |
+| `assets/audio/` | 音效（锣、潮水、命中、修墙、烽火、放灯；拼图的放下石头、咬住），事件名见 `data/rules/audio.json` |
 | `assets/fonts/` | 中文像素字体 Fusion Pixel Font 12px（SIL OFL，许可证在同一目录） |
 | `assets/theme/` | 全局界面主题：按钮九宫格、默认字体 |
 | `tools/art/`、`tools/audio/`、`tools/story/` | 生成美术、音效、剧情表的 Python 脚本（需要 Pillow、numpy） |
@@ -53,9 +55,10 @@ godot --headless --path . res://tests/ending/ending_test.tscn
 godot --headless --path . res://tests/battle/battle_test.tscn
 godot --headless --path . res://tests/work/work_test.tscn
 godot --headless --path . res://tests/flow/playthrough_test.tscn
+godot --headless --path . res://tests/ui/settings_test.tscn
 ```
 
-用临时存档路径，不会删掉真实存档。
+用临时存档和设置路径，不会删掉真实存档、不改玩家设置。
 
 预览一个剧情场景（校对剧情表用，点击或空格往下播，滚轮向上回看）：
 
@@ -84,3 +87,19 @@ godot --headless --path . --export-release "Windows Desktop" export/windows/Yong
 ```
 godot --headless --path . --export-pack "Windows Desktop" export/windows/game.pck
 ```
+
+导出时不打包 `tests/`、`tools/`、`export/`（`export_presets.cfg` 的 exclude_filter）。
+
+## 发布包
+
+Windows 发布包是一个 zip（`YongchangShouchao-<版本>-windows.zip`），解压后在同一层有这些文件：
+
+| 文件 | 内容 |
+|---|---|
+| `YongchangShouchao.exe` | 游戏（数据包已嵌在里面） |
+| `README.md` | 本文件 |
+| `LICENSE` | 代码协议 AGPL-3.0 |
+| `LICENSE-ASSETS.md` | 原创素材协议 CC BY 4.0 |
+| `CREDITS.md` | 素材来源 |
+| `AI_LOG.md` | AI 使用记录 |
+| `fusion-pixel-OFL.txt`、`ark-pixel-OFL.txt`、`cubic-11-OFL.txt`、`galmuri-LICENSE.txt` | 字体许可证（SIL OFL 1.1） |

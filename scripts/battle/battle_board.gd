@@ -122,7 +122,7 @@ func _draw_cell(s: BattleState, p: Vector2i, font: Font, fs: int) -> void:
 			# 烽火画在格子右上角，原大小（16×16），不挡住下面的敌台。
 			draw_texture_rect(bt, Rect2(_rect(p).position + Vector2(cell / 2, 0), Vector2(cell / 2, cell / 2)), false)
 		else:
-			draw_circle(_rect(p).position + Vector2(cell - 7, 7), 4.0, Color.html("#d27d2c") if lit else Color.html("#757161"))
+			draw_circle(_rect(p).position + Vector2(cell - 7, 7), 4.0, _c("beacon_lit") if lit else _c("beacon_unlit"))
 
 
 func _draw_unit(s: BattleState, u: Dictionary, font: Font, fs: int) -> void:

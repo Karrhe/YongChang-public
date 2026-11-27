@@ -45,7 +45,7 @@
 			{"id": "C3", "type": "choice", "ab": true, "gen": 2},
 			{"id": "typhoon", "type": "event", "gen": 2},
 			{"id": "G2-5", "type": "story", "gen": 2, "ab": true},
-			{"id": "battle_6", "type": "battle", "gen": 2},
+			{"id": "battle_6", "type": "battle", "gen": 2, "keep_ruins": true},
 			{"id": "rollcall_2", "type": "event", "gen": 2},
 			{"id": "repair_after_battle_6", "type": "event", "gen": 2},
 			{"id": "G2-6", "type": "story", "gen": 2, "ab": true, "goal_split": true},

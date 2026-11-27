@@ -155,4 +155,4 @@ static func effect_text(id: String, pick: String) -> String:
 	var bonus: Dictionary = Rules.get_value("flow.bonus_defenders", {})
 	if bonus.get("choice", "") == id and bonus.get("pick", "") == pick:
 		parts.append(Game.text("CHOICE_FX_bonus").format({"n": int(bonus.get("count", 0))}))
-	return Game.text("CHOICE_FX_none") if parts.is_empty() else "，".join(parts)
+	return Game.text("CHOICE_FX_none") if parts.is_empty() else Game.text("CHOICE_FX_SEPARATOR").join(parts)

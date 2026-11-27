@@ -23,3 +23,14 @@ DEV_GOAL_MET,目标达成
 DEV_GOAL_NOT_MET,目标未达成
 UI_NEW_GAME_CONFIRM,已有存档。重新开始会覆盖原来的进度。
 UI_NEW_GAME_OK,重新开始
+UI_SETTINGS,设置
+UI_STORY_MODE,剧情模式
+UI_STORY_MODE_NOTE,海寇 HP −1，每场战斗多 1 回合。下一场战斗开始生效。
+UI_VOLUME,音量
+UI_VOLUME_VALUE,{value}%
+UI_FULLSCREEN,全屏
+UI_PAUSE_TITLE,暂停
+UI_RESUME,继续
+UI_TO_MENU,回到主菜单
+UI_QUIT_GAME,退出游戏
+UI_PAUSE_NOTE,每段开始时自动存档；回主菜单后，从这一段开头继续。

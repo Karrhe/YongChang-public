@@ -115,3 +115,4 @@ CHOICE_FX_build_stone,选 {n} 段墙位筑成咬合的石墙
 CHOICE_FX_demolish_stone,选 {n} 段石墙拆掉
 CHOICE_FX_bonus,下一场守军 +{n}
 CHOICE_FX_none,不变
+CHOICE_FX_SEPARATOR,，

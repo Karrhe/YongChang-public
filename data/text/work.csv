@@ -1,12 +1,12 @@
 keys,zh
-WORK_GOAL_1,目标卡 · 组织义兵：训练 3 名义兵，扎好 4 段栅栏和栅栏门。
-WORK_GOAL_2,目标卡 · 约一年内筑完城墙：5 段石墙和城门。
-WORK_GOAL_3,目标卡 · 陆魁来犯之前：6 段城墙修满并保住，训练 4 名守军。
+WORK_GOAL_1,目标卡 · 组织义兵：训练 {defenders} 名义兵，扎好 {walls} 段栅栏和栅栏门。
+WORK_GOAL_2,目标卡 · 约一年内筑完城墙：{walls} 段石墙和城门。
+WORK_GOAL_3,目标卡 · 陆魁来犯之前：{walls} 段城墙修满并保住，训练 {defenders} 名守军。
 WORK_PROGRESS,（墙 {walls}/{walls_need} · 门 {gates}/{gates_need} · 守军 {defenders}/{defenders_need}）
 WORK_GOAL_MET,已达成
 WORK_SEASON,第 {season}/{seasons} 季（这一代算上这一季还剩 {left} 季）
 WORK_RESOURCES,人口 {people} · 粮食 {rice} · {stone} {materials} 块 · 石匠 {masons} 人，还能放 {left} 块
-WORK_HUNGRY,饥饿 {n}：下一场守军移动 −1
+WORK_HUNGRY,饥饿 {n}：下一场守军移动 −{loss}
 WORK_JOB_farm,种田
 WORK_JOB_gather,采料
 WORK_JOB_build,修建

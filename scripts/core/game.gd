@@ -2,6 +2,10 @@ extends Node
 ## 全局游戏状态：保存 / 读取存档，取剧情文字，切换画面。
 
 const DEFAULT_SAVE_PATH := "user://save.tres"
+## 玩家设置（剧情模式默认值、主音量、全屏），和存档分开放，删档不丢。
+const DEFAULT_SETTINGS_PATH := "user://settings.cfg"
+const SETTINGS_SECTION := "settings"
+const SETTINGS_KEYS: PackedStringArray = ["story_mode", "volume", "fullscreen"]
 ## 每个模块一张文本表，都放在这里。Godot 导入 CSV 后在旁边生成 .translation，
 ## 启动时全部加载，所以新加一张表不用改 project.godot。
 const TEXT_DIR := "res://data/text/"
@@ -9,6 +13,10 @@ const TEXT_DIR := "res://data/text/"
 ## 测试改成临时路径，避免删掉真实存档。
 var save_path := DEFAULT_SAVE_PATH
 var save: SaveData = SaveData.new()
+## 测试改成临时路径，避免改掉玩家的设置。
+var settings_path := DEFAULT_SETTINGS_PATH
+## 当前设置：story_mode（新游戏默认开不开剧情模式）、volume（0–1）、fullscreen。
+var settings := {}
 ## 已加载的文本表路径（测试检查用）。
 var text_tables: PackedStringArray = PackedStringArray()
 ## 音效（data/rules/audio.json）：事件名 → 文件；几个播放器轮流用，几个音效可以叠在一起。
@@ -23,6 +31,15 @@ func _ready() -> void:
 	# 只做中文：不跟随系统语言。
 	TranslationServer.set_locale("zh")
 	load_text_tables()
+	load_settings()
+	apply_settings()
+	# 点窗口的关闭按钮也走 quit()，先停音效再退（ISSUE-001 QA-005）。
+	get_tree().auto_accept_quit = false
+
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_WM_CLOSE_REQUEST and not _quitting:
+		quit()
 
 
 ## 播一个音效事件：gong、tide、hit、repair、beacon、lantern（TEAM-001 §4）。没配或没有文件时不出声。
@@ -73,8 +90,82 @@ func load_text_tables() -> void:
 			push_error("Not a translation file: %s" % path)
 
 
-func new_game() -> void:
+# ---------- 设置 ----------
+
+## 读 settings.cfg；没有的项用 core.json 的 settings 默认值。
+func load_settings() -> void:
+	var cfg := ConfigFile.new()
+	var ok := cfg.load(settings_path) == OK
+	settings = {}
+	for key in SETTINGS_KEYS:
+		var fallback: Variant = Rules.get_value("core.settings." + key, null)
+		settings[key] = cfg.get_value(SETTINGS_SECTION, key, fallback) if ok else fallback
+	settings.story_mode = bool(settings.story_mode)
+	settings.fullscreen = bool(settings.fullscreen)
+	settings.volume = clampf(float(settings.volume), 0.0, 1.0)
+
+
+func save_settings() -> void:
+	var cfg := ConfigFile.new()
+	for key in SETTINGS_KEYS:
+		cfg.set_value(SETTINGS_SECTION, key, settings[key])
+	var err := cfg.save(settings_path)
+	if err != OK:
+		push_error("Settings save failed: %s" % error_string(err))
+
+
+## 把音量、全屏用到引擎上。
+func apply_settings() -> void:
+	var volume := float(settings.volume)
+	var bus := AudioServer.get_bus_index("Master")
+	AudioServer.set_bus_mute(bus, volume <= 0.0)
+	AudioServer.set_bus_volume_db(bus, linear_to_db(volume) if volume > 0.0 else -80.0)
+	# 无界面运行（测试）时没有窗口可切。
+	if DisplayServer.get_name() == "headless":
+		return
+	var mode := DisplayServer.WINDOW_MODE_FULLSCREEN if settings.fullscreen else DisplayServer.WINDOW_MODE_WINDOWED
+	if DisplayServer.window_get_mode() != mode:
+		DisplayServer.window_set_mode(mode)
+
+
+## 改一项设置：存进 settings.cfg 并马上生效。
+func set_setting(key: String, value: Variant) -> void:
+	settings[key] = value
+	save_settings()
+	apply_settings()
+
+
+## 剧情模式：改新游戏的默认值，也改当前这一局。
+## 磁盘上的存档只改 story_mode 这一项，不把内存里的进度写进去：
+## 节点开始时存的档要保持原样（事件节点已生效、战斗结果未接受时都不能存，见 flow.gd）。
+func set_story_mode(on: bool) -> void:
+	set_setting("story_mode", on)
+	save.story_mode = on
+	if not has_save():
+		return
+	var on_disk := ResourceLoader.load(save_path, "", ResourceLoader.CACHE_MODE_IGNORE)
+	if on_disk is SaveData:
+		on_disk.story_mode = on
+		var err := ResourceSaver.save(on_disk, save_path)
+		if err != OK:
+			push_error("Save failed: %s" % error_string(err))
+
+
+## 当前这一局是不是剧情模式：有存档看存档，没有看默认值。
+func current_story_mode() -> bool:
+	if has_save():
+		var on_disk := ResourceLoader.load(save_path, "", ResourceLoader.CACHE_MODE_IGNORE)
+		if on_disk is SaveData:
+			return on_disk.story_mode
+	return bool(settings.get("story_mode", false))
+
+
+## from_settings = true（主菜单开新游戏）时，剧情模式按设置里的默认值开。
+func new_game(from_settings: bool = false) -> void:
 	save = SaveData.new()
+	save.version = SaveData.CURRENT_VERSION
+	if from_settings:
+		save.story_mode = bool(settings.get("story_mode", false))
 	save.people = int(Rules.get_value("core.new_game.people", 0))
 	save.rice = int(Rules.get_value("core.new_game.rice", 0))
 	save.materials = int(Rules.get_value("core.new_game.materials", 0))

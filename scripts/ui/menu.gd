@@ -1,5 +1,5 @@
 extends Control
-## 主菜单：开始 / 继续 / 制作人员 / 退出。
+## 主菜单：开始 / 继续 / 设置 / 制作人员 / 退出。
 
 const CREDITS_SCENE := "res://scenes/credits/credits.tscn"
 const FLOW_SCENE := "res://scenes/flow/flow.tscn"
@@ -27,6 +27,7 @@ func _ready() -> void:
 	_add_button(box, "UI_NEW_GAME", _on_new_game)
 	var cont := _add_button(box, "UI_CONTINUE", _on_continue)
 	cont.disabled = not _can_continue()
+	_add_button(box, "UI_SETTINGS", open_settings)
 	_add_button(box, "UI_CREDITS", func() -> void: Game.go_to(CREDITS_SCENE))
 	_add_button(box, "UI_QUIT", Game.quit)
 
@@ -38,6 +39,13 @@ func _add_button(parent: Node, text_id: String, callback: Callable) -> Button:
 	button.pressed.connect(callback)
 	parent.add_child(button)
 	return button
+
+
+## 设置画面盖在菜单上面。
+func open_settings() -> SettingsPanel:
+	var panel := SettingsPanel.new()
+	add_child(panel)
+	return panel
 
 
 func _can_continue() -> bool:
@@ -64,7 +72,7 @@ func _on_new_game() -> void:
 
 
 func _start_new_game() -> void:
-	Game.new_game()
+	Game.new_game(true)  # 剧情模式按设置里的默认值开（user://settings.cfg）
 	FlowLogic.start_new_game(Game.save)
 	Game.go_to(FLOW_SCENE)
 

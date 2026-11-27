@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 
 Rules="*res://scripts/core/rules.gd"
 Game="*res://scripts/core/game.gd"
+Pause="*res://scripts/ui/pause_menu.gd"
 
 [display]
 
