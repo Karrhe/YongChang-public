@@ -160,6 +160,12 @@ func _draw_unit(s: BattleState, u: Dictionary, font: Font, fs: int) -> void:
 		_c("text_color"))
 	if int(u.carrying) != 0:
 		draw_rect(Rect2(r.position + Vector2(-3, -3), Vector2(8, 8)), Color.html(String(_v("side_colors", {}).villager)))
+	# 走不动的乡亲：左上角一个黄底的“扶”字（REDESIGN-001 M2）。
+	if u.get("needs_escort", false):
+		var badge := Rect2(_rect(u.pos).position + Vector2(1, 1), Vector2(fs + 2, fs + 2))
+		draw_rect(badge, _c("highlight_select"))
+		draw_string(font, badge.position + Vector2(1, fs), Game.text("BAT_GLYPH_villager_slow"), HORIZONTAL_ALIGNMENT_LEFT, -1, fs,
+			_c("dark_text"))
 
 
 func _draw_intents(s: BattleState, font: Font, fs: int) -> void:
@@ -182,7 +188,7 @@ func _draw_intents(s: BattleState, font: Font, fs: int) -> void:
 		if points.size() > 1:
 			draw_polyline(points, color, 2.0)
 			draw_circle(points[-1], 3.0, color)
-		if plan.act in ["grab", "attack", "shoot", "smash"] and plan.target != BattleState.NOWHERE:
+		if plan.act in ["grab", "attack", "shoot", "smash", "loot"] and plan.target != BattleState.NOWHERE:
 			var mark := _tex("ui_dir", "target_mark")
 			if mark != null:
 				draw_texture_rect(mark, _rect(plan.target).grow(-6), false)

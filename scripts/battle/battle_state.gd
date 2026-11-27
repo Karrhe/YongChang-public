@@ -41,6 +41,8 @@ var villager_batches := 0
 var saved := 0
 var lost := 0
 var raiders_defeated := 0
+## 冲进安全区抢了粮走掉的海寇数（REDESIGN-001 M6）。
+var looted := 0
 var hero_died := false
 var elder_retired := false
 var inspire_used := false
@@ -208,7 +210,7 @@ func _make_unit(type: String, side: String, role: String, roster_id: String = ""
 		"no_counter": stats.get("no_counter", false), "ai": String(stats.get("ai", "")),
 		"structure_mult": int(stats.get("structure_mult", 1)), "aura": int(stats.get("aura", 0)),
 		"barriers_left": int(cfg.abilities.barriers_per_battle), "ability": "", "hero": {},
-		"buff_atk": 0, "buff_move": 0,
+		"buff_atk": 0, "buff_move": 0, "needs_escort": stats.get("needs_escort", false),
 	}
 	next_uid += 1
 	return u
@@ -261,7 +263,12 @@ func is_tower(p: Vector2i) -> bool:
 
 
 func is_flooded(p: Vector2i) -> bool:
-	return cfg.terrain.get(terrain_char(p), {}).get("floods", false) and tide() in cfg.tides.flooded
+	return _floods(p) and tide() in cfg.tides.flooded
+
+
+## 这一格会不会被潮水淹（滩涂）。
+func _floods(p: Vector2i) -> bool:
+	return cfg.terrain.get(terrain_char(p), {}).get("floods", false)
 
 
 ## 墙（HP > 0）、关着的门、障碍挡路；废墟可以走。
@@ -663,9 +670,14 @@ func _start_turn() -> void:
 		u.buff_atk = 0
 		u.buff_move = 0
 		u.from_pos = u.pos
+	# 走不动的乡亲：slow_schedule 和 villager_schedule 一一对应，写这一批里有几个（REDESIGN-001 M2）。
+	var slow_schedule: Array = bcfg.get("slow_schedule", [])
 	while villager_batches < mini(turn, villager_schedule.size()):
-		for i in int(villager_schedule[villager_batches]):
-			_place(_make_unit("villager", "villager", ""), _spots("villagers"))
+		var slow := int(slow_schedule[villager_batches]) if villager_batches < slow_schedule.size() else 0
+		var count := int(villager_schedule[villager_batches])
+		for i in count:
+			var v := _make_unit("villager_slow" if i >= count - slow else "villager", "villager", "")
+			_place(v, _spots("villagers"))
 		villager_batches += 1
 	var landed := 0
 	for wave: Dictionary in bcfg.get("waves", []):
@@ -713,7 +725,8 @@ func _spawn_enemy(type: String, wave: Dictionary) -> bool:
 
 ## 乡亲阶段：离安全区近的先走；旁边有守军 +1，被引导或护乡 +2（BAT-001 §6）。
 func _villager_phase() -> void:
-	var safe_dist := _distance_to_safe()
+	# 乡亲认得潮水：下一步要涨水时，不往滩涂里走，改走土堤（REDESIGN-001 M3）。
+	var safe_dist := _distance_to_safe(tide_at(turn + 1) in cfg.tides.flooded)
 	var list := villagers_outside().filter(func(v: Dictionary) -> bool: return on_map(v))
 	list.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
 		return int(safe_dist.get(a.pos, FAR)) < int(safe_dist.get(b.pos, FAR)))
@@ -728,14 +741,21 @@ func _villager_phase() -> void:
 				bonus = maxi(bonus, int(cfg.abilities.guide_bonus))
 		if v.guided:
 			bonus = maxi(bonus, int(cfg.abilities.guide_bonus))
+		# 走不动的乡亲：旁边没有守军、也没被引导就不走（REDESIGN-001 M2）。
+		if v.get("needs_escort", false) and bonus == 0:
+			continue
 		var budget := int(v.move) + bonus
 		var costs := _costs(v, v.pos)
 		var best: Vector2i = v.pos
 		var best_far := int(safe_dist.get(v.pos, FAR))
 		var best_cost := 0
+		var next_floods: bool = tide_at(turn + 1) in cfg.tides.flooded
 		for p: Vector2i in costs:
 			var c: int = costs[p][0]
 			if c > budget or (p != v.pos and not unit_at(p).is_empty()):
+				continue
+			# 下一步要涨水的滩涂不停（REDESIGN-001 M3），原地除外。
+			if p != v.pos and next_floods and _floods(p) and not is_safe(p):
 				continue
 			var far := 0 if is_safe(p) else int(safe_dist.get(p, FAR))
 			if far < best_far or (far == best_far and c < best_cost):
@@ -749,8 +769,8 @@ func _villager_phase() -> void:
 			events.append({"kind": "saved"})
 
 
-## 每格到最近安全区的步数（不看人，只看路）；走不通时按直线距离估。
-func _distance_to_safe() -> Dictionary:
+## 每格到最近安全区的步数（不看人，只看路）；走不通时按直线距离估。avoid_mud = 把滩涂当成走不通。
+func _distance_to_safe(avoid_mud: bool = false) -> Dictionary:
 	var out := {}
 	var queue: Array[Vector2i] = []
 	for y in height:
@@ -762,7 +782,7 @@ func _distance_to_safe() -> Dictionary:
 	while not queue.is_empty():
 		var p: Vector2i = queue.pop_front()
 		for n in neighbors(p):
-			if not out.has(n) and walkable(n):
+			if not out.has(n) and walkable(n) and not (avoid_mud and _floods(n)):
 				out[n] = int(out[p]) + 1
 				queue.append(n)
 	for y in height:
@@ -819,6 +839,11 @@ func _execute(e: Dictionary, plan: Dictionary) -> void:
 	if not e.alive:
 		return
 	match plan.act:
+		"loot":
+			if is_safe(e.pos) and not e.get("looted", false):
+				looted += 1
+				e.looted = true  # 每个海寇只抢一次；抢完不走，接着打人，要守军回来清（agy 2026-11-27）
+				events.append({"kind": "loot"})
 		"grab":
 			var v := unit_by_uid(int(plan.target_uid))
 			if not v.is_empty() and on_map(v) and dist(v.pos, e.pos) == 1:
@@ -837,7 +862,11 @@ func _execute(e: Dictionary, plan: Dictionary) -> void:
 			if t.alive and t.side == "ally" and d == 1 and int(t.rmax) == 1 and int(t.atk) > 0 \
 					and not t.no_counter and not t.countered:
 				t.countered = true
-				_hurt(e, damage_to_unit(t, e))
+				# 反击伤害 = 攻击力 − counter_penalty，最少 1（REDESIGN-001 M5，默认 0）。
+				var counter := damage_to_unit(t, e)
+				if counter > 0:
+					counter = maxi(1, counter - int(cfg.get("counter_penalty", 0)))
+				_hurt(e, counter)
 		"smash":
 			var p: Vector2i = plan.target
 			if dist(p, e.pos) != 1:
@@ -863,7 +892,8 @@ func _tide_changes() -> void:
 				if int(u.carrying) != 0:
 					unit_by_uid(int(u.carrying)).pos = u.pos
 				_hurt(u, int(cfg.flood_damage))
-	if now == "falling":
+	# 抓着乡亲回到海滩的海寇，潮位在 carry_leave_tides 里就开船（REDESIGN-001 M4）。
+	if now in cfg.get("carry_leave_tides", ["falling"]):
 		for e in enemies_on_map():
 			if int(e.carrying) != 0 and is_beach(e.pos):
 				var v := unit_by_uid(int(e.carrying))
@@ -930,11 +960,12 @@ func plan_enemy(e: Dictionary, reserved: Dictionary) -> Dictionary:
 	var order: Array[String] = []
 	match e.ai:
 		"structure":
-			order = ["smash", "attack", "grab"]
+			order = ["smash", "loot", "attack", "grab"]
 		"hero":
 			order = ["hero", "attack", "grab", "smash"]
 		_:
-			order = ["grab", "attack", "smash"]
+			# 抓不到乡亲时，门开着或墙有缺口就冲进安全区抢粮（REDESIGN-001 M6）。
+			order = ["grab", "loot", "attack", "smash"]
 	var costs := _costs(e, e.pos)
 	for kind in order:
 		var goal_plan := _plan_towards(e, kind, costs, reserved)
@@ -946,6 +977,8 @@ func plan_enemy(e: Dictionary, reserved: Dictionary) -> Dictionary:
 
 ## 朝某类目标走：找花费最少、能站上去动手的格子，走到预算为止；走到了就动手。
 func _plan_towards(e: Dictionary, kind: String, costs: Dictionary, reserved: Dictionary) -> Dictionary:
+	if kind == "loot":
+		return _plan_loot(e, costs, reserved)
 	var targets: Array = []  # [目标格, 目标 uid]
 	match kind:
 		"grab":
@@ -989,6 +1022,22 @@ func _plan_towards(e: Dictionary, kind: String, costs: Dictionary, reserved: Dic
 	if end == best_stand:
 		act = {"grab": "grab", "attack": "attack", "hero": "attack", "smash": "smash"}[kind]
 	return {"path": path, "act": act, "target": best_target[0], "target_uid": best_target[1]}
+
+
+## 抢粮：走向花费最少的安全区格子，走到了就抢。
+func _plan_loot(e: Dictionary, costs: Dictionary, reserved: Dictionary) -> Dictionary:
+	if e.get("looted", false):
+		return {}
+	var best := NOWHERE
+	for p: Vector2i in costs:
+		if is_safe(p) and (p == e.pos or (unit_at(p).is_empty() and not reserved.has(p))):
+			if best == NOWHERE or costs[p][0] < costs[best][0]:
+				best = p
+	if best == NOWHERE:
+		return {}
+	var path := _walk(e, _path_to(costs, best), int(e.move), reserved)
+	var end: Vector2i = path[-1] if not path.is_empty() else e.pos
+	return {"path": path, "act": "loot" if is_safe(end) else "none", "target": best, "target_uid": 0}
 
 
 func _plan_carry(e: Dictionary, plan: Dictionary, reserved: Dictionary) -> Dictionary:
@@ -1050,6 +1099,15 @@ func _plan_boat(e: Dictionary, plan: Dictionary) -> Dictionary:
 	return plan
 
 
+## 站在 p 上，下一个海寇阶段最多可能挨多少（测试机器人避险用，粗估：走得到再打得到的海寇都算）。
+func threat_cell(p: Vector2i) -> int:
+	var total := 0
+	for e in enemies_on_map():
+		if dist(e.pos, p) <= int(e.move) + int(e.rmax):
+			total += attack_power(e)
+	return total
+
+
 ## 玩家结束回合时，这一个守军会受到多少伤害（危险提示用）。
 func threat_to(uid: int) -> int:
 	var total := 0
@@ -1092,6 +1150,7 @@ func result() -> Dictionary:
 		"villagers_saved": saved,
 		"villagers_lost": lost,
 		"raiders_defeated": raiders_defeated,
+		"rice_looted": looted * int(cfg.get("loot_rice", 0)),
 		"wall_slots": walls,
 		"seen_hints": seen_hints.duplicate(),
 	}

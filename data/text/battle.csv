@@ -23,6 +23,8 @@ BAT_GLYPH_reinforcement,援
 BAT_GLYPH_bonus,后
 BAT_GLYPH_qiao,峤
 BAT_GLYPH_villager,乡
+BAT_UNIT_villager_slow,走不动的乡亲
+BAT_GLYPH_villager_slow,扶
 BAT_GLYPH_raider,寇
 BAT_GLYPH_axeman,斧
 BAT_GLYPH_archer_boat,船
@@ -78,12 +80,14 @@ BAT_INTENT_grab,要抓走{target}
 BAT_INTENT_attack,要攻击{target}，{damage} 点
 BAT_INTENT_shoot,要射{target}，{damage} 点
 BAT_INTENT_smash,要砸墙，{damage} 点
-BAT_INTENT_carry,抓着乡亲往海滩走，退潮时上船
+BAT_INTENT_carry,抓着乡亲往海滩走，高潮或退潮时上船
+BAT_INTENT_loot,要冲进去抢粮
 BAT_INTENT_none,这一回合够不到人
 BAT_INTENT_hidden,看不清他要做什么
 BAT_EVENT_landing,船靠岸了：{count} 个海寇上了海滩。
 BAT_EVENT_saved,{count} 位乡亲进了安全区。
 BAT_EVENT_lantern,失去了 {count} 个人。灯 +{count}。
+BAT_EVENT_loot,{count} 个海寇冲进安全区抢了粮，还在里面。
 BAT_EVENT_reinforcements,烽火有了回应：援军从路上赶来了。
 BAT_EVENT_beacon,烽火点起来了，3 回合后援军会到。
 BAT_EVENT_retire,长辈重伤，撤了下去。
@@ -93,7 +97,7 @@ BAT_DEPLOY_OK,出战
 BAT_HINT_SELECT,点一个守军选中他，再点高亮的格子移动。移动之后可以做一个动作。
 BAT_HINT_MOVE,走错了可以“撤销移动”，只要还没做动作。
 BAT_HINT_TIDE,左上角是潮汐条：低潮、涨潮、高潮、退潮。高潮那一回合，船会在海滩靠岸。
-BAT_HINT_VILLAGERS,乡亲自己往西边的宗祠走。守军站在旁边，他们走得更快。救够目标人数就算守住。
+BAT_HINT_VILLAGERS,乡亲从海边的屋里出来，自己往西边的宗祠走。潮沟涨水时只能走土堤。守军站在旁边，他们走得更快；标着“扶”的乡亲走不动，旁边没有守军就不走。救够目标人数就算守住。
 BAT_HINT_INTENT,红色箭头是海寇这一回合要做的事。挡住他，或者先打倒他。
 BAT_HINT_END,所有人都安排好了，点“结束回合”。乡亲先走，然后海寇行动，最后潮水变化。
 BAT_HINT_WALLS,栅栏和门挡住海寇。工匠能修墙、搭障碍；门开着乡亲能进，海寇也能进。斧手专砸墙。

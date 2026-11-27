@@ -127,6 +127,8 @@ static func apply_battle(save: SaveData, input: Dictionary, result: Dictionary) 
 	var gen := int(find_node(battle_id).get("gen", 1))
 	save.battle_results[battle_id] = result.outcome
 	save.raiders_defeated += int(result.raiders_defeated)
+	# 海寇冲进安全区抢走的粮，扣到 0 为止（REDESIGN-001 M6）。
+	save.rice = maxi(0, save.rice - int(result.get("rice_looted", 0)))
 	save.seen_hints = PackedStringArray(result.seen_hints)
 	save.wall_slots = result.wall_slots.duplicate(true)
 

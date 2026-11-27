@@ -128,13 +128,13 @@ func _take_events() -> void:
 				_queue_scenes(keys.get("end", []))
 			"landing":
 				counts["landing"] = int(counts.get("landing", 0)) + int(ev.count)
-			"lantern", "reinforcements", "retire", "npc_down", "saved":
+			"lantern", "reinforcements", "retire", "npc_down", "saved", "loot":
 				counts[ev.kind] = int(counts.get(ev.kind, 0)) + 1
 			"beacon":
 				Game.play_sfx("beacon")
 				if ev.get("by", "") == "ally":
 					counts["beacon"] = 1
-	for kind: String in ["landing", "saved", "lantern", "reinforcements", "beacon", "retire", "npc_down"]:
+	for kind: String in ["landing", "saved", "lantern", "loot", "reinforcements", "beacon", "retire", "npc_down"]:
 		if counts.has(kind):
 			notes.append(Game.text("BAT_EVENT_" + kind).format({"count": counts[kind]}))
 	state.events.clear()
@@ -542,8 +542,12 @@ func auto_play_for_test() -> void:
 	if state.over:
 		_play_queue()
 		return
-	for a in state.allies_on_map():
-		if "attack" in state.actions_for(a):
-			state.do_action(a, "attack", state.targets_for(a, "attack")[0])
+	# 命令行带 --escort 时用“认真玩法”（BattleBot），否则站着只打相邻的（最简单玩法）。
+	if "--escort" in OS.get_cmdline_user_args():
+		BattleBot.play_turn(state)
+	else:
+		for a in state.allies_on_map():
+			if "attack" in state.actions_for(a):
+				state.do_action(a, "attack", state.targets_for(a, "attack")[0])
 	_take_events()
 	_end_turn()

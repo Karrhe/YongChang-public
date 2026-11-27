@@ -36,6 +36,7 @@ static func make_result(battle_input: Dictionary, outcome: String, hero_died: bo
 		"villagers_saved": 4 if outcome == "held" else 3,
 		"villagers_lost": 0 if outcome == "held" else 2,
 		"raiders_defeated": 3,
+		"rice_looted": 0,
 		"wall_slots": battle_input.get("wall_slots", {}).duplicate(true),
 		"seen_hints": Array(battle_input.get("seen_hints", [])),
 	}

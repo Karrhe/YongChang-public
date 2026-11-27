@@ -34,8 +34,10 @@ func _stone(save: SaveData, slots: Array) -> void:
 func _test_effects() -> void:
 	var save := _new_save()
 	FlowLogic.apply_choice(save, "C1", "A")
-	_check("C1-A：材料 +3、多一名枪兵", save.materials == 2 + 3 and save.roster.size() == 1
-		and save.roster[0].type == "spearman" and save.choices.C1 == "A")
+	_check("C1-A：材料 +5（REDESIGN-001 M7）", save.materials == 2 + 5 and save.roster.is_empty() and save.choices.C1 == "A")
+	save = _new_save()
+	FlowLogic.apply_choice(save, "C1", "B")
+	_check("C1-B：粮 −3、多一名枪兵", save.rice == 6 - 3 and save.roster.size() == 1 and save.roster[0].type == "spearman")
 
 	save = _new_save()
 	save.roster.assign([save.new_unit("spearman"), save.new_unit("craftsman"), save.new_unit("spearman")])
@@ -46,7 +48,7 @@ func _test_effects() -> void:
 
 	save = _new_save()
 	FlowLogic.apply_choice(save, "C3", "A")
-	_check("C3-A：粮食 +5、人口 −1", save.rice == 6 + 5 and save.people == 8 - 1)
+	_check("C3-A：粮食 +8、人口 −1", save.rice == 6 + 8 and save.people == 8 - 1)
 	_check("C3-A 不放灯", save.lantern_count() == 0)
 
 	save = _new_save()
@@ -54,16 +56,19 @@ func _test_effects() -> void:
 	FlowLogic.apply_choice(save, "C4", {"pick": "A", "slots": ["A1", "B1", "C3"]})
 	_check("C4-A：拆掉选的三段", save.wall_slots.A1.type == "none" and save.wall_slots.B1.hp == [0, 0]
 		and save.wall_slots.C3.type == "none" and save.wall_slots.A2.type == "stone")
-	_check("C4-A：材料 +6、粮食 +3", save.materials == 2 + 6 and save.rice == 6 + 3)
+	_check("C4-A：材料 +6、粮食 +4", save.materials == 2 + 6 and save.rice == 6 + 4)
 
 	save = _new_save()
 	FlowLogic.apply_choice(save, "C4", "B")
-	_check("C4-B：粮食 −2", save.rice == 4)
+	_check("C4-B：粮食 −4", save.rice == 2)
 	save = _new_save()
 	FlowLogic.apply_choice(save, "C5", "A")
-	_check("C5-A：粮食 −4", save.rice == 2 and save.choices.C5 == "A")
-	FlowLogic.apply_choice(save, "C1", "B")
-	_check("B 选项：只记下选择", save.choices.C1 == "B" and save.rice == 2 and save.materials == 2)
+	_check("C5-A：粮食 −5", save.rice == 1 and save.choices.C5 == "A")
+	save = _new_save()
+	FlowLogic.apply_choice(save, "C5", "B")
+	_check("C5-B：粮食 +4", save.rice == 10)
+	FlowLogic.apply_choice(save, "C2", "B")
+	_check("C2-B：只记下选择", save.choices.C2 == "B" and save.rice == 10 and save.materials == 2)
 
 
 func _test_cannot_pay() -> void:

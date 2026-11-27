@@ -1,6 +1,6 @@
 class_name Contract
 extends RefCounted
-## 模块接口 v3（TEAM-001 §4）的字段检查。每个检查函数返回问题列表，空 = 合格。
+## 模块接口 v4（TEAM-001 §4；v4 加了战斗结果的 rice_looted，REDESIGN-001 M6）的字段检查。每个检查函数返回问题列表，空 = 合格。
 ## 战斗、劳作的测试都可以用它检查自己的 result。
 
 const BATTLE_IDS := ["battle_1", "battle_2", "battle_3", "battle_4", "battle_5",
@@ -23,7 +23,7 @@ const BATTLE_RESULT_KEYS := {
 	"battle_id": TYPE_STRING, "outcome": TYPE_STRING, "hero_died": TYPE_BOOL,
 	"elder_retired": TYPE_BOOL, "roster": TYPE_ARRAY, "defenders_lost": TYPE_INT,
 	"villagers_saved": TYPE_INT, "villagers_lost": TYPE_INT, "raiders_defeated": TYPE_INT,
-	"wall_slots": TYPE_DICTIONARY, "seen_hints": TYPE_ARRAY,
+	"wall_slots": TYPE_DICTIONARY, "seen_hints": TYPE_ARRAY, "rice_looted": TYPE_INT,
 }
 const WORK_KEYS := {
 	"work_id": TYPE_STRING, "gen": TYPE_INT, "people": TYPE_INT, "rice": TYPE_INT,

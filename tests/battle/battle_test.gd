@@ -17,6 +17,7 @@ func _ready() -> void:
 	_test_grab_and_falling_tide()
 	_test_beacon()
 	_test_actions()
+	_test_evacuation()
 	_test_all_battles()
 	await _test_scene()
 	Game.save = real_save
@@ -61,7 +62,7 @@ func _test_tides() -> void:
 	_check("潮汐条显示 4 步", s.tide_forecast() == ["low", "rising", "high", "falling"])
 	var b6 := _state(_battle_input("battle_6"))
 	_check("B6 风暴潮没有低潮", not "low" in [b6.tide_at(1), b6.tide_at(2), b6.tide_at(3), b6.tide_at(4), b6.tide_at(5)])
-	_check("B6 第 2、3 回合都是高潮", b6.tide_at(2) == "high" and b6.tide_at(3) == "high")
+	_check("B6 第 1、2 回合都是高潮", b6.tide_at(1) == "high" and b6.tide_at(2) == "high")
 
 
 func _test_deploy() -> void:
@@ -88,7 +89,7 @@ func _test_deploy() -> void:
 	var b3 := _state(_battle_input("battle_3"))
 	_check("B3 峤叔守在烽火台上、第 1 回合点了烽火", b3.units.any(func(u: Dictionary) -> bool: return u.side == "npc")
 		and b3.beacons.values()[0] == 1)
-	_check("B3 第 1 回合就有 3 个海寇上岸", b3.enemies_on_map().size() == 3)
+	_check("B3 第 1 回合还没有海寇（第 2 回合才登陆，留时间出去接人）", b3.enemies_on_map().is_empty())
 	save = _save()
 	save.hungry = 2
 	var hungry := _state(_battle_input("battle_2", save))
@@ -96,7 +97,7 @@ func _test_deploy() -> void:
 	save = _save()
 	save.story_mode = true
 	var story := _state(_battle_input("battle_3", save))
-	_check("剧情模式：回合 +1、海寇 HP −1", story.turns == 9 and story.enemies_on_map()[0].hp == 3)
+	_check("剧情模式：回合 +1、海寇 HP −1", story.turns == 10 and story._make_unit("raider", "enemy", "").hp == 3)
 
 
 func _test_movement_and_walls() -> void:
@@ -141,12 +142,12 @@ func _test_brace_and_counter() -> void:
 	for v in s.villagers_outside():
 		v.alive = false
 	var keep := s._make_unit("villager", "villager", "")
-	keep.pos = Vector2i(3, 7)
+	keep.pos = Vector2i(3, 3)
 	s.units.append(keep)
-	spear.pos = Vector2i(5, 3)
-	hero.pos = Vector2i(3, 1)
+	spear.pos = Vector2i(4, 2)
+	hero.pos = Vector2i(3, 0)
 	var e := s._make_unit("raider", "enemy", "")
-	e.pos = Vector2i(7, 3)
+	e.pos = Vector2i(7, 2)
 	s.units.append(e)
 	s.compute_intents()
 	s._enemy_phase()
@@ -155,6 +156,7 @@ func _test_brace_and_counter() -> void:
 	e.pos = Vector2i(4, 1)
 	hero.pos = Vector2i(3, 1)
 	keep.alive = false
+	e.looted = true  # 已经抢过粮，不会再往安全区冲
 	var hero_hp: int = hero.hp
 	s._enemy_phase()
 	_check("没有乡亲可抓时打最近的守军，主角反击", hero.hp == hero_hp - 2 and e.hp == 1)
@@ -167,10 +169,10 @@ func _test_grab_and_falling_tide() -> void:
 	for a in s.allies_on_map():
 		a.pos = Vector2i(0, 7 - a.uid % 2)
 	var v := s._make_unit("villager", "villager", "")
-	v.pos = Vector2i(6, 2)
+	v.pos = Vector2i(9, 2)
 	s.units.append(v)
 	var e := s._make_unit("raider", "enemy", "")
-	e.pos = Vector2i(7, 2)
+	e.pos = Vector2i(10, 2)
 	s.units.append(e)
 	s.compute_intents()
 	_check("海寇的意图是抓人", s.intents[0].act == "grab")
@@ -180,9 +182,9 @@ func _test_grab_and_falling_tide() -> void:
 	_check("抓着乡亲往海滩走", s.intents[0].act == "carry")
 	s._enemy_phase()
 	_check("走到海滩等着", s.is_beach(e.pos))
-	s.turn = 4  # 第 4 回合是退潮
+	s.turn = 3  # 第 3 回合是高潮：船在岸边就开走（REDESIGN-001 M4）
 	s._tide_changes()
-	_check("退潮：船开走，乡亲失去了", s.lost == 1 and not s.on_map(e) and s.raiders_defeated == 0)
+	_check("高潮：船开走，乡亲失去了", s.lost == 1 and not s.on_map(e) and s.raiders_defeated == 0)
 
 	var s2 := _state(_battle_input("battle_1"))
 	var v2: Dictionary = s2.villagers_outside()[0]
@@ -199,7 +201,7 @@ func _test_beacon() -> void:
 	var s := _state(_battle_input("battle_2"))
 	_clear_enemies(s)
 	var hero := _first(s, func(u: Dictionary) -> bool: return u.role == "hero")
-	var tower := Vector2i(4, 1)
+	var tower := Vector2i(2, 1)
 	hero.pos = tower
 	_check("站在烽火台上能点烽火", "beacon" in s.actions_for(hero) and s.do_action(hero, "beacon"))
 	var before := s.allies_on_map().size()
@@ -219,10 +221,10 @@ func _test_actions() -> void:
 	var s := _state(_battle_input("battle_2", save))
 	_clear_enemies(s)
 	var craft := _first(s, func(u: Dictionary) -> bool: return u.type == "craftsman")
-	craft.pos = Vector2i(5, 2)
-	_check("工匠能修旁边受损的墙", Vector2i(4, 2) in s.targets_for(craft, "repair"))
-	s.do_action(craft, "repair", Vector2i(4, 2))
-	_check("修墙 +3", s.structures[Vector2i(4, 2)].hp == 5 and craft.acted)
+	craft.pos = Vector2i(3, 3)
+	_check("工匠能修旁边受损的墙", Vector2i(2, 3) in s.targets_for(craft, "repair"))
+	s.do_action(craft, "repair", Vector2i(2, 3))
+	_check("修墙 +3", s.structures[Vector2i(2, 3)].hp == 5 and craft.acted)
 	_check("做完动作就不能再动", not s.can_command(craft))
 	var hero := _first(s, func(u: Dictionary) -> bool: return u.role == "hero")
 	var e := s._make_unit("raider", "enemy", "")
@@ -232,15 +234,68 @@ func _test_actions() -> void:
 	s.do_action(hero, "attack", e.pos)
 	_check("伤害 = 攻击力", e.hp == 1)
 	var boat := s._make_unit("archer_boat", "enemy", "")
-	boat.pos = Vector2i(9, 3)
+	boat.pos = Vector2i(12, 3)
 	s.units.append(boat)
 	hero.acted = false
-	hero.pos = Vector2i(8, 3)
+	hero.pos = Vector2i(11, 3)
 	_check("近战打不到弓箭船", not boat.pos in s.targets_for(hero, "attack"))
 	s.over = true
 	var result := s.result()
 	_check("结果的墙位 HP 写回去了", result.wall_slots.B2.hp == [5, 6])
 	_check("结果格式合格", Contract.check_battle_result(result).is_empty())
+
+
+## REDESIGN-001：走不动的乡亲、乡亲认得潮水、抢粮。
+func _test_evacuation() -> void:
+	var s := _state(_battle_input("battle_1"))
+	_clear_enemies(s)
+	for v in s.villagers_outside():
+		v.alive = false
+	for a in s.allies_on_map():
+		a.pos = Vector2i(0, a.uid % 8)
+	var slow := s._make_unit("villager_slow", "villager", "")
+	slow.pos = Vector2i(9, 1)
+	s.units.append(slow)
+	s._villager_phase()
+	_check("走不动的乡亲旁边没有守军就不走", slow.pos == Vector2i(9, 1))
+	var hero := _first(s, func(u: Dictionary) -> bool: return u.role == "hero")
+	hero.pos = Vector2i(9, 0)
+	s._villager_phase()
+	_check("守军在旁边，走不动的乡亲就走", slow.pos != Vector2i(9, 1))
+
+	# 地图 A 第 1 回合低潮、下一步涨潮：乡亲不往潮沟里走，改走第 2 行的土堤。
+	var s2 := _state(_battle_input("battle_1"))
+	_clear_enemies(s2)
+	for v in s2.villagers_outside():
+		v.alive = false
+	var v2 := s2._make_unit("villager", "villager", "")
+	v2.pos = Vector2i(7, 3)
+	s2.units.append(v2)
+	s2._villager_phase()
+	_check("下一步涨潮时乡亲不停在滩涂上", not s2._floods(v2.pos))
+
+	# 没有乡亲可抓、门开着：海寇冲进安全区抢粮，只抢一次，抢完不走。
+	var s3 := _state(_battle_input("battle_1"))
+	for v in s3.villagers_outside():
+		v.alive = false
+	for a in s3.allies_on_map():
+		a.pos = Vector2i(3, 7 - a.uid % 2)
+	var e := s3._make_unit("raider", "enemy", "")
+	e.pos = Vector2i(3, 2)
+	s3.units.append(e)
+	s3.compute_intents()
+	_check("没人可抓时海寇的意图是抢粮", s3.intents[0].act == "loot")
+	s3._enemy_phase()
+	_check("冲进安全区抢了一次粮", s3.looted == 1 and s3.is_safe(e.pos) and s3.on_map(e))
+	s3._enemy_phase()
+	_check("同一个海寇不会再抢", s3.looted == 1)
+	s3.over = true
+	var r := s3.result()
+	_check("战斗结果里有被抢的粮", int(r.rice_looted) == int(Rules.get_value("battle.loot_rice", 0)))
+	var save := _save()
+	save.rice = 10
+	FlowLogic.apply_battle(save, _battle_input("battle_1", save), r)
+	_check("战后扣掉被抢的粮", save.rice == 10 - int(r.rice_looted))
 
 
 ## 九场都用“全员待命”打完：能结束、结果格式合格、乡亲数对得上。
