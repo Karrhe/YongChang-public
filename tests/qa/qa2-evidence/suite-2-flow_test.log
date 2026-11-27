@@ -1,0 +1,106 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ok    规则文件都合格
+ok    节点表从 P1 开始
+ok    节点表以结局结束
+ok    节点 ID 不重复
+ok    9 场战斗、6 个劳作阶段、5 个选择
+ok    battle_1 是接口里的战斗 ID
+ok    after_battle_1 是接口里的劳作 ID
+ok    battle_2 是接口里的战斗 ID
+ok    after_battle_2 是接口里的劳作 ID
+ok    battle_3 是接口里的战斗 ID
+ok    battle_4 是接口里的战斗 ID
+ok    after_battle_4 是接口里的劳作 ID
+ok    battle_5 是接口里的战斗 ID
+ok    after_battle_5 是接口里的劳作 ID
+ok    battle_6 是接口里的战斗 ID
+ok    battle_7 是接口里的战斗 ID
+ok    after_battle_7 是接口里的劳作 ID
+ok    battle_8 是接口里的战斗 ID
+ok    after_battle_8 是接口里的劳作 ID
+ok    battle_9 是接口里的战斗 ID
+ok    台风在 C3 之后、B6 之前
+ok    退休在 G2-3 之后
+ok    新游戏墙位 12 个、都是空地
+ok    A/B 版本：主角活着用 A
+ok    A/B 版本：主角阵亡用 B
+ok    没有版本的场景不加后缀
+ok    battle_1 的输入合格
+ok    battle_1 长辈只在 battle_4 / battle_9
+ok    battle_2 的输入合格
+ok    battle_2 长辈只在 battle_4 / battle_9
+ok    battle_3 的输入合格
+ok    battle_3 长辈只在 battle_4 / battle_9
+ok    battle_4 的输入合格
+ok    battle_4 长辈只在 battle_4 / battle_9
+ok    battle_5 的输入合格
+ok    battle_5 长辈只在 battle_4 / battle_9
+ok    battle_6 的输入合格
+ok    battle_6 长辈只在 battle_4 / battle_9
+ok    battle_7 的输入合格
+ok    battle_7 长辈只在 battle_4 / battle_9
+ok    battle_8 的输入合格
+ok    battle_8 长辈只在 battle_4 / battle_9
+ok    battle_9 的输入合格
+ok    battle_9 长辈只在 battle_4 / battle_9
+ok    王成阵亡时阿棠当长辈
+ok    第一代都不在时没有长辈
+ok    退休后 battle_4 没有长辈
+ok    battle_9 长辈是第二代
+ok    battle_1 有遗言台词键
+ok    battle_8 有开场和结束台词键
+ok    没选 C5-A 时 battle_9 没有临时守军
+ok    C5-A 时 battle_9 临时守军 +2
+ok    记下战斗结果
+ok    主角阵亡写进存档
+ok    主角的灯写王成
+ok    乡亲灯 2 盏、守军灯 1 盏
+ok    乡亲的灯从名字表按顺序取名
+ok    灯的名字键按顺序
+ok    名字表用完时按姓加排行起名，不和表里重名
+ok    人口扣失去的乡亲和守军，一场最多扣 max_people_loss_per_battle
+ok    名单去掉阵亡的守军
+ok    主角阵亡后同伴出战
+ok    battle_2 之后 G1-4 用 B 版
+ok    人口不低于 4
+ok    battle_7 主角阵亡直接重打
+ok    battle_7 主角没死不强制重打
+ok    battle_8 主角阵亡直接重打
+ok    battle_8 主角没死不强制重打
+ok    battle_9 主角阵亡不直接重打
+ok    battle_9 主角没死不强制重打
+ok    battle_1 主角阵亡不直接重打
+ok    battle_1 主角没死不强制重打
+ok    换代：材料折半向下取整再 +6
+ok    台风：没有砖槽的旧石墙照旧 −3
+ok    台风：栅栏变废墟
+ok    台风：门也 −3
+ok    台风：空墙位不变
+ok    B6 后修满（含废墟）
+ok    第二代到第三代：门老化 −3、没有砖槽的墙不风化、人口 +2、守军清零
+ok    起名界面之前用默认名字
+ok    同伴也阵亡：灯写阿棠
+ok    同伴阵亡不改主角的死亡场次
+ok    一代两人都不在：之后没有主角单位
+ok    一代两人都不在：battle_4 没有长辈
+ok    一代两人都不在：二代主角照常出战
+ok    点名在 B3、B6、B9 之后
+ok    没人失去：点到的人都应了
+ok    只点第一代的 6 个人，主角在前
+ok    开头一句 + 两批名字各带一句没人应 + 结尾一句
+ok    测试前提：台风是规则事件
+ok    读档
+ok    从台风节点继续：先显示台风的说明
+ok    看完说明后停在 G2-5
+ok    读档后台风只扣了一次
+ok    流程每个节点开始时存了档
+ok    流程走到结局
+ok    流程里接受了 9 场战斗（含两次重打）
+ok    流程里 battle_7 主角阵亡时没有“接受”按钮
+ok    流程里第三代主角重打后仍活着
+ok    流程里选 C5-A 后 battle_9 临时守军 +2
+ok    流程记下 5 个选择
+ok    流程里起了默认名字
+ok    流程里长辈退休了
+FLOW TEST: PASS

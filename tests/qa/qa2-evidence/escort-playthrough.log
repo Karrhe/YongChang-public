@@ -1,0 +1,62 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+  [trace] step 1 0.0s P1
+  [trace] step 7 0.0s G1-1
+  [trace] step 31 0.2s battle_1
+  [trace] step 51 0.4s G1-2
+  [trace] step 61 0.5s after_battle_1
+  [trace] step 69 0.6s G1-3
+  [trace] step 79 0.6s battle_2
+  [trace] step 89 0.9s G1-4
+  [trace] step 99 0.9s after_battle_2
+  [trace] step 107 1.0s C1
+  [trace] step 118 1.1s G1-5
+  [trace] step 132 1.2s battle_3
+  [trace] step 145 1.5s rollcall_1
+  [trace] step 157 1.6s G1-6
+  [trace] step 173 1.7s T1
+  [trace] step 185 1.8s gen1_to_gen2
+  [trace] step 189 1.9s naming_2
+  [trace] step 191 1.9s G2-1
+  [trace] step 205 2.0s battle_4
+  [trace] step 216 2.2s G2-2
+  [trace] step 224 2.3s after_battle_4
+  [trace] step 232 2.4s C2
+  [trace] step 239 2.4s G2-3
+  [trace] step 247 2.5s battle_5
+  [trace] step 259 2.8s G2-4
+  [trace] step 265 2.8s after_battle_5
+  [trace] step 273 2.9s C3
+  [trace] step 280 2.9s typhoon
+  [trace] step 282 2.9s G2-5
+  [trace] step 296 3.0s battle_6
+  [trace] step 309 3.3s rollcall_2
+  [trace] step 321 3.4s G2-6
+  [trace] step 331 3.5s T2
+  [trace] step 337 3.5s gen2_to_gen3
+  [trace] step 339 3.5s naming_3
+  [trace] step 340 3.5s G3-1
+  [trace] step 352 3.6s battle_7
+  [trace] step 361 3.8s G3-2
+  [trace] step 375 3.9s after_battle_7
+  [trace] step 383 4.0s C4
+  [trace] step 394 4.1s G3-3
+  [trace] step 404 4.1s battle_8
+  [trace] step 426 4.5s G3-4
+  [trace] step 438 4.6s after_battle_8
+  [trace] step 446 4.6s C5
+  [trace] step 453 4.7s G3-5
+  [trace] step 467 4.8s battle_9
+  [trace] step 475 5.1s rollcall_3
+  [trace] step 491 5.2s ending
+ok    整局走到结局（541 步，5.5 秒）
+ok    九场战斗都接受了
+ok    五个选择都做了
+ok    两个名字都起了
+ok    每种画面都出现过
+  战斗结果：{ "battle_1": "held", "battle_2": "held", "battle_3": "held", "battle_4": "held", "battle_5": "costly", "battle_6": "held", "battle_7": "held", "battle_8": "held", "battle_9": "held" }
+  战斗余量：1 救 5/4 失 0 · 2 救 3/3 失 3 · 3 救 5/5 失 2 · 4 救 3/3 失 3 · 5 救 3/5 失 2 · 6 救 6/4 失 2 · 7 救 4/4 失 2 · 8 救 5/5 失 2 · 9 救 6/6 失 4
+  人口 4 · 粮 4 · 材料 7 · 灯 22（乡亲 20、守军 1、主角和同伴 1）
+  主角存活：[true, true, false] 同伴存活：[true, true, true]
+  目标卡：[true, true, true] 筑成的墙和门：8
+PLAYTHROUGH TEST: PASS

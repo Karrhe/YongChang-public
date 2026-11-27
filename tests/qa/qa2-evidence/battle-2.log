@@ -1,0 +1,93 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+--- turn 1 tide falling next low
+FFW...mm.v.s~
+FFT...mm..hs~
+FFW...mm.v.s~
+FFW...mm...s~
+FFWC..mm.h.s~
+FFGHrrrrrr.s~
+FFWM..mm..hs~
+FFW...mm.h.s~
+--- turn 2 tide low next rising
+FFW...mmvV.e~
+FFTC..mm..he~
+FFW...mmvv.e~
+FFW...mm...a~
+FFW...mm.h.s~
+FFGrrrrHrr.s~
+FFWM..mm..hs~
+FFW...mm.h.s~
+  e@(11, 0) -> grab (9, 0)
+  e@(11, 1) -> grab (9, 2)
+  e@(11, 2) -> grab (9, 2)
+  a@(11, 3) -> none (1, 3)
+--- turn 3 tide rising next high
+FFW...~~.ves~
+FFT...~~e.hs~
+FFW..C~~.v.s~
+FFW...~~Heas~
+FFW...~~.h.s~
+FFGrrMrvrr.s~
+FFW...~~..hs~
+FFW...~~.h.s~
+  e@(10, 0) -> carry (11, 0)
+  e@(8, 1) -> carry (11, 1)
+  e@(9, 3) -> carry (11, 3)
+  a@(10, 3) -> none (8, 3)
+--- turn 4 tide high next falling
+FFW...~~.h.s~
+FFT...~~..es~
+FFW...~~vv.s~
+FFW...~~Ha.s~
+FFW..C~~.h.s~
+FFGrvrMrrr.s~
+FFW...~~..hs~
+FFW...~~.h.s~
+  e@(10, 1) -> carry (11, 1)
+  a@(9, 3) -> attack (8, 3)
+--- turn 5 tide falling next low
+FFW...mmHh.s~
+FFT...mm..hs~
+FFW...mmvh.s~
+FFW...mmv..s~
+FFW...mmMa.e~
+FFvrrrrCrr.e~
+FFW...mm..hs~
+FFW...mm.h.s~
+  a@(9, 4) -> none (1, 6)
+  e@(11, 4) -> grab (8, 3)
+  e@(11, 5) -> none (8, 2)
+--- turn 6 tide low next rising
+FFW...mm.h.s~
+FFT...mmH.hs~
+FFW...vm.h.s~
+FFW...mv.e.s~
+FFW...mmMe.s~
+FFGrrrrCrr.s~
+FFW...mm..hs~
+FFW...mm.h.s~
+  e@(9, 3) -> grab (7, 3)
+  e@(9, 4) -> none (7, 3)
+--- turn 7 tide rising next high
+FFW...~~.h.s~
+FFT...~~H.hs~
+FFW.v.~~eh.s~
+FFW..v~~C..s~
+FFW...~~Mh.s~
+FFGrrrrerr.s~
+FFW...~~..hs~
+FFW...~~.h.s~
+  e@(8, 2) -> none (5, 3)
+  e@(7, 5) -> grab (5, 3)
+--- turn 8 tide high next falling
+FFW...~~.h.s~
+FFT...~~H.hs~
+FFv...~~.h.s~
+FFWv..~~...s~
+FFW...~~Mh.s~
+FFGrerrrCr.s~
+FFW...~~..hs~
+FFW...~~.h.s~
+  e@(4, 5) -> grab (3, 3)
+battle_2 escort: saved 3/3 lost 3 outside 0 looted 0 defenders lost 0 hero died false

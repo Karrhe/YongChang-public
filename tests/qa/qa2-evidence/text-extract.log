@@ -1,0 +1,9 @@
+data/text/flow.csv | EVT_SUMMARY_TYPHOON | 台风过境：墙上一共 {seams} 条通缝，每条让那段墙每格 HP −2；咬住的墙一格不掉。门每格 HP −{gate}。
+data/text/flow.csv | EVT_SUMMARY_GEN2_TO_GEN3 | 三十年过去：{weathered} 段墙风化掉了几块石头，要用碎石补；门每格 HP −{loss}；孩子们长大了，人口 +{people}；守军要重新训练。
+data/text/flow.csv | EVT_ROLLCALL_INTRO | 仗打完了。宗祠前，按名册一个一个点名。
+data/text/flow.csv | EVT_ROLLCALL_NAME | “{name}。”
+data/text/flow.csv | EVT_ROLLCALL_SILENT | ……没有人应。
+data/text/flow.csv | EVT_ROLLCALL_END | 灯簿上添了 {count} 个名字。中元节那天，一个一个写在灯上。
+data/text/flow.csv | EVT_ROLLCALL_NONE | 点到的人都应了。这一代，灯簿上没有添名字。
+data/text/work.csv | WORK_PIECE_wedge | 楔石 1 格
+data/text/work.csv | WORK_CHISEL | 凿成楔石

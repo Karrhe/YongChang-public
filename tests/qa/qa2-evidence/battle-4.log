@@ -1,0 +1,101 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+--- turn 1 tide falling next low
+FFW..mm.h..s~
+FFWH.mm..v.s~
+FFGHrrrrr..s~
+FFWU.mm.v..s~
+FFT..mm...hs~
+FFW..mm.h..s~
+FFW..mm...hs~
+FFW..mm..h.s~
+--- turn 2 tide low next rising
+FFW..mm.h..s~
+FFWH.mmv.V.s~
+FFGrrrHUr..s~
+FFW..mmvv..s~
+FFT..mm...hs~
+FFW..mm.h..s~
+FFW..mm...hs~
+FFW..mm..h.s~
+--- turn 3 tide rising next high
+FFW..~~.h..e~
+FFW..~~VUv.e~
+FFGrvrHvH..e~
+FFW..~~vv..a~
+FFT..~~...hs~
+FFW..~~.h..s~
+FFW..~~...hs~
+FFW..~~..h.s~
+  e@(11, 0) -> grab (9, 1)
+  e@(11, 1) -> grab (9, 1)
+  e@(11, 2) -> grab (9, 1)
+  a@(11, 3) -> none (8, 1)
+--- turn 4 tide high next falling
+FFW..~~.H..s~
+FFW..~~vUe.s~
+FFvrvVvvHe.s~
+FFW..~~.heas~
+FFT..~~...hs~
+FFW..~~.h..s~
+FFW..~~...hs~
+FFW..~~..h.s~
+  e@(9, 1) -> none (7, 2)
+  e@(9, 2) -> grab (7, 2)
+  e@(9, 3) -> attack (8, 0)
+  a@(10, 3) -> none (-1, -1)
+--- turn 5 tide falling next low
+FFW..mmHh..s~
+FFW..mm.Uh.s~
+FFvrvVreHa.s~
+FFW..mmee..s~
+FFT..mm...he~
+FFW..mm.h..e~
+FFW..mm...hs~
+FFW..mm..h.s~
+  e@(8, 3) -> grab (5, 2)
+  e@(7, 3) -> carry (11, 3)
+  e@(7, 2) -> carry (11, 3)
+  a@(9, 2) -> none (1, 3)
+  e@(11, 4) -> none (5, 2)
+  e@(11, 5) -> none (5, 2)
+--- turn 6 tide low next rising
+FFW..Hm.h..s~
+FFW..mm.Uh.s~
+FFvrrrerH..s~
+FFW..mm.ee.s~
+FFT..mm.e.hs~
+FFW..mm.e..s~
+FFW..mm...hs~
+FFW..mm..h.s~
+  e@(6, 2) -> carry (11, 3)
+  e@(9, 3) -> carry (11, 3)
+  e@(8, 3) -> carry (11, 4)
+  e@(8, 4) -> none (2, 2)
+  e@(8, 5) -> none (2, 2)
+--- turn 7 tide rising next high
+FFW..~~.h..s~
+FFW.U~~e.h.s~
+FFGrrHrrH..s~
+FFW..~~.h..e~
+FFT..~~e.ehs~
+FFW..~~eh..s~
+FFW..~~...hs~
+FFW..~~..h.s~
+  e@(7, 1) -> carry (11, 1)
+  e@(11, 3) -> carry (-1, -1)
+  e@(9, 4) -> carry (11, 4)
+  e@(7, 4) -> attack (8, 2)
+  e@(7, 5) -> attack (8, 2)
+--- turn 8 tide high next falling
+FFW..~~.h..s~
+FFW..~~..e.s~
+FFGUrHreH..s~
+FFW..~~.h..s~
+FFT..~~...hs~
+FFW..~~.h..s~
+FFW..~~...hs~
+FFW..~~..h.s~
+  e@(9, 1) -> carry (11, 1)
+  e@(7, 2) -> attack (8, 2)
+battle_4 escort: saved 3/3 lost 2 outside 1 looted 0 defenders lost 0 hero died false
